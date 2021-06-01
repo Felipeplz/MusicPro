@@ -20,10 +20,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', views.viewCatalogo),
-    path('catalogo', views.viewCatalogo),
-    path('catalogo/<str:tab>', views.viewCatalogo),
-    #path('admin/', admin.site.urls)
+    path('', views.productosTodos),
+    path('Registro/', views.Registro),
+    path('admin/', admin.site.urls)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
