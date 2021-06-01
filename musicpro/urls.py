@@ -20,7 +20,12 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', views.productosTodos),
+    path('pedidosgenerales/', views.seguimientoBodeguero),
+    path('mispedidos/', views.seguimientoBodeguero2),
+    path('promociones/', views.promociones),
+    path('productoslista/', views.productosTodos),
+    path('usuarioslista/', views.usuariosTodos),
+    path('carrito/', views.productosCarrito),
     path('admin/', admin.site.urls)
 ]
 
