@@ -3,25 +3,19 @@ from django.db.models.base import Model
 from django.db.models.fields import CharField, DateField, DateTimeCheckMixin, DateTimeField, IntegerField
 
 # Create your models here.
-class SQLProductos(models.Model):
-    id_producto = models.IntegerField()
-    codigo_producto = models.CharField(max_length=10)
-    nombre = models.CharField(max_length=40)
-    foto = models.CharField(max_length=250)
-    marca = models.CharField(max_length=50)
-    precio = models.IntegerField()
-    tipo = models.CharField(max_length=50)
-    subtipo = models.CharField(max_length=40)
-    categoria = models.CharField(max_length=50)
-    stock = models.IntegerField()
-    descripcion = models.CharField(max_length=500)
-
 class SQLDespachos(models.Model):
     id_venta = models.IntegerField()
     orden_despacho = models.CharField(max_length=30)
     fecha_entrega = models.DateTimeField()
     id_receptor = models.IntegerField()
     mail = models.CharField(max_length=100)
+
+class SQLEstadoPedido(models.Model):
+    id_venta = models.IntegerField()
+    fecha_estado = models.DateTimeField()
+    estado = models.CharField(max_length=30)
+    comentario = models.CharField(max_length=50)
+    documento = models.CharField(max_length=250)
 
 class SQLItemVentas(models.Model):
     id_venta = models.IntegerField()
@@ -36,14 +30,27 @@ class SQLPagos(models.Model):
     doc_tributario = models.CharField(max_length=50)
     id_venta = models.IntegerField()
 
-class SQLPromocions(models.Model):
+class SQLProductos(models.Model):
+    id_producto = models.IntegerField()
+    codigo_producto = models.CharField(max_length=10)
+    nombre = models.CharField(max_length=40)
+    foto = models.CharField(max_length=250)
+    marca = models.CharField(max_length=50)
+    precio = models.IntegerField()
+    tipo = models.CharField(max_length=50)
+    subtipo = models.CharField(max_length=40)
+    categoria = models.CharField(max_length=50)
+    stock = models.IntegerField()
+    descripcion = models.CharField(max_length=500)
+
+class SQLPromociones(models.Model):
     id_promocion = models.IntegerField()
     fecha_desde = models.DateField()
     fecha_hasta = models.DateField()
     cantidad_min = models.IntegerField()
     id_producto = models.IntegerField()
 
-class SQLRols(models.Model):
+class SQLRoles(models.Model):
     id_rol = models.IntegerField()
     nombre_rol = models.CharField(max_length=30)
     descripcion = models.CharField(max_length=50)

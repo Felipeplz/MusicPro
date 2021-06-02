@@ -1,16 +1,16 @@
-from django.shortcuts import render
 from musicpro.models import SQLProductos, SQLVentas
+from django.shortcuts import redirect, render
 import pyodbc
 
 # Create your views here.
-def productosTodos(request):
+
+def Conectar():
     conn = pyodbc.connect('Driver={sql server};'
                         'Server=DESKTOP-T62UH2C;'
                         'Database=MusicPro;'
-                        'Trusted_Connection=yes')
-    cursor = conn.cursor()
-    result = cursor.execute("SELECT * FROM PRODUCTO ORDER BY id_producto ASC").fetchall()
-    return render(request, 'Catalogo_Producto.html', {'SQLProductos':result})
+                        'UID=django-user;'
+                        'PWD=%.ZSix:)R:NN5RT')
+    return conn.cursor()
 
 def ventastodos(request):
     conn = pyodbc.connect('Driver={sql server};'
@@ -21,11 +21,24 @@ def ventastodos(request):
     result = cursor.execute("SELECT * FROM VENTA ORDER BY id_venta ASC").fetchall()
     return render(request, 'ReporteVentas.html', {'SQLVentas':result})
 
-def ventastodos(request):
-    conn = pyodbc.connect('Driver={sql server};'
-                        'Server=DESKTOP-T62UH2C;'
-                        'Database=MusicPro;'
-                        'Trusted_Connection=yes')
-    cursor = conn.cursor()
-    result = cursor.execute("SELECT * FROM VENTA ORDER BY id_venta ASC").fetchall()
-    return render(request, 'ReporteVentas.html', {'SQLVentas':result})
+# def ventastodos(request):
+#     conn = pyodbc.connect('Driver={sql server};'
+#                         'Server=DESKTOP-T62UH2C;'
+#                         'Database=MusicPro;'
+#                         'Trusted_Connection=yes')
+#     cursor = conn.cursor()
+#     result = cursor.execute("SELECT * FROM VENTA ORDER BY id_venta ASC").fetchall()
+#     return render(request, 'ReporteVentas.html', {'SQLVentas':result})
+                        
+
+def viewCatalogo(request, **kwargs):
+    if (request.path == "/"):
+        return redirect('/catalogo')
+    tab = kwargs.get('tab')
+    if (tab == None):
+        tab = "todos"
+        query = ""
+    else:
+        query = f"WHERE categoria = '{tab}'"
+    result = Conectar().execute(f"SELECT * FROM PRODUCTO {query} ORDER BY id_producto ASC").fetchall()
+    return render(request, 'Catalogo_Producto.html', {'SQLProductos':result, 'tab': tab})
