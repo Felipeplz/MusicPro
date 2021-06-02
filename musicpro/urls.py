@@ -23,6 +23,10 @@ urlpatterns = [
     path('', views.productosTodos),
     path('admin/', admin.site.urls),
     
+    path('', views.viewCatalogo),
+    path('catalogo', views.viewCatalogo),
+    path('catalogo/<str:tab>', views.viewCatalogo),
+    #path('admin/', admin.site.urls)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
