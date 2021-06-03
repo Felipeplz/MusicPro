@@ -15,7 +15,6 @@ def viewUsuarios(request):
      "ROL.nombre_rol FROM USUARIO INNER JOIN ROL ON USUARIO.id_rol = ROL.id_rol ORDER BY USUARIO.id_usuario ASC").fetchall()
     return render(request, 'Usuarios_lista.html', {'SQLUsuarios':result})
 
-# Create your views here.
 def viewCatalogo(request, **kwargs):
     if (request.path == "/"):
         return redirect('/catalogo')
@@ -57,7 +56,4 @@ def promociones(request):
                             "FROM [dbo].[PRODUCTO] JOIN"
                             "[dbo].[PROMOCION] ON [dbo].[PRODUCTO].[id_producto] = [dbo].[PROMOCION].[id_producto]"
                             "WHERE GETDATE() BETWEEN [fecha_desde] AND [fecha_hasta]").fetchall()
-    return render(request, 'indexPromocionesLista.html', {'SQLPromo':result}) 
-
-#Cambiar consulta promociones y preguntar dudas#   
-    
+    return render(request, 'indexPromocionesLista.html', {'SQLPromo':result})
