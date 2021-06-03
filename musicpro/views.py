@@ -3,15 +3,23 @@ from musicpro.models import SQLProductos
 import pyodbc
 
 # Create your views here.
-def productosTodos(request):
+
+def Conectar():
     conn = pyodbc.connect('Driver={sql server};'
                         'Server=LAPTOP-O114NIEM;'
                         'Database=MusicPro;'
-            
-                        'Trusted_Connection=yes')
-    cursor = conn.cursor()
-    result = cursor.execute("SELECT * FROM PRODUCTO ORDER BY id_producto ASC").fetchall()
-    return render(request, 'Catalogo_Producto.html', {'SQLProductos':result})
+                        'UID=django-user;'
+                        'PWD=%.ZSix:)R:NN5RT')
+    return conn.cursor()
 
-def Registro(request):
-    return render(request, 'Registro.html',)
+def viewCatalogo(request, **kwargs):
+    if (request.path == "/"):
+        return redirect('/catalogo')
+    tab = kwargs.get('tab')
+    if (tab == None):
+        tab = "todos"
+        query = ""
+    else:
+        query = f"WHERE categoria = '{tab}'"
+    result = Conectar().execute(f"SELECT * FROM PRODUCTO {query} ORDER BY id_producto ASC").fetchall()
+    return render(request, 'Catalogo_Producto.html', {'SQLProductos':result, 'tab': tab})
