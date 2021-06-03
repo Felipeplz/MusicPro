@@ -26,7 +26,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for promo in range SQLPromo %}
+					{% for promo in SQLPromo %}
 					<tr>
 						<th scope="row">{{promo.nombre}}</th>
 						<td>{{promo.marca}}</td>
@@ -34,7 +34,7 @@
 						<td>{{promo.tipo}}</td>
 						<td>{{promo.codigo_producto}}</td>
 						<td>{{promo.precio}}</td>
-						<td>{{aqui va la oferta}}</td>
+						<td>{{promo.final}}</td>
 						<td>n/a</td>
 						<td>
 							<a href="#" class="btn btn-xs btn-success"><i class="far fa-edit"></i></a>

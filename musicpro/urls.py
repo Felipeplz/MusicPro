@@ -20,13 +20,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('pedidosgenerales/', views.seguimientoBodeguero),
-    path('mispedidos/', views.seguimientoBodeguero2),
+    path('', views.viewCatalogo),
+    path('catalogo', views.viewCatalogo),
+    path('catalogo/<str:tab>', views.viewCatalogo),
+    # path('pedidosgenerales/', views.seguimientoBodeguero),
+    # path('mispedidos/', views.seguimientoBodeguero2),
     path('promociones/', views.promociones),
-    path('productoslista/', views.productosTodos),
-    path('usuarioslista/', views.usuariosTodos),
-    path('carrito/', views.productosCarrito),
-    path('admin/', admin.site.urls)
+    path('usuarioslista/', views.viewUsuarios),
+    #path('carrito/', views.productosCarrito),
+    #path('admin/', admin.site.urls)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
