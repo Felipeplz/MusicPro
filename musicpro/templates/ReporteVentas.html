@@ -14,9 +14,10 @@
     <h1>Reporte de ventas</h1>
     
     <div class="container mt-5">
-        
+        {% for venta in SQLVentas %}
+        <ul>
         <div class="row border border-dark">
-            {% for venta in SQLVentas %}
+            
             <div class="col-2 border border-dark">
                 <img src="" alt="Logo" />
             </div>
@@ -34,9 +35,10 @@
             <div class="col-2">
                 <a href="#" class="btn btn-xs btn-success"><i class="fas fa-edit"></i> VER DETALLE</a>
             </div>
-            {% endfor %}
+
         </div>
-        
+        </ul>
+        {% endfor %}
     </div>
     
 </body>
