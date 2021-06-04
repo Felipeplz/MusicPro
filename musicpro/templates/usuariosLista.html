@@ -20,6 +20,17 @@
                     <button type="button" class="mb-2 btn btn-primary"><i class="fas fa-search"></i></button>
                     <a href="#" class="mb-2 btn btn-xs btn-success"><i class="fas fa-plus-circle"></i> Nuevo</a>
             </div>
+				{% load crispy_forms_tags %}
+					<form action=""  class="formulario_comprador" method="post">
+						{% csrf_token %}
+					 
+						{{ form1 | crispy }}
+
+
+				   
+				  <button type="submit" id ="btnEnviar" class="button">Enviar</button>
+			  </form>      
+						   <br>
 			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
