@@ -33,7 +33,7 @@ urlpatterns = [
     # path('mispedidos/', views.seguimientoBodeguero2),
     path('promociones/', views.promociones),
     path('usuarioslista/', views.viewUsuarios),
-    #path('carrito/', views.productosCarrito),
+    path('carrito/', views.productosCarrito),
     #path('admin/', admin.site.urls)
 ]
 

@@ -9,7 +9,7 @@ def viewCatalogo(request, **kwargs):
         query = ""
     else:
         query = f"WHERE categoria = '{tab}'"
-    result = Conectar().execute("SELECT *"
-                               f"FROM PRODUCTO {query}"
-                                "ORDER BY id_producto ASC").fetchall()
+    result = Conectar().execute("SELECT * "
+                               f"FROM [dbo].[PRODUCTO] {query} "
+                                "ORDER BY [id_producto] ASC ").fetchall()
     return render(request, 'catalogo.html', {'SQLProductos':result, 'tab': tab})
