@@ -5,10 +5,30 @@ import pyodbc
 # Create your views here.
 def Conectar():
     conn = pyodbc.connect('Driver={sql server};'
-                          'Server=FELIPE-LEGION\FELIPE;'
-                          'Database=MusicPro;'
-                          'Trusted_Connection=yes')
+                        'Server=###BASEDEDATOS###;'
+                        'Database=MusicPro;'
+                        'Trusted_Connection=yes')
     return conn.cursor()
+
+def seguimientoContador(request):
+    result = Conectar().execute("SELECT * FROM SEG_CONTADOR ORDER BY id_seg_cont ASC").fetchall()
+    return render(request, 'Seguimiento_contador.html', {'SQLSegCont':result})
+
+def seguimientoCliente(request):
+    result = Conectar().execute("SELECT * FROM SEG_CLIENTE ORDER BY id_seg_client ASC").fetchall()
+    return render(request, 'Seguimiento_cliente.html', {'SQLSegClient':result})
+
+def seguimientoVendedor(request):
+    result = Conectar().execute("SELECT * FROM SEG_VENDEDOR ORDER BY id_seg_vend ASC").fetchall()
+    return render(request, 'Seguimiento_vendedor.html', {'SQLSegVend':result})
+
+def ventaDatos(request):
+    result = Conectar().execute("SELECT * FROM VENTA_DATOS ORDER BY id_vent_dat ASC").fetchall()
+    return render(request, 'Venta_Datos.html', {'SQLVentDat':result})
+
+def VentasConfirmar(request):
+    result = Conectar().execute("SELECT * FROM VENT_CONFIRMAR ORDER BY id_vent_confir ASC").fetchall()
+    return render(request, 'Ventas_Confirmar.html', {'SQLVentConfir':result})
 
 def viewUsuarios(request):
     result = Conectar().execute("SELECT USUARIO.id_usuario, USUARIO.mail, USUARIO.rut, USUARIO.dv_rut, USUARIO.nombre, USUARIO.direccion," 

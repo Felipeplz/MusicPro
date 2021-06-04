@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Datos de venta</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/6f82a0622c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+    <h1>Ventas datos</h1>
+    <hr>
+        <form action="#">
+            <fieldset>
+                <legend>MusicPro</legend>
+                <div class="container border">
+                    <div class="container table-bordered mt-3">
+                        <div class="row">
+                            <div class="radio col-3">
+                                <p class="dropdown-divider"></p>
+                                <input type="radio" name="tipo_entrega" id="despacho_domicilio">
+                                <label for="despacho_domicilio">Despacho a domicilio</label>
+                                <br>
+                                <input type="radio" name="tipo_entrega" id="retiro_tienda">
+                                <label for="retiro_tienda">Retiro en tienda</label>
+                            </div>
+                            <div class="container col-6 float-right">
+                                <p class="dropdown-divider"></p>
+                                <label for="producto">Nombre:</label>
+                                <input id="producto" type="text" name="producto">
+                                <br>
+                                <label for="comuna">Comuna:</label>
+                                <select name="comuna">
+                                    <option>Comuna_1</option>
+                                    <option>Comuna_2</option>
+                                    <option>Comuna_3</option>
+                                    <option>Comuna_4</option>
+                                    <option>Comuna_5</option>
+                                    <option>Comuna_6</option>
+                                    <option>Comuna_7</option>
+                                    <option>Comuna_8</option>
+                                    <option>Comuna_9</option>
+                                    <option>Comuna_10</option>
+                                    <option>Comuna_11</option>
+                                    <option>Comuna_12</option>
+                                    <option>Comuna_13</option>
+                                    <option>Comuna_14</option>
+                                    <option>Comuna_15</option>
+                                    <option>Comuna_16</option>
+                                    <option value="" selected="selected">Selecciona comuna</option>
+                                </select>
+                            </div><br>
+                        </div>
+                    </div><br>
+                    <div class="container table-bordered">
+                        <div>
+                            <td>
+                                <p class="dropdown-divider"></p>
+                                <a href="#" class="ml-5 btn btn-success"><i class="far fa-credit-card"></i></a>
+                                <a href="#" class="ml-5 btn btn-success"><i class="fas fa-credit-card"></i></a>
+                                <a href="#" class="ml-5 btn btn-success"><i class="far fa-money-bill-alt"></i></a>
+                            </td>
+                        </div>
+                        <div class="ml-3 radio">
+                            <input class="ml-4" type="radio" name="tipo_pago" id="debito">
+                            <label for="debito">Débito</label>
+                            <input class="ml-3" type="radio" name="tipo_pago" id="credito">
+                            <label for="credito">Crédito</label>
+                            <input class="ml-3" type="radio" name="tipo_pago" id="tranferencia">
+                            <label for="tranferencia">Tranferencia</label>
+                        </div>
+                    </div><br>
+                    <div class="container col-5">
+                        <div class="container border col-5 mb-3">
+                            <p class="dropdown-divider"></p>
+                            <p class="pl-sm-5">Totales</p>
+                            <p class="dropdown-divider"></p>
+                            <p class="pl-sm-5">Débito</p>
+                            <p class="dropdown-divider"></p>
+                            <p class="pl-sm-5">Subtotal</p>
+                            <p class="dropdown-divider"></p>
+                            <p class="pl-sm-5">Total</p>
+                            <p class="dropdown-divider"></p>
+                            <p class="pl-sm-5">$Monto</p>
+                            <p class="dropdown-divider"></p>
+                            <input type="submit" class="ml-sm-5 mb-sm-2 btn btn-primary" name="submit" value="Pagar">
+                            <p class="dropdown-divider"></p>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+</div>
+</body>
+</html>
