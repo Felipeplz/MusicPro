@@ -28,15 +28,16 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for xxx in xxx %}
+					{% for pedido in SQLSegVendedor %}
 					<tr>
 						<th scope="row">1</th>
-						<td>Pedido_1</td>
-						<td>Cantidad_1</td>
-						<td>Fecha_1</td>
-						<td>Hora_1</td>
-						<td>Retiro_1</td>
-						<td>Usuario_1</td>
+						<td>{{pedido.Pedido}}</td>
+						<td>{{pedido.Cantidad}}</td>
+						<td>{{pedido.Fecha}}</td>
+						<td>{{pedido.Hora}}</td>
+						<td>{{pedido.Tipo}}</td>
+						<td>{{pedido.Estado}}</td>
+						<td>{{pedido.Encargado}}</td>
 						<td>
 							<a href="#" class="btn btn-xs btn-success"><i class="fas fa-edit"></i> Editar</a>
 						</td>
