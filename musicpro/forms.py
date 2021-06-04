@@ -1,11 +1,14 @@
 from django import forms
 from .models import SQLUsuarios,SQLRoles
 
-class CompradorForm(forms.ModelForm):
-    class Meta:
-        model = SQLUsuarios
-        fields=["id_usuario","dv_rut","nombre","telefono","direccion","mail","nombre_rol"]
+# class UsuarioForm(forms.UsuarioForm):
+#     class Meta:
+#         model = SQLUsuarios
+#         fields=["id_usuario","dv_rut","nombre","telefono","direccion","mail","id_rol"]
+class UsuarioForm(forms.Form):
+
+    nombre= forms.CharField(max_length=100)
+    
 
 
-
-
+ 

@@ -4,8 +4,8 @@ from .conn import *
 import pyodbc
 
 def Conectar():
-    conn = pyodbc.connect('Driver={sql server};'
-                        'Server=FELIPE-LEGION\FELIPE;'
+    conn = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
+                        'Server=LAPTOP-R0CJDD69\PIA;'
                         'Database=MusicPro;'
                         'Trusted_Connection=yes')
     return conn.cursor()
