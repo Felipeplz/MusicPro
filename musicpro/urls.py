@@ -26,6 +26,11 @@ urlpatterns = [
     path('', views.viewCatalogo),
     path('catalogo', views.viewCatalogo),
     path('catalogo/<str:tab>', views.viewCatalogo),
+    # path('pedidosgenerales/', views.seguimientoBodeguero),
+    # path('mispedidos/', views.seguimientoBodeguero2),
+    path('promociones/', views.promociones),
+    path('usuarioslista/', views.viewUsuarios),
+    #path('carrito/', views.productosCarrito),
     #path('admin/', admin.site.urls)
 ]
 
