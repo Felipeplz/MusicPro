@@ -21,8 +21,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.viewCatalogo),
+    path('admin/', admin.site.urls),
+    path('ReporteVentas', views.ventastodos),
     path('Registro/', views.Registro),
-    path('admin/', admin.site.urls)
     path('catalogo', views.viewCatalogo),
     path('catalogo/<str:tab>', views.viewCatalogo),
     # path('pedidosgenerales/', views.seguimientoBodeguero),
