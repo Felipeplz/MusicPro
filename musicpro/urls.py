@@ -21,7 +21,6 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.productosTodos),
-    path('Registro/', views.Registro),
     path('admin/', admin.site.urls)
 ]
 
