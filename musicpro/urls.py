@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('detalleproducto', views.viewProducto),
     path('detalleproducto/<int:id>', views.viewProducto),
-    path('ReporteVentas', views.viewVentas),
+    path('reporteriaVentas', views.viewVentas),
     path('Registro/', views.Registro),
     path('catalogo', views.viewCatalogo),
     path('catalogo/<str:tab>', views.viewCatalogo),

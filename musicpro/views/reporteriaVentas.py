@@ -5,4 +5,4 @@ def viewVentas(request, **kwargs):
     result = Conectar().execute(f"SELECT *"
                             "FROM [dbo].[VENTA]"
                             "ORDER BY id_venta ASC").fetchall()
-    return render(request, 'reporteriaVentas.html', {'SQLPromo':result})
+    return render(request, 'reporteriaVentas.html', {'SQLVentas':result})
