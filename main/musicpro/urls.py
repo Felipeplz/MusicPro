@@ -20,18 +20,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', views.viewCatalogo),
-    path('admin/', admin.site.urls),
-    path('ReporteVentas', views.ventastodos),
+    path('', views.productosTodos),
     path('Registro/', views.Registro),
-    path('catalogo', views.viewCatalogo),
-    path('catalogo/<str:tab>', views.viewCatalogo),
-    # path('pedidosgenerales/', views.seguimientoBodeguero),
-    # path('mispedidos/', views.seguimientoBodeguero2),
-    path('promociones/', views.promociones),
-    path('usuarioslista/', views.viewUsuarios),
-    #path('carrito/', views.productosCarrito),
-    #path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
