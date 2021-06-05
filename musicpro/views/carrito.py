@@ -17,7 +17,19 @@ def productosCarrito(request):
                                 "JOIN [dbo].[USUARIO] "
                                 "ON [dbo].[USUARIO].id_usuario = [dbo].[VENTA].id_cliente "
                                 "WHERE [dbo].[ESTADO_PEDIDO].estado = 'Carrito' "
-                                f"AND [dbo].[USUARIO].id_usuario = {id_user}").fetchall()
+                                f"AND [dbo].[USUARIO].id_usuario = {id_user} "
+                                "EXCEPT (SELECT [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, ISNULL([dbo].[VENTA].total, 0) AS total, ISNULL([dbo].[VENTA].descuento, 0) * -1 AS descuento, [dbo].[ITEM_VENTA].cantidad AS cantidad,(ISNULL([dbo].[PRODUCTO].precio,0)-((ISNULL([dbo].[VENTA].descuento, 0)/[dbo].[ITEM_VENTA].cantidad)))*[dbo].[ITEM_VENTA].cantidad AS final, 1 as totalfinal "
+                                "FROM [dbo].[ESTADO_PEDIDO] "
+                                "JOIN [dbo].[VENTA] "
+                                "ON [dbo].[VENTA].id_venta = [dbo].[ESTADO_PEDIDO].id_venta "
+                                "JOIN [dbo].[ITEM_VENTA] "
+                                "ON [dbo].[VENTA].id_venta = [dbo].[ITEM_VENTA].id_venta "
+                                "JOIN [dbo].[PRODUCTO] "
+                                "ON [dbo].[PRODUCTO].id_producto = [dbo].[ITEM_VENTA].id_producto "
+                                "JOIN [dbo].[USUARIO] "
+                                "ON [dbo].[USUARIO].id_usuario = [dbo].[VENTA].id_cliente "
+                                "WHERE [dbo].[ESTADO_PEDIDO].estado = 'Pagado' "
+                                f"AND [dbo].[USUARIO].id_usuario = {id_user}) ").fetchall()
     if len(result) == 0:
         return redirect('/catalogo/')
     for producto in result:
@@ -35,12 +47,12 @@ def comprobarVentaCarrito(id):
                                 "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
                                 f"WHERE [dbo].[VENTA].[id_cliente] = {id} "
                                 "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Carrito' "
-                                "AND NOT EXISTS (SELECT * "
-                                                "FROM [dbo].[VENTA] "
-                                                "JOIN [dbo].[ESTADO_PEDIDO] "
-                                                "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
-                                                f"WHERE [dbo].[VENTA].[id_cliente] = {id} "
-                                                "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Pagado')").fetchone()
+                                "EXCEPT (SELECT [dbo].[VENTA].[id_venta] "
+                                "FROM [dbo].[VENTA] "
+                                "JOIN [dbo].[ESTADO_PEDIDO] "
+                                "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
+                                f"WHERE [dbo].[VENTA].[id_cliente] = {id} "
+                                "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Pagado')").fetchone()
     return result
 
 @csrf_exempt
@@ -57,12 +69,12 @@ def anniadirCarrito(request):
         id_venta = Conectar().execute("SELECT [dbo].[VENTA].[id_venta] "
                                 "FROM [dbo].[VENTA] "
                                 f"WHERE [dbo].[VENTA].[id_cliente] = {id_user} "
-                                "AND NOT EXISTS (SELECT * "
-                                                "FROM [dbo].[VENTA] "
-                                                "JOIN [dbo].[ESTADO_PEDIDO] "
-                                                "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
-                                                f"WHERE [dbo].[VENTA].[id_cliente] = {id_user} "
-                                                "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Pagado')").fetchone()
+                                "EXCEPT (SELECT [dbo].[VENTA].[id_venta] "
+                                "FROM [dbo].[VENTA] "
+                                "JOIN [dbo].[ESTADO_PEDIDO] "
+                                "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
+                                f"WHERE [dbo].[VENTA].[id_cliente] = {id_user} "
+                                "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Pagado')").fetchone()
         insertarEstado = Conectar().execute("INSERT INTO [dbo].[ESTADO_PEDIDO] "
                                     "([id_venta] "
                                     ",[fecha_estado] "
