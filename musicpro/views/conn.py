@@ -10,7 +10,9 @@ import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-conn = pyodbc.connect('Driver={sql server};'
+
+def Conectar():
+conn = pyodbc.connect('Driver={ODBC Driver 17 for Sql Server};'
                         'Server=FELIPE-LEGION\FELIPE;'
                         'Database=MusicPro;'
                         'Trusted_Connection=yes')
