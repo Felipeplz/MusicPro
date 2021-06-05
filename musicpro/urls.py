@@ -23,8 +23,8 @@ urlpatterns = [
     
     path('', views.viewCatalogo),
     path('admin/', admin.site.urls),
-    path('detalleproducto', views.viewProducto),
-    path('detalleproducto/<int:id>', views.viewProducto),
+    path('productosDetalle/', views.viewProducto),
+    path('productosDetalle/<int:id>', views.viewProducto),
     path('ReporteVentas', views.viewVentas),
     path('Registro/', views.Registro),
     path('catalogo', views.viewCatalogo),
