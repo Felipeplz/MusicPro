@@ -21,18 +21,23 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.viewCatalogo),
-    path('admin/', admin.site.urls),
-    path('detalleproducto', views.viewProducto),
-    path('detalleproducto/<int:id>', views.viewProducto),
+    path('productosDetalle/', views.viewProducto),
+    path('productosDetalle/<int:id>', views.viewProducto),
     path('ReporteVentas', views.viewVentas),
+    path('productosLista/', views.viewproductosLista),
+    path('detalleproducto/<int:id>', views.viewProducto),
+    path('reporteriaVentas', views.viewVentas),
     path('Registro/', views.Registro),
-    path('catalogo', views.viewCatalogo),
+    path('catalogo/', views.viewCatalogo),
     path('catalogo/<str:tab>', views.viewCatalogo),
-    # path('pedidosgenerales/', views.seguimientoBodeguero),
+    path('seguimiento-bodeguero/<str:tab>', views.seguimientoBodeguero),
     # path('mispedidos/', views.seguimientoBodeguero2),
     path('promociones/', views.promociones),
     path('usuarioslista/', views.viewUsuarios),
-    #path('carrito/', views.productosCarrito),
+    path('carrito/', views.productosCarrito),
+    path('carrito/add/', views.anniadirCarrito),
+    path('carrito/remove/', views.quitarCarrito),
+    path('carrito/edit/', views.cambiarCarrito),
     #path('admin/', admin.site.urls)
 ]
 
