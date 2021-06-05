@@ -1,41 +1,33 @@
+{% extends 'barraMenu.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/6f82a0622c.js" crossorigin="anonymous"></script>
-	<link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
-	<title>Music pro</title>
-</head>
-<body>
+{% block principal %}
 	<div class="container mt-5">
 		<div class="row border border-dark">
 			<div class="col-12">
 		      <h6 class="text-muted">Carrito de compras</h6> 
 		      <ul class="list-group">
-				{% for carrito in SQLCarrito %}
+				{% for producto in SQLCarrito %}
 		        <li class="list-group-item d-flex justify-content-between align-items-center text-break">
 		          	<div class="image-parent">
-		              	<img src="" class="img-fluid" alt="{{carrito.foto}}">
+		              	<img src="/media/{{producto.foto}}" class="img-fluid img-carrito">
 		          	</div class="text-break">
 		          	<div>
-						<h3>{{carrito.nombre}}</h3>
-			          	<span class="small">{{carrito.descripcion}}</span>
+						<a href="../producto/{{producto.id_producto}}/"><h3>{{producto.nombre}}</h3></a>
+			          	<span class="small">{{producto.descripcion}}</span>
 		          	</div>
 			        <div class="pl-5 pr-5">
-				  		<button type="button" class="btn rounded-circle bg-warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill-rule="evenodd" d="M16 1.75V3h5.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75zm-6.5 0a.25.25 0 01.25-.25h4.5a.25.25 0 01.25.25V3h-5V1.75z"></path><path d="M4.997 6.178a.75.75 0 10-1.493.144L4.916 20.92a1.75 1.75 0 001.742 1.58h10.684a1.75 1.75 0 001.742-1.581l1.413-14.597a.75.75 0 00-1.494-.144l-1.412 14.596a.25.25 0 01-.249.226H6.658a.25.25 0 01-.249-.226L4.997 6.178z"></path><path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"></path></svg></button>
-					  	<h6 class="text-center">$000.000</h6>
-					  	<h6 class="small">${{carrito.precio}} c/u</h6>
-				  		<select class="custom-select" id="inlineFormCustomSelectPref">
-							<option selected>...</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
+				  		<button type="button" class="btn rounded-circle bg-warning"><i class="far fa-trash-alt" onclick="quitar({{producto.id_producto}})"></i></button>
+					  	<h6 class="text-center">{{producto.final}} {{local}}</h6>
+					  	<h6 class="small">{{producto.precio}} {{local}} c/u</h6>
+				  		<select class="custom-select" id="producto{{producto.id_producto}}" onchange="cambiarStock({{producto.id_producto}})">
+							{% with ''|center:producto.stock as range %}
+							{% for numero in range %}
+							<option value="{{ forloop.counter }}"{% if producto.cantidad == forloop.counter %} selected{% endif %}>{{ forloop.counter }}</option>
+							{% endfor %}
+							{% endwith %}
+							{% if producto.stock == 0 %}
+								<option selected disabled>...</option>
+							{% endif %}
 						</select> 
 			        </div>
 		        </li>
@@ -46,21 +38,23 @@
 		<div class="row justify-content-end">
 			<div class="col-4">
 				<div class="border border-secondary">
-			  		<small class="text-center">Totales: $115.480</small>
+			  		<small class="text-center">Totales: {{SQLCarrito.0.total}} {{local}}</small>
 			  		<hr>
-			  		<small class="text-center">Descuentos: -$11.882</small>
+			  		<small class="text-center">Descuentos: {{SQLCarrito.0.descuento}} {{local}}</small>
 			  		<hr>
-			  		<small class="text-center">Subtotal: $103.598</small>
+			  		<small class="text-center">Subtotal: {{SQLCarrito.0.totalfinal}} {{local}}</small>
 			  		<hr>
 			  		<h6 class="text-center">Total:</h6>
 			  		<div class="border border-secondary">
-			  			<h6 class="text-center">$000.000</h6>
+			  			<h6 class="text-center"> {{SQLCarrito.0.totalfinal}} {{local}}</h6>
 		  			</div>
 		  			<button type="button" class="btn bg-primary mt-2 mb-2 text-white">Confirmar compra</button>
 		  		</div>
 			</div>
 		</div>
 	</div>
-	<script src="static/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}
+
+{% block scripts %}
+	<script src="{% static 'js/carrito.js' %}"></script>
+{% endblock %}

@@ -20,20 +20,28 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    
     path('', views.viewCatalogo),
-    path('admin/', admin.site.urls),
-    path('detalleproducto', views.viewProducto),
-    path('detalleproducto/<int:id>', views.viewProducto),
-    path('ReporteVentas', views.viewVentas),
-    path('Registro/', views.Registro),
-    path('catalogo', views.viewCatalogo),
+    path('producto/', views.viewProducto),
+    path('producto/<int:id>/', views.viewProducto),
+    path('producto/nuevo/', views.newProducto),
+    path('producto/<int:id>/editar/', views.editProducto),
+    path('reporteVentas', views.viewVentas),
+    path('productosLista/', views.viewProductosLista),
+    path('usuariosLista/', views.viewUsuariosLista),
+    path('usuario/nuevo/', views.newUsuario),
+    path('usuario/<int:id>/', views.viewUsuario),
+    path('usuario/<int:id>/editar/', views.editUsuario),
+    path('reporteriaVentas', views.viewVentas),
+    path('registro/', views.Registro),
+    path('catalogo/', views.viewCatalogo),
     path('catalogo/<str:tab>', views.viewCatalogo),
-    # path('pedidosgenerales/', views.seguimientoBodeguero),
+    path('seguimientoBodeguero/<str:tab>', views.seguimientoBodeguero),
     # path('mispedidos/', views.seguimientoBodeguero2),
     path('promociones/', views.promociones),
-    path('usuarioslista/', views.viewUsuarios),
-    #path('carrito/', views.productosCarrito),
+    path('carrito/', views.productosCarrito),
+    path('carrito/add/', views.anniadirCarrito),
+    path('carrito/remove/', views.quitarCarrito),
+    path('carrito/edit/', views.cambiarCarrito),
     #path('admin/', admin.site.urls)
     path('ventasDatos/', views.ventasDatos),
     

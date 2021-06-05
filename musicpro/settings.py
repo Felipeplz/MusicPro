@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h$2ehfm#-xh!qebyz7ez@@x-)fno#$(mud39ra(anps-*5_g%=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'musicpro'
+    'musicpro',
 ]
 
 MIDDLEWARE = [
@@ -123,11 +123,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+USE_THOUSAND_SEPARATOR = True
+
+DECIMAL_SEPARATOR = ','
+
+THOUSAND_SEPARATOR = '.'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/musicpro/static/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 

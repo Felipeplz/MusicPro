@@ -1,34 +1,23 @@
-{#% extends 'menubar.html' %}
+{% extends 'barraMenu.html' %}
 {% load static %}
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/6f82a0622c.js" crossorigin="anonymous"></script>
-	<title>Music pro</title>
-</head>
-<body>
+{% block principal %}
 	<div class="container">
 		<br>
 		<ul class="nav nav-tabs nav-fill">
 			<li class="nav-item">
-			  <a class="nav-link{% if tab == "todos" %} active{% endif %}" href="../catalogo">Todos</a>
+			  <a class="nav-link{% if tab == 'todos' %} active{% endif %}" href="../catalogo">Todos</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link{% if tab == "cuerda" %} active{% endif %}" href="../catalogo/cuerda">Instrumentos de cuerda</a>
+			  <a class="nav-link{% if tab == 'cuerda' %} active{% endif %}" href="../catalogo/cuerda">Instrumentos de cuerda</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link{% if tab == "percusion" %} active{% endif %}" href="../catalogo/percusion">Percusión</a>
+			  <a class="nav-link{% if tab == 'percusion' %} active{% endif %}" href="../catalogo/percusion">Percusión</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link{% if tab == "amplificadores" %} active{% endif %}" href="../catalogo/amplificadores">Amplificadores</a>
+			  <a class="nav-link{% if tab == 'amplificadores' %} active{% endif %}" href="../catalogo/amplificadores">Amplificadores</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link{% if tab == "accesorios" %} active{% endif %}" href="../catalogo/accesorios">Accesorios</a>
+			  <a class="nav-link{% if tab == 'accesorios' %} active{% endif %}" href="../catalogo/accesorios">Accesorios</a>
 			</li>
 		  </ul>
 		<div class="row w-100 mx-0">
@@ -36,12 +25,21 @@
 		  	<div class="card col-6 col-lg-3 my-2 mx-0">
 			    <img src="/media/{{producto.foto}}" class="card-img-top img-fluid" alt="...">
 			    <div class="card-body">
-				      <h5 class="card-title">{{producto.nombre}}</h5>
+				      <a href="../producto/{{producto.id_producto}}/"><h5 class="card-title">{{producto.nombre}}</h5></a>
 				      <p class="card-text">{{producto.descripcion}}</p>
-				      <h5>{{producto.precio}}</h5>
+					  {% if producto.final != producto.precio%}
+				      <h5 class="text-success">{{producto.final}} {{local}}</h5>
+				      <h6 class="text-danger"><del>{{producto.precio}} {{local}}</del></h6>
+					  {% else %}
+				      <h5>{{producto.precio}} {{local}}</h5>
+					  {% endif %}
 				      <button type="button" class="btn bg-primary text-white" onclick="anniadir({{producto.id_producto}})">Añadir a carrito</button>
 			    </div>
 			</div>
+			{% empty %}
+				<div class="alert alert-warning w-100 text-center my-5" role="alert">
+					¡No hay productos para esta categoría!
+				</div>
 			{% endfor %}
 		</div>
 		<!-- <div class="mt-4">
@@ -64,10 +62,8 @@
 		 	</nav>
 		</div> -->
 	</div>
-	<script>
-		function anniadir(id) {
-			alert("Se añadió el producto id: " + id + " al carrito.");
-		}
-	</script>
-</body>
-</html>
+{% endblock %}
+
+{% block scripts %}
+	<script src="{% static 'js/catalogo.js' %}"></script>
+{% endblock %}
