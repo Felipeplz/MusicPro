@@ -51,12 +51,6 @@ class SQLPromociones(models.Model):
     descuento = models.FloatField()
     id_producto = models.IntegerField()
 
-class SQLRoles(models.Model):
-    id_rol = models.IntegerField()
-    nombre_rol = models.CharField(max_length=30)
-    descripcion = models.CharField(max_length=50)
-    estado = models.CharField(max_length=30)
-
 class SQLSucursales(models.Model):
     id_sucursal = models.IntegerField()
     nombre = models.CharField(max_length=50)
@@ -72,7 +66,7 @@ class SQLUsuarios(models.Model):
     nombre = models.CharField(max_length=50)
     telefono = models.IntegerField()
     direccion = models.CharField(max_length=50)
-    id_rol = models.IntegerField()
+    rol = models.CharField(max_length=30)
 
 class SQLVentas(models.Model):
     id_venta = models.IntegerField()
