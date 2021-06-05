@@ -24,6 +24,7 @@ def viewCatalogo(request, **kwargs):
                                 "[dbo].[PRODUCTO].descripcion, "
                                 "[dbo].[PRODUCTO].precio, "
                                 "[dbo].[PRODUCTO].stock, "
+                                "[dbo].[PROMOCION].cantidad_min, "
                                 "[dbo].[PRODUCTO].precio - ([dbo].[PRODUCTO].precio * ISNULL([dbo].[PROMOCION].[descuento],0)) AS final "
                                 "FROM [dbo].[PRODUCTO] "
                                 "LEFT JOIN [dbo].[PROMOCION] "

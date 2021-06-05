@@ -28,7 +28,7 @@
 				      <a href="../producto/{{producto.id_producto}}/"><h5 class="card-title">{{producto.nombre}}</h5></a>
 				      <p class="card-text">{{producto.descripcion}}</p>
 					  {% if producto.final != producto.precio%}
-				      <h5 class="text-success">{{producto.final}} {{local}}</h5>
+				      <h5 class="text-success">{{producto.final}} {{local}} x {{producto.cantidad_min}} productos o más</h5>
 				      <h6 class="text-danger"><del>{{producto.precio}} {{local}}</del></h6>
 					  {% else %}
 				      <h5>{{producto.precio}} {{local}}</h5>

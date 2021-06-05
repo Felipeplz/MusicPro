@@ -1,22 +1,21 @@
 {% extends 'barraMenu.html' %}
 {% load static %}
 {% block principal %}
-  {% block content %}
     <div class="container">
-    <img src="{% static 'images/Logo3.jpg' %}" class="rounded mx-auto d-block" alt="Registro">
+    <img src="{% static 'images/Logo3.jpg' %}" class="rounded mx-auto d-block">
     <form>
         <div class="row">
         <div class="col-6">
             <div class="form-group">
                 <label for="exampleInputEmail1">Correo Electrónico</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingrese correo">
                 
               </div>
           </div>
           <div class="col-6">
             <div class="form-group">
                 <label for="exampleInputPassword1">Contraseña</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
               </div>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Registrar

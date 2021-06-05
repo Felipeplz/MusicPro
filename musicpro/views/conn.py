@@ -11,6 +11,9 @@ from country_currencies import get_by_country
 from urllib.request import urlopen
 import json
 from pathlib import Path
+from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.hashers import *
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 conn = pyodbc.connect('Driver={ODBC Driver 17 for Sql Server};'
