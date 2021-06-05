@@ -32,7 +32,20 @@
 				  <div class="modal-content">
 					<div class="modal-header">
 					  <!-- <h3 class="modal-title" id="exampleModalLabel">Regístrarse</h3> -->
-			
+					  {% load crispy_forms_tags %}
+					  <form action=""  class="formulario_comprador" method="post">
+								  {% csrf_token %}
+							   
+								  {{ form | crispy }}
+  
+  
+							 
+							<button type="submit" id ="btnEnviar" class="button">Enviar</button>
+						</form>      
+									 <br>
+  
+								  {{mensaje}}
+									 <br>
 					  <!-- <form action="" method="post">  -->
 						  <form>
 					 <legend>Registro de usuario</legend> 
