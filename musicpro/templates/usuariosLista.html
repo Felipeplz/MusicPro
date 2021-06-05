@@ -18,8 +18,61 @@
                     <label class="form-label" for="form1"></label>
                 </div>
                     <button type="button" class="mb-2 btn btn-primary"><i class="fas fa-search"></i></button>
-                    <a href="#" class="mb-2 btn btn-xs btn-success"><i class="fas fa-plus-circle"></i> Nuevo</a>
+                    <button type="button" class="mb-2 btn btn-xs btn-success" data-toggle="modal" data-target="#nuevousuario"><i class="fas fa-plus-circle"></i> Nuevo</button>
             </div>
+			<div class="modal fade" id="nuevousuario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title" id="titulo">Registro de usuario</h5>
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					<div class="modal-body">
+						<form method="POST">
+							<div class="form-group">
+								<label for="Inputrut">Rut</label>
+								<input type="text" class="form-control" id="Inputrut">
+							</div>
+							<div class="form-group">
+								<label for="Inputdv">Dv rut</label>
+								<input type="text" class="form-control" id="Inputdv">
+							</div>
+							<div class="form-group">
+								<label for="Inputnombre">Nombre</label>
+								<input type="text" class="form-control" id="Inputnombre">
+							</div>
+							<div class="form-group">
+								<label for="Inputtelefono">Telefono</label>
+								<input type="text" class="form-control" id="Inputtelefono">
+							</div>
+							<div class="form-group">
+								<label for="Inputdireccion">Direccion</label>
+								<input type="text" class="form-control" id="Inputdireccion">
+							</div>
+							<div class="form-group">
+								<label for="Inputmail">Mail</label>
+								<input type="email" class="form-control" id="Inputmail">
+							</div>
+							<div class="form-group">
+								<label for="Select1">Rol</label>
+								<select class="form-control" id="Select1">
+								<option>Cliente</option>
+								<option>Vendedor</option>
+								<option>Contador</option>
+								<option>Bodeguero</option>
+								</select>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					  <button type="button" class="btn btn-primary" id="registrar">Registrar usuario</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
 			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
@@ -42,21 +95,88 @@
 						<td>{{usuario.rut}}</td>
 						<td>{{usuario.dv_rut}}</td>
 						<td>{{usuario.direccion}}</td>
-						<td>{{usuario.nombre_rol}}</td>
+						<td>{{usuario.rol}}</td>
 						<td>
-                            <a href="#" class="btn btn-xs btn-success" onclick="editar"><i class="fas fa-edit"></i> Editar</a>
-							<a href="#" class="btn btn-xs btn-info" onclick="eliminar"><i class="far fa-trash-alt"></i> Eliminar</a>
+                            <button class="btn btn-xs btn-success" onclick="" data-toggle="modal" data-target="#EditarUsuario"><i class="fas fa-edit"></i> Editar</button>
+							<button class="btn btn-xs btn-info" onclick="" data-toggle="modal" data-target="#EliminarUsuario"><i class="far fa-trash-alt"></i> Eliminar</button>
 						</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
+			<div class="modal" tabindex="-1" id="EliminarUsuario">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title text-center">¡Advertencia!</h5>
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					<div class="modal-body">
+					  <p>¿Seguro que desea deshabilitar el usuario?</p>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+					  <button type="button" class="btn btn-primary">Si</button>
+					</div>
+				  </div>
+				</div>
+			</div>
+			<div class="modal fade" id="EditarUsuario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title" id="titulo">Modificar usuario</h5>
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					<div class="modal-body">
+						<form method="POST">
+							<div class="form-group">
+								<label for="Inputrut">Rut</label>
+								<input type="text" class="form-control" id="Inputrut2">
+							</div>
+							<div class="form-group">
+								<label for="Inputdv">Dv rut</label>
+								<input type="text" class="form-control" id="Inputdv2">
+							</div>
+							<div class="form-group">
+								<label for="Inputnombre">Nombre</label>
+								<input type="text" class="form-control" id="Inputrut2">
+							</div>
+							<div class="form-group">
+								<label for="Inputtelefono">Telefono</label>
+								<input type="text" class="form-control" id="Inputrut2">
+							</div>
+							<div class="form-group">
+								<label for="Inputdireccion">Direccion</label>
+								<input type="text" class="form-control" id="Inputrut2">
+							</div>
+							<div class="form-group">
+								<label for="Inputmail">Mail</label>
+								<input type="email" class="form-control" id="Inputmail2">
+							</div>
+							<div class="form-group">
+								<label for="Select1">Rol</label>
+								<select class="form-control" id="Select1">
+								<option>Cliente</option>
+								<option>Vendedor</option>
+								<option>Contador</option>
+								<option>Bodeguero</option>
+								</select>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					  <button type="button" class="btn btn-primary" onclick="modifi()">Modificar</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
 		</div>		
 	</div>
-	<script>
-		function editar(id_usuario){
-			
-		}
-	</script>
 </body>
 </html>
