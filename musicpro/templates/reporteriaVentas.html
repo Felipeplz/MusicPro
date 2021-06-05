@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -14,28 +13,23 @@
     <h1>Reporte de ventas</h1>
     
     <div class="container mt-5">
-        {% for venta in SQLVentas %}
+        {% for ventas in SQLVentas %}
         <ul>
         <div class="row border border-dark">
-            
-            <div class="col-2 border border-dark">
-                <img src="" alt="Logo" />
-            </div>
             <div class="col-6 border border-dark">
-                <h3>{{venta.id_venta}}</h3>
-                <p>{{venta.id_cliente}}</p>
-                <p>{{venta.Fecha}}</p>
-                <p>{{venta.descuento}}</p>
-                <p>{{venta.id_sucursal_retiro}}</p>
-                <p>{{venta.mail}}</p>
+                <h3>Nº folio: {{ventas.id_venta}}</h3>
+                <p>ID cliente:{{ventas.id_cliente}}</p>
+                <p>Fecha: {{ventas.fecha}}</p>
+                <p>Descuento realizado: {{ventas.descuento}}</p>
+                <p>Sucursal: {{ventas.id_sucursal_retiro}}</p>
+                <p>correo electronico: {{ventas.mail}}</p>
             </div>
-            <div class="col-2 border border-dark">
-                <h5>{{venta.total}}</h5>
+            <div class="col-3 border border-dark">
+                <h5>Total pagado: {{ventas.total}}</h5>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <a href="#" class="btn btn-xs btn-success"><i class="fas fa-edit"></i> VER DETALLE</a>
             </div>
-
         </div>
         </ul>
         {% endfor %}
