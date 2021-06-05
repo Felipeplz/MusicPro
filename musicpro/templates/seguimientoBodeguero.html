@@ -13,10 +13,10 @@
 		<h1>Bodeguero</h1>
 		<ul class="nav nav-tabs">
 		  <li class="nav-item active">
-		    <a data-toggle="tab" class="nav-link" href="#menu1">Pedidos general</a>
+		    <a data-toggle="tab" class="nav-link{% if tab == "1" %} active{% endif %}" href="#menu1">Mis pedidos</a>
 		  </li>
 		  <li class="nav-item">
-		    <a data-toggle="tab" class="nav-link" href="#menu2" onclick="">Mis pedidos</a>
+		    <a data-toggle="tab" class="nav-link{% if tab == "pedidos generales" %} active{% endif %}" href="#menu2">Pedidos generales</a>
 		  </li>
 		</ul>
 		<div class="tab-content">

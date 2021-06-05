@@ -2,8 +2,10 @@ from .conn import *
 
 def seguimientoBodeguero(request,**kwargs):
     tab = kwargs.get('tab')
-    if (tab == None):
-        tab = "todos"
+    if (request.path == "/"):
+        return redirect('/seguimiento-bodeguero')
+    if(tab != 0 ):
+        tab = "pedidos generales"
         query = ""
     else:
         query = f"WHERE U.id_usuario = '{tab}'"
