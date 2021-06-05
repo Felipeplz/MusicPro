@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls.conf import include
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('producto', views.ProductoViewSet)
 
 urlpatterns = [
     path('', views.viewCatalogo),
@@ -44,6 +49,8 @@ urlpatterns = [
     path('carrito/edit/', views.cambiarCarrito),
     #path('admin/', admin.site.urls)
     path('ventasDatos/', views.ventasDatos),
+    path('pagar/<str:total>/', views.validarPago),
+    path('api/', include(router.urls)),
     
 ]
 

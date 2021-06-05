@@ -14,10 +14,10 @@
 <body>
     <!-- BARRA DE MENÚ -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light border">
-        <img src="static/LogoMusicPro.png">
+        <img src="{% static 'logo1.jpeg' %}" class="img-logo">
         <a class="nav-link disabled" href="#" id="navbarDropdown" role="button" 
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            ProMusic
+            MusicPro
         </a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -41,13 +41,29 @@
               <li class="nav-item">
                 <a class="nav-link disabled" href="../../reporteriaVentas/">Reporte</a>
               </li>
-                                
             </ul>
             
             <ul class="nav navbar-nav navbar-right col-3">
                 <a href="../../carrito" class="btn btn-xs btn-warning mr-2"><i class="fas fa-shopping-cart"></i></a>
                 <a href="../../registro" class="btn btn-xs btn-primary"><i class="fas fa-sign-in-alt"></i> Registrarse</a>
-                <a class="btn btn-xs btn-success ml-2"><i class="fas fa-user"></i></i></a>
+                  <li class="nav-item dropdown">
+                  <div class="dropdown-menu dropdown-menu-right text-right">
+                      <h6 class="dropdown-header text-center" style="min-width: 20vw;">Inicia Sesión</h6>
+                      <form class="px-4 py-3 text-center" id="ingresar" action="../../login/" method="POST">
+                        <div class="form-group">
+                          <label>Usuario</label>
+                          <input class="form-control" type="text" id="usuario" name="usuario">
+                        </div>
+                        <div class="form-group">
+                          <label>Contraseña</label>
+                          <input class="form-control" type="password" name="contraseña" id="contraseña">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Ingresar</button>
+                      </form>
+                  </div>
+                  <a class="nav-link dropdown-toggle" id="usuario_dropdown" data-toggle="dropdown" href="#"><i class="fas fa-user"></i></span></a>
+                </li>
+                </a>
              </ul>
       </div>
     </nav>

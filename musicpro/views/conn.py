@@ -11,9 +11,11 @@ from country_currencies import get_by_country
 from urllib.request import urlopen
 import json
 from pathlib import Path
-from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.hashers import *
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from rest_framework import viewsets
+from musicpro.serializers import ProductoSerializer
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 conn = pyodbc.connect('Driver={ODBC Driver 17 for Sql Server};'
@@ -51,9 +53,14 @@ def getLocale(request):
     return get_by_country(response.country.iso_code)[0]
     
 def convertir(moneda, total):
-    #req = urlopen('https://currencyapi.net/api/v1/rates?key=1KHhYSaYoxPQwsFirO0zMktXRHlZPNJUgpoa')
-    req = open(BASE_DIR / 'rates.json')
+    req = urlopen('https://currencyapi.net/api/v1/rates?key=1KHhYSaYoxPQwsFirO0zMktXRHlZPNJUgpoa')
+    #req = open(BASE_DIR / 'rates.json')
     resultadoJSON = json.load(req)
     coeficiente = (total/resultadoJSON['rates']['CLP'])
     valor = (coeficiente*resultadoJSON['rates'][moneda])
     return round(valor, 2)
+
+
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset = SQLProductos.objects.all()
+    serializer_class = ProductoSerializer

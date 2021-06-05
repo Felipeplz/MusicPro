@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'musicpro',
+    'rest_framework',
+    'transbank',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +86,7 @@ DATABASES = {
     #  'default': {
     #     'NAME': 'MusicPro',
     #     'ENGINE': 'sqlserver_ado',
-    #     'HOST': 'FELIPE-LEGION/FELIPE',
+    #     'HOST': 'FELIPE-LEGION\FELIPE',
     #     'USER': 'djang-user',
     #     'PASSWORD': '%.ZSix:)R:NN5RT',
     #  }

@@ -74,17 +74,18 @@
                         </div>
                     </div><br>
                     <div class="container col-5">
-                        <div class="container border col-5 mb-3">
-                            <p class="dropdown-divider"></p>
-                            <p class="pl-sm-5">Totales</p>
-                            <p class="dropdown-divider"></p>
-                            <p class="pl-sm-5">Subtotal</p>
-                            <p class="dropdown-divider"></p>
-                            <p class="pl-sm-5">Total</p>
-                            <p class="dropdown-divider"></p>
-                            <p class="pl-sm-5">$Monto</p>
-                            <p class="dropdown-divider"></p>
-                            <input type="submit" class="ml-sm-5 mb-sm-2 btn btn-primary" name="submit" value="Pagar">
+                        <div class="container border col-5 mb-3 text-center">
+                            <small>Totales: {{SQLVentDat.0.total}} {{local}}</small>
+                            <hr>
+                            <small>Descuentos: {{SQLVentDat.0.descuento}} {{local}}</small>
+                            <hr>
+                            <small>Subtotal: {{SQLVentDat.0.totalfinal}} {{local}}</small>
+                            <hr>
+                            <h6>Total:</h6>
+                            <div class="border border-secondary">
+                                <h6> {{SQLVentDat.0.totalfinal}} {{local}}</h6>
+                            </div>
+                            <button type="submit" class="btn btn-primary m-2" name="submit">Pagar</button>
                             <p class="dropdown-divider"></p>
                         </div>
                     </div>

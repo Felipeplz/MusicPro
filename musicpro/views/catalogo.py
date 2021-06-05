@@ -2,7 +2,7 @@ from .conn import *
 
 def viewCatalogo(request, **kwargs):
     local = getLocale(request)
-
+    print(f"auth: {getCookie(request,'user')}")
     if not (request.path.startswith("/catalogo/")):
         return redirect('/catalogo/')
     tab = kwargs.get('tab')
