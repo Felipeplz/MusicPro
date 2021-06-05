@@ -43,6 +43,8 @@ urlpatterns = [
     path('carrito/remove/', views.quitarCarrito),
     path('carrito/edit/', views.cambiarCarrito),
     #path('admin/', admin.site.urls)
+    path('ventasDatos/', views.ventasDatos),
+    
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
