@@ -28,7 +28,7 @@
 			    </form>
 			</div>
 		</div>
-		{% for producto in SQLProductos %}
+		{% for producto in SQLProducto %}
 		<div class="row border border-dark">
 			<div class="col-1">
 				<div class="form-check mt-5">
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 		  	<div class="col-2 mt-4">
-		  		<img src="{{producto.foto}}" alt="{{producto.foto}}" class="imgcarrito border border-secondary zoom">
+				<p>{{producto.foto}}</p>
 		  	</div>
 		  	<div class="col-5 mt-5 descprod">
 		  		<h4>{{producto.nombre}}</h4>
