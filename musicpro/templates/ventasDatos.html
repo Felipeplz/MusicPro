@@ -1,3 +1,5 @@
+{#% extends 'menubar.html' %}
+{% load static %}
 <!doctype html>
 <html>
 <head>
@@ -10,6 +12,7 @@
     <script src="https://kit.fontawesome.com/6f82a0622c.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    {% block content %}
     <div class="container">
     <h1>Ventas datos</h1>
     <hr>
@@ -29,8 +32,17 @@
                             </div>
                             <div class="container col-6 float-right">
                                 <p class="dropdown-divider"></p>
-                                <label for="producto">Nombre:</label>
-                                <input id="producto" type="text" name="producto">
+                                <label for="direccion">Direccion:</label>
+                                <input placeholder="{{SQLVentDat}}" id="direccion" type="text" name="direccion">
+                                <br>
+                                <label for="sucursal">Sucursal:</label>
+                                <select name="sucursal">
+                                    <option>sucursal_1</option>
+                                    <option>sucursal_2</option>
+                                    <option>sucursal_3</option>
+                                    <option>sucursal_4</option>
+                                    <option value="" selected="selected">Selecciona sucursal</option>
+                                </select>
                                 <br>
                                 <label for="comuna">Comuna:</label>
                                 <select name="comuna">
@@ -78,8 +90,6 @@
                             <p class="dropdown-divider"></p>
                             <p class="pl-sm-5">Totales</p>
                             <p class="dropdown-divider"></p>
-                            <p class="pl-sm-5">Débito</p>
-                            <p class="dropdown-divider"></p>
                             <p class="pl-sm-5">Subtotal</p>
                             <p class="dropdown-divider"></p>
                             <p class="pl-sm-5">Total</p>
@@ -94,5 +104,6 @@
             </fieldset>
         </form>
 </div>
+{% endblock %}
 </body>
 </html>

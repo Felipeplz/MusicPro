@@ -35,6 +35,7 @@ urlpatterns = [
     path('usuarioslista/', views.viewUsuarios),
     #path('carrito/', views.productosCarrito),
     #path('admin/', admin.site.urls)
+    path('ventasDatos/', views.ventasDatos),
     
 ]
 
