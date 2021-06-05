@@ -1,5 +1,4 @@
 from .conn import *
-from django.views.decorators.csrf import csrf_exempt
 
 #id_user = getCookie(request, "user")
 id_user = 5
@@ -85,6 +84,9 @@ def anniadirCarrito(request):
                                     ",'Carrito')")
         conn.commit()
     if request.method == 'POST':
+        cantidad = 1
+        if 'cantidad' in request.POST:
+            cantidad = request.POST['cantidad']
         result = Conectar().execute("INSERT INTO [dbo].[ITEM_VENTA] "
                                     "([id_venta] "
                                     ",[id_producto] "
@@ -92,7 +94,7 @@ def anniadirCarrito(request):
                                     "VALUES "
                                     f"({id_venta[0]} "
                                     f",{request.POST['id']} "
-                                    ",1)")
+                                    f",{cantidad})")
         conn.commit()
     return HttpResponse("ok")
 

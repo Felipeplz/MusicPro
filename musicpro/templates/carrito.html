@@ -12,14 +12,14 @@
 		              	<img src="/media/{{producto.foto}}" class="img-fluid img-carrito">
 		          	</div class="text-break">
 		          	<div>
-						<h3>{{producto.nombre}}</h3>
+						<a href="../producto/{{producto.id_producto}}/"><h3>{{producto.nombre}}</h3></a>
 			          	<span class="small">{{producto.descripcion}}</span>
 		          	</div>
 			        <div class="pl-5 pr-5">
 				  		<button type="button" class="btn rounded-circle bg-warning"><i class="far fa-trash-alt" onclick="quitar({{producto.id_producto}})"></i></button>
 					  	<h6 class="text-center">{{producto.final}} {{local}}</h6>
 					  	<h6 class="small">{{producto.precio}} {{local}} c/u</h6>
-				  		<select class="custom-select" id="inlineFormCustomSelectPref" onchange="cambiarStock({{producto.id_producto}})">
+				  		<select class="custom-select" id="producto{{producto.id_producto}}" onchange="cambiarStock({{producto.id_producto}})">
 							{% with ''|center:producto.stock as range %}
 							{% for numero in range %}
 							<option value="{{ forloop.counter }}"{% if producto.cantidad == forloop.counter %} selected{% endif %}>{{ forloop.counter }}</option>

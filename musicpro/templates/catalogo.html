@@ -25,10 +25,10 @@
 		  	<div class="card col-6 col-lg-3 my-2 mx-0">
 			    <img src="/media/{{producto.foto}}" class="card-img-top img-fluid" alt="...">
 			    <div class="card-body">
-				      <a href="../detalleproducto/{{producto.id_producto}}"><h5 class="card-title">{{producto.nombre}}</h5></a>
+				      <a href="../producto/{{producto.id_producto}}/"><h5 class="card-title">{{producto.nombre}}</h5></a>
 				      <p class="card-text">{{producto.descripcion}}</p>
 					  {% if producto.final != producto.precio%}
-				      <h5>{{producto.final}} {{local}}</h5>
+				      <h5 class="text-success">{{producto.final}} {{local}}</h5>
 				      <h6 class="text-danger"><del>{{producto.precio}} {{local}}</del></h6>
 					  {% else %}
 				      <h5>{{producto.precio}} {{local}}</h5>

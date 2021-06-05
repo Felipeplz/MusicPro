@@ -1,7 +1,10 @@
 from django.http import response, HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import FileSystemStorage
 from musicpro.models import SQLDespachos,SQLEstadoPedidos,SQLItemVentas,SQLPagos,SQLProductos,SQLPromociones,SQLSucursales,SQLUsuarios,SQLVentas
 from .conn import *
+from django.http.response import JsonResponse
 import pyodbc
 import geoip2.database
 from country_currencies import get_by_country
@@ -10,12 +13,10 @@ import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-def Conectar():
 conn = pyodbc.connect('Driver={ODBC Driver 17 for Sql Server};'
-                        'Server=FELIPE-LEGION\FELIPE;'
-                        'Database=MusicPro;'
-                        'Trusted_Connection=yes')
+                      'Server=FELIPE-LEGION\FELIPE;'
+                      'Database=MusicPro;'
+                      'Trusted_Connection=yes')
 
 def Conectar():
     return conn.cursor()

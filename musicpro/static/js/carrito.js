@@ -7,9 +7,10 @@ function quitar(id) {
 }
 
 function cambiarStock(id) {
+    cantidad = $("#producto" + id).val();
     $.post("../../carrito/edit/",{
         id:id,
-        cantidad:$("#inlineFormCustomSelectPref").val()
+        cantidad:cantidad
       },function(data){
           window.location.reload();
       });

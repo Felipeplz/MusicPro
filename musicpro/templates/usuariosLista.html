@@ -1,62 +1,160 @@
+{% extends 'barraMenu.html' %}
 {% load static %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/6f82a0622c.js" crossorigin="anonymous"></script>
-</head>
-<body>
-	<div class="container">
-		<h1 text-align="center">Usuarios</h1>
-		<div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <div class="justify-content-end input-group">
-                <div class="form-outline">
-                    <input type="search" id="form1" placeholder="Buscar usuario" class="form-control" />
-                    <label class="form-label" for="form1"></label>
-                </div>
-                    <button type="button" class="mb-2 btn btn-primary"><i class="fas fa-search"></i></button>
-                    <a href="#" class="mb-2 btn btn-xs btn-success"><i class="fas fa-plus-circle"></i> Nuevo</a>
-            </div>
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Id</th>
-						<th scope="col">Mail</th>
-						<th scope="col">Nombre</th>
-						<th scope="col">Rut</th>
-						<th scope="col">DV_rut</th>
-						<th scope="col">Direccion</th>
-						<th scope="col">Rol</th>
-						<th scope="col">Opciones</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for usuario in SQLUsuarios %}
-					<tr>
-						<th scope="row">{{usuario.id_usuario}}</th>
-						<td>{{usuario.mail}}</td>
-						<td>{{usuario.nombre}}</td>
-						<td>{{usuario.rut}}</td>
-						<td>{{usuario.dv_rut}}</td>
-						<td>{{usuario.direccion}}</td>
-						<td>{{usuario.nombre_rol}}</td>
-						<td>
-                            <a href="#" class="btn btn-xs btn-success" onclick="editar"><i class="fas fa-edit"></i> Editar</a>
-							<a href="#" class="btn btn-xs btn-info" onclick="eliminar"><i class="far fa-trash-alt"></i> Eliminar</a>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>		
+{% block principal %}
+<h1 class="text-center">Usuarios</h1>
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-6 offset-3 text-center">
+				<button class="btn bg-primary rounded-circle" onclick="modalNuevo()" type="button"><i class="fas fa-plus text-white"></i></button><h6>Añadir</h6>
+			</div>
+			<div class="input-group col-3 mb-2">
+				<form action="../usuariosLista" class="form-inline my-2 my-lg-0 float-right">
+					<input class="form-control mr-sm-2" type="text" placeholder="Buscar usuario" id="buscar" name="buscar" method="get">
+					<button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+				</form>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Mail</th>
+					<th>Nombre</th>
+					<th>Rut</th>
+					<th>DV_rut</th>
+					<th>Direccion</th>
+					<th>Rol</th>
+					<th>Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for usuario in SQLUsuarios %}
+				<tr>
+					<td>{{usuario.id_usuario}}</td>
+					<td>{{usuario.mail}}</td>
+					<td>{{usuario.nombre}}</td>
+					<td>{{usuario.rut}}</td>
+					<td>{{usuario.dv_rut}}</td>
+					<td>{{usuario.direccion}}</td>
+					<td>{{usuario.rol}}</td>
+					<td>
+						<button class="btn btn-xs btn-success" onclick="cargar({{usuario.id_usuario}})"><i class="fas fa-edit"></i></button>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
-	<script>
-		function editar(id_usuario){
-			
-		}
-	</script>
-</body>
-</html>
+
+	<div class="modal fade" id="modalNuevo" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="../../usuario/nuevo/" method="post" id="formNuevo" enctype="multipart/form-data">
+					<div class="modal-header">
+						<h5 class="modal-title">Nuevo Usuario</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="nombre">Nombre: </label>
+							<input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
+						</div>
+						<div class="form-group">
+							<label for="txt_mail">Mail:</label>
+							<input type="text" class="form-control" id="txt_mail" name="txt_mail">
+						</div>
+						<div class="form-group">
+							<label for="txt_rut">Rut:</label>
+							<input type="text" class="form-control" id="txt_rut" name="txt_rut">
+						</div>
+						<div class="form-group">
+							<label for="txt_dv">Dígito Verificador:</label>
+							<input type="text" class="form-control" id="txt_dv" name="txt_dv">
+						</div>
+						<div class="form-group">
+							<label for="txt_fono">Teléfono:</label>
+							<input type="text" class="form-control" id="txt_fono" name="txt_fono">
+						</div>
+						<div class="form-group">
+							<label for="txt_direccion">Dirección:</label>
+							<input type="text" class="form-control" id="txt_direccion" name="txt_direccion">
+						</div>
+						<div class="form-group">
+							<label for="cmb_rol">Rol:</label>
+							<select class="form-control" id="cmb_rol" name="cmb_rol">
+								<option value="Cliente">Cliente</option>
+								<option value="Vendedor">Vendedor</option>
+								<option value="Bodeguero">Bodeguero</option>
+								<option value="Contador">Contador</option>
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button type="submit" class="btn btn-primary">Agregar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalModificar" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="../../usuario/" method="post" id="formModificar" enctype="multipart/form-data">
+					<div class="modal-header">
+						<h5 class="modal-title">Modificar Usuario</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="nombre">Nombre: </label>
+							<input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
+						</div>
+						<div class="form-group">
+							<label for="txt_mail">Mail:</label>
+							<input type="text" class="form-control" id="txt_mail" name="txt_mail">
+						</div>
+						<div class="form-group">
+							<label for="txt_rut">Rut:</label>
+							<input type="text" class="form-control" id="txt_rut" name="txt_rut">
+						</div>
+						<div class="form-group">
+							<label for="txt_dv">Dígito Verificador:</label>
+							<input type="text" class="form-control" id="txt_dv" name="txt_dv">
+						</div>
+						<div class="form-group">
+							<label for="txt_fono">Teléfono:</label>
+							<input type="text" class="form-control" id="txt_fono" name="txt_fono">
+						</div>
+						<div class="form-group">
+							<label for="txt_direccion">Dirección:</label>
+							<input type="text" class="form-control" id="txt_direccion" name="txt_direccion">
+						</div>
+						<div class="form-group">
+							<label for="cmb_rol">Rol:</label>
+							<select class="form-control" id="cmb_rol" name="cmb_rol">
+								<option value="Cliente">Cliente</option>
+								<option value="Vendedor">Vendedor</option>
+								<option value="Bodeguero">Bodeguero</option>
+								<option value="Contador">Contador</option>
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button type="submit" class="btn btn-primary">Agregar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="{% static 'js/usuariosLista.js' %}"></script>
+{% endblock %}

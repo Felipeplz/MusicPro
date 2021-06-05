@@ -3,7 +3,7 @@ from .conn import *
 def viewCatalogo(request, **kwargs):
     local = getLocale(request)
 
-    if (request.path == "/catalogo"):
+    if not (request.path.startswith("/catalogo/")):
         return redirect('/catalogo/')
     tab = kwargs.get('tab')
     if (tab == None):

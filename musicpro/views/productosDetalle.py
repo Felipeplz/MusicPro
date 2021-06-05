@@ -1,6 +1,21 @@
 from .conn import *
 
+@csrf_exempt
 def viewProducto(request, **kwargs):
     id = kwargs.get('id')
-    result = Conectar().execute(f"SELECT nombre AS NombreProd, foto AS FotoProd, descripcion AS DescripcionProd, COUNT(id_producto) AS CantidadProd, precio AS PrecioProd FROM PRODUCTO GROUP BY nombre, foto, descripcion, precio;").fetchone()
-    return render(request, 'productosDetalle.html', {'SQLProdDetalle':result})
+    result = Conectar().execute("SELECT [id_producto] "
+                                ",[codigo_producto] "
+                                ",[nombre] "
+                                ",[foto] "
+                                ",[marca] "
+                                ",[precio] "
+                                ",[tipo] "
+                                ",[subtipo] "
+                                ",[categoria] "
+                                ",[stock] "
+                                ",[descripcion] "
+                                "FROM [dbo].[PRODUCTO] "
+                                f"WHERE [id_producto] = {id} ").fetchone()
+    if request.method == 'POST':
+        return JsonResponse(list(result), safe=False)
+    return render(request, 'productosDetalle.html', {'SQLProducto':result})
