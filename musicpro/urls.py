@@ -29,7 +29,7 @@ urlpatterns = [
     path('Registro/', views.Registro),
     path('catalogo/', views.viewCatalogo),
     path('catalogo/<str:tab>', views.viewCatalogo),
-    # path('pedidosgenerales/', views.seguimientoBodeguero),
+    path('seguimiento-bodeguero/<str:tab>', views.seguimientoBodeguero),
     # path('mispedidos/', views.seguimientoBodeguero2),
     path('promociones/', views.promociones),
     path('usuarioslista/', views.viewUsuarios),
