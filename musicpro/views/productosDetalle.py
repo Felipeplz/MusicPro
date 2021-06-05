@@ -6,3 +6,5 @@ def viewProducto(request, **kwargs):
                             "FROM PRODUCTO"
                             "WHERE id_producto = {id}").fetchone()
     return render(request, 'productosDetalle.html', {'SQLPromo':result})
+
+   
