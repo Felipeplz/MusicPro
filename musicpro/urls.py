@@ -49,7 +49,7 @@ urlpatterns = [
     path('carrito/edit/', views.cambiarCarrito),
     #path('admin/', admin.site.urls)
     path('ventasDatos/', views.ventasDatos),
-    path('pagar/<str:total>/', views.validarPago),
+    #path('pagar/<str:total>/', views.validarPago),
     path('api/', include(router.urls)),
     
 ]

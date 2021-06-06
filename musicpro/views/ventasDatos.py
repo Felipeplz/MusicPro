@@ -1,9 +1,21 @@
 from .conn import *
 from datetime import datetime
-import transbank
+from transbank.error.transbank_error import TransbankError
+from transbank.webpay.webpay_plus.transaction import Transaction
+import random
 id_user = 5
 
+@csrf_exempt
 def ventasDatos(request):
+    if ('token_ws' in request.POST):
+        token = request.POST['token_ws']
+        print(token)
+        response = Transaction.commit(token)
+        print(response)
+        if (response.status == "AUTHORIZED"):
+            return HttpResponse("PAGO REALIZADO")
+        elif (response.status == "FAILED"):
+            return HttpResponse("PAGO FALLÓ :o")
     local = getLocale(request)
     result = Conectar().execute("SELECT [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, ISNULL([dbo].[VENTA].total, 0) AS total, ISNULL([dbo].[VENTA].descuento, 0) * -1 AS descuento, [dbo].[ITEM_VENTA].cantidad AS cantidad,(ISNULL([dbo].[PRODUCTO].precio,0)-((ISNULL([dbo].[VENTA].descuento, 0)/[dbo].[ITEM_VENTA].cantidad)))*[dbo].[ITEM_VENTA].cantidad AS final, 1 as totalfinal "
                                 "FROM [dbo].[ESTADO_PEDIDO] "
@@ -37,12 +49,9 @@ def ventasDatos(request):
         producto.descuento = convertir(local,producto.descuento)
         producto.final = convertir(local,producto.final)
         producto.precio = convertir(local,producto.precio)
-    return render(request, 'ventasDatos.html', {'SQLVentDat':result})
+    response = Transaction.create(str(random.randrange(1000000, 99999999)),str(random.randrange(1000000, 99999999)), result[0].total+result[0].descuento, request.build_absolute_uri())
+    return render(request, 'ventasDatos.html', {'SQLVentDat':result, 'response':response})
 
-def pagar(request, **kwargs):
-    response = transbank.webpay_plus.create(datetime.now(), datetime.now(), float(kwargs.get('total')), "localhost:8000/carrito/validar")
-    return response.token
-
-def validarPago(request, **kwargs):
-    response = transbank.webpay_plus.transaction.commit(pagar(request, **kwargs))
-    return response.status
+# def validarPago(request, **kwargs):
+#     response = transbank.webpay.webpay_plus.transaction.commit(pagar(request, **kwargs))
+#     return response.status
