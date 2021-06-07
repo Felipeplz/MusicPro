@@ -9,6 +9,7 @@ from .registro import *
 from .reporteriaInformes import *
 from .reporteriaLog import *
 from .reporteriaVentas import *
+from .rest import *
 from .seguimientoBodeguero import *
 from .seguimientoCliente import *
 from .seguimientoContador import *

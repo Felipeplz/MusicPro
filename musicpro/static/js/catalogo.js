@@ -1,8 +1,7 @@
 function anniadir(id) {
-    $.post("../../login/",{
-        usuario:$("#usuario").val(),
-        contraseña:$("#contraseña").val()
-      },function(data){
-        window.location.reload();
-      });
+  $.post("../../carrito/add/",{
+      id:id
+    },function(data){
+        window.location.replace("../../carrito");
+    });
 }

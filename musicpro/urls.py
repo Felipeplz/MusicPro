@@ -23,9 +23,11 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('producto', views.ProductoViewSet)
+router.register('usuario', views.UsuarioViewSet)
 
 urlpatterns = [
     path('', views.viewCatalogo),
+    path('admin/', admin.site.urls),
     path('producto/', views.viewProducto),
     path('producto/<int:id>/', views.viewProducto),
     path('producto/nuevo/', views.newProducto),
@@ -47,7 +49,6 @@ urlpatterns = [
     path('carrito/add/', views.anniadirCarrito),
     path('carrito/remove/', views.quitarCarrito),
     path('carrito/edit/', views.cambiarCarrito),
-    #path('admin/', admin.site.urls)
     path('ventasDatos/', views.ventasDatos),
     #path('pagar/<str:total>/', views.validarPago),
     path('api/', include(router.urls)),

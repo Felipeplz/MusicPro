@@ -1,4 +1,5 @@
 from .conn import *
+from .moneda import getLocale, convertir
 
 def viewCatalogo(request, **kwargs):
     local = getLocale(request)
@@ -25,11 +26,12 @@ def viewCatalogo(request, **kwargs):
                                 "[dbo].[PRODUCTO].precio, "
                                 "[dbo].[PRODUCTO].stock, "
                                 "[dbo].[PROMOCION].cantidad_min, "
-                                "[dbo].[PRODUCTO].precio - ([dbo].[PRODUCTO].precio * ISNULL([dbo].[PROMOCION].[descuento],0)) AS final "
+                                "ROUND([dbo].[PRODUCTO].precio * ISNULL(1-MAX([dbo].[PROMOCION].descuento), 1), 0) AS final "
                                 "FROM [dbo].[PRODUCTO] "
                                 "LEFT JOIN [dbo].[PROMOCION] "
                                 "ON [dbo].[PROMOCION].[id_producto] = [dbo].[PRODUCTO].[id_producto] "
                                 + query +
+                                "GROUP BY [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, [dbo].[PROMOCION].cantidad_min, [dbo].[PRODUCTO].precio "
                                 "ORDER BY [dbo].[PRODUCTO].[id_producto] ASC ").fetchall()
     for producto in result:
         producto.final = convertir(local,producto.final)

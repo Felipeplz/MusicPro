@@ -1,23 +1,31 @@
 from .conn import *
+from .moneda import getLocale, convertir
 
 def viewProductosLista(request):
+    local = getLocale(request)
     query = ""
     if 'buscar' in request.GET:
         if request.GET['buscar'] == '':
             return redirect('/productosLista/')
         query = f"WHERE [nombre] LIKE '%{request.GET['buscar']}%' "
-    result = Conectar().execute("SELECT [dbo].[PRODUCTO].[id_producto]"
-                                ",[codigo_producto]"
-                                ",[nombre]"
-                                ",[foto]"
-                                ",[precio]"
-                                ",[stock]"
-                                ",[descripcion]"
-                                ",CASE WHEN [descuento] IS NOT NULL THEN ROUND([precio] - ([precio] * ISNULL([descuento],0)), -1) ELSE [precio] END AS final "
-                                "FROM [dbo].[PRODUCTO]"
-                                "LEFT JOIN [dbo].[PROMOCION]"
-                                "ON [dbo].[PROMOCION].[id_producto] = [dbo].[PRODUCTO].[id_producto] " + query).fetchall()
-    return render(request, 'productosLista.html', {'SQLProductos':result})
+    result = Conectar().execute("SELECT [dbo].[PRODUCTO].id_producto, "
+                                "[dbo].[PRODUCTO].foto, "
+                                "[dbo].[PRODUCTO].nombre, "
+                                "[dbo].[PRODUCTO].descripcion, "
+                                "[dbo].[PRODUCTO].precio, "
+                                "[dbo].[PRODUCTO].stock, "
+                                "[dbo].[PROMOCION].cantidad_min, "
+                                "ROUND([dbo].[PRODUCTO].precio * ISNULL(1-MAX([dbo].[PROMOCION].descuento), 1), 0) AS final "
+                                "FROM [dbo].[PRODUCTO] "
+                                "LEFT JOIN [dbo].[PROMOCION] "
+                                "ON [dbo].[PROMOCION].[id_producto] = [dbo].[PRODUCTO].[id_producto] "
+                                + query +
+                                "GROUP BY [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, [dbo].[PROMOCION].cantidad_min, [dbo].[PRODUCTO].precio "
+                                "ORDER BY [dbo].[PRODUCTO].[id_producto] ASC ").fetchall()
+    for producto in result:
+        producto.precio = convertir(local,producto.precio)
+        producto.final = convertir(local,producto.final)
+    return render(request, 'productosLista.html', {'SQLProductos':result, 'local':local})
 
 @csrf_exempt
 def newProducto(request):

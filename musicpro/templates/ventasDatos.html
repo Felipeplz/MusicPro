@@ -74,15 +74,15 @@
                 </div><br>
                 <div class="container col-5">
                     <div class="container border col-5 mb-3 text-center">
-                        <small>Totales: {{SQLVentDat.0.total}} {{local}}</small>
+                        <small>Totales: {{totales}} {{local}}</small>
                         <hr>
-                        <small>Descuentos: {{SQLVentDat.0.descuento}} {{local}}</small>
+                        <small>Descuentos: {{descuentos}} {{local}}</small>
                         <hr>
-                        <small>Subtotal: {{SQLVentDat.0.totalfinal}} {{local}}</small>
+                        <small>Subtotal: {{subtotal}} {{local}}</small>
                         <hr>
                         <h6>Total:</h6>
                         <div class="border border-secondary">
-                            <h6> {{SQLVentDat.0.totalfinal}} {{local}}</h6>
+                            <h6> {{total}}</h6>
                         </div>
                         <form action="{{ response.url }}" method="POST">
                             <input type="hidden" name="token_ws" value="{{ response.token }}">
