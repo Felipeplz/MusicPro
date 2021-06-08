@@ -9,7 +9,6 @@ class ProductoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         productos = SQLProductos.objects.all()
-        print(list(productos.values()))
 
         id_producto = self.request.GET.get('id_producto')
         codigo_producto = self.request.GET.get('codigo_producto')
@@ -19,6 +18,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
         subtipo = self.request.GET.get('subtipo')
         categoria = self.request.GET.get('categoria')
         descripcion = self.request.GET.get('descripcion')
+        
         if id_producto:
             productos = productos.filter(id_producto=id_producto)
         if codigo_producto:

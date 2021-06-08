@@ -14,7 +14,7 @@ def ventasDatos(request):
         if (response.status == "AUTHORIZED"):
             return HttpResponse("PAGO REALIZADO")
         elif (response.status == "FAILED"):
-            return HttpResponse("PAGO FALLÓ :o")
+            return HttpResponse("PAGO FALLÓ :c")
     local = getLocale(request)
     result = Conectar().execute("SELECT [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, "
                                 "ISNULL([dbo].[PRODUCTO].precio*[dbo].[ITEM_VENTA].cantidad, 0) AS total, "
