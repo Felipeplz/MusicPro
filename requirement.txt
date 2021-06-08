@@ -1,0 +1,9 @@
+country-currencies==0.2
+Django==3.0.14
+django-mssql-backend==2.8.1
+djangorestframework==3.12.4
+geoip2==4.2.0
+Pillow==8.2.0
+pip==21.1.2
+pyodbc==4.0.30
+transbank-sdk==1.5.0
