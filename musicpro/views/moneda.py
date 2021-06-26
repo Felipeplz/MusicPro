@@ -26,8 +26,8 @@ def getLocale(request):
     return get_by_country(response.country.iso_code)[0]
     
 def convertir(moneda, total):
-    req = urlopen('https://currencyapi.net/api/v1/rates?key=1KHhYSaYoxPQwsFirO0zMktXRHlZPNJUgpoa')
-    #req = open(BASE_DIR / 'rates.json')
+    #req = urlopen('https://currencyapi.net/api/v1/rates?key=1KHhYSaYoxPQwsFirO0zMktXRHlZPNJUgpoa')
+    req = open(BASE_DIR / 'rates.json')
     resultadoJSON = json.load(req)
     coeficiente = (total/resultadoJSON['rates']['CLP'])
     valor = (coeficiente*resultadoJSON['rates'][moneda])
