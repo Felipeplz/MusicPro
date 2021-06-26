@@ -1,15 +1,17 @@
 {% extends 'barraMenu.html' %}
 {% load static %}
 {% block principal %}
-    <div class="container">
+<div class="container">
     <h1>Ventas datos</h1>
     <hr>
-        <fieldset>
-            <legend>MusicPro</legend>
-            <div class="container border">
+    <fieldset>
+        <legend>MusicPro</legend>
+        <div class="container border">
+          <div class="row">
+            <div class="col-9">
                 <div class="container table-bordered mt-3">
                     <div class="row">
-                        <div class="radio col-3">
+                        <div class="radio col-5">
                             <p class="dropdown-divider"></p>
                             <input type="radio" name="tipo_entrega" id="despacho_domicilio">
                             <label for="despacho_domicilio">Despacho a domicilio</label>
@@ -17,7 +19,7 @@
                             <input type="radio" name="tipo_entrega" id="retiro_tienda">
                             <label for="retiro_tienda">Retiro en tienda</label>
                         </div>
-                        <div class="container col-6 float-right">
+                        <div class="container col-5 float-right">
                             <p class="dropdown-divider"></p>
                             <label for="direccion">Direccion:</label>
                             <input placeholder="{{SQLVentDat}}" id="direccion" type="text" name="direccion">
@@ -54,44 +56,43 @@
                         </div><br>
                     </div>
                 </div><br>
-                <div class="container table-bordered">
+                <div class="container table-bordered text-center">
                     <div>
                         <td>
                             <p class="dropdown-divider"></p>
-                            <a href="#" class="ml-5 btn btn-success"><i class="far fa-credit-card"></i></a>
                             <a href="#" class="ml-5 btn btn-success"><i class="fas fa-credit-card"></i></a>
                             <a href="#" class="ml-5 btn btn-success"><i class="far fa-money-bill-alt"></i></a>
                         </td>
                     </div>
                     <div class="ml-3 radio">
-                        <input class="ml-4" type="radio" name="tipo_pago" id="debito">
-                        <label for="debito">Débito</label>
-                        <input class="ml-3" type="radio" name="tipo_pago" id="credito">
-                        <label for="credito">Crédito</label>
+                        <input class="ml-4" type="radio" name="tipo_pago" id="webpay">
+                        <label for="webpay">WebPay</label>
                         <input class="ml-3" type="radio" name="tipo_pago" id="tranferencia">
                         <label for="tranferencia">Tranferencia</label>
                     </div>
                 </div><br>
-                <div class="container col-5">
-                    <div class="container border col-5 mb-3 text-center">
-                        <small>Totales: {{totales}} {{local}}</small>
-                        <hr>
-                        <small>Descuentos: {{descuentos}} {{local}}</small>
-                        <hr>
-                        <small>Subtotal: {{subtotal}} {{local}}</small>
-                        <hr>
-                        <h6>Total:</h6>
-                        <div class="border border-secondary">
-                            <h6> {{total}}</h6>
-                        </div>
-                        <form action="{{ response.url }}" method="POST">
-                            <input type="hidden" name="token_ws" value="{{ response.token }}">
-                            <button type="submit" class="btn btn-primary m-2" name="submit">Pagar</button>
-                            <p class="dropdown-divider"></p>
-                        </form>
+            </div> 
+            <div class="col-3">
+                <div class="border ml-4 mb-3 mt-3 text-center">
+                    <small>Totales: {{totales}} {{local}}</small>
+                    <hr>
+                    <small>Descuentos: {{descuentos}} {{local}}</small>
+                    <hr>
+                    <small>Subtotal: {{subtotal}} {{local}}</small>
+                    <hr>
+                    <h6>Total:</h6>
+                    <div class="border mb-3">
+                        <h6> {{total}}</h6>
                     </div>
+                    <form action="{{ response.url }}" method="POST">
+                        <input type="hidden" name="token_ws" value="{{ response.token }}">
+                        <button type="submit" class="btn btn-primary m-2" name="submit">Pagar</button>
+                        <p class="dropdown-divider"></p>
+                    </form>
                 </div>
             </div>
-        </fieldset>
-    </div>
+          </div>
+        </div>
+    </fieldset>
+</div>
 {% endblock %}

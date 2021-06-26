@@ -93,7 +93,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': 'MusicPro',
-        'HOST': 'FELIPE-LEGION\FELIPE',
+        'HOST': 'LAPTOP-O114NIEM',
         'USER': 'django-user',
         'PASSWORD': '%.ZSix:)R:NN5RT',
         'OPTIONS': {
