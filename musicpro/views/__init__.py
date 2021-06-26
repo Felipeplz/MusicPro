@@ -17,3 +17,5 @@ from .seguimientoVendedor import *
 from .usuariosLista import *
 from .ventasConfirmar import *
 from .ventasDatos import *
+from .notificacionTransbank import *
+from .falloTransbank import *

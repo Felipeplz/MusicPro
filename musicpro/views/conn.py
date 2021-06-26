@@ -9,7 +9,7 @@ import pyodbc
 import transbank
 
 conn = pyodbc.connect('Driver={ODBC Driver 17 for Sql Server};'
-                      'Server=FELIPE-LEGION\FELIPE;'
+                      'Server=DESKTOP-IJJK685;'
                       'Database=MusicPro;'
                       'Trusted_Connection=yes')
 
