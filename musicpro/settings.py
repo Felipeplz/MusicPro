@@ -98,7 +98,7 @@ DATABASES = {
         'PASSWORD': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
-            'Trusted_Connection': 'yes',
+            'Trusted_Connection' : 'yes'
         },
     }
 }
