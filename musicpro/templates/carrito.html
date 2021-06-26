@@ -1,9 +1,9 @@
 {% extends 'barraMenu.html' %}
 {% load static %}
 {% block principal %}
-	<div class="container mt-5">
-		<div class="row border border-dark">
-			<div class="col-12">
+	<div class="container mt-3">
+		<div class="row border">
+			<div class="col-9 my-3">
 		      <h6 class="text-muted">Carrito de compras</h6> 
 		      <ul class="list-group">
 				{% for producto in SQLCarrito %}
@@ -39,10 +39,9 @@
 				{% endfor %}
 		      </ul>
 		    </div>
-		</div>
-		<div class="row justify-content-end">
-			<div class="col-4">
-				<div class="border border-secondary">
+	
+			<div class="col-3 my-5 mx-0">
+				<div class="border text-center">
 			  		<small class="text-center">Totales: {{totales}} {{local}}</small>
 			  		<hr>
 			  		<small class="text-center">Descuentos: {{descuentos}} {{local}}</small>
@@ -50,7 +49,7 @@
 			  		<small class="text-center">Subtotal: {{subtotal}} {{local}}</small>
 			  		<hr>
 			  		<h6 class="text-center">Total:</h6>
-			  		<div class="border border-secondary">
+			  		<div class="border bg-light">
 			  			<h6 class="text-center"> {{subtotal}} {{local}}</h6>
 		  			</div>
 		  			<a type="button" class="btn bg-primary mt-2 mb-2 text-white" href="../../ventasDatos/">Confirmar compra</a>
