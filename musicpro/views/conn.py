@@ -8,8 +8,8 @@ from django.http.response import JsonResponse
 import pyodbc
 import transbank
 
-conn = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-                      'Server=LAPTOP-O114NIEM;'
+conn = pyodbc.connect('Driver={ODBC Driver 17 for Sql Server};'
+                      'Server=DESKTOP-T62UH2C;'
                       'Database=MusicPro;'
                       'Trusted_Connection=yes')
 
