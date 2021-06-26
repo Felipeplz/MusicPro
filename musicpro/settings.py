@@ -93,11 +93,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': 'MusicPro',
-        'HOST': 'LAPTOP-R0CJDD69\PIA',
-        'USER': 'django-user',
-        'PASSWORD': '%.ZSix:)R:NN5RT',
+        'HOST': 'DESKTOP-T62UH2C',
+        'USER': '',
+        'PASSWORD': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
+            'Trusted_Connection': 'yes',
         },
     }
 }
