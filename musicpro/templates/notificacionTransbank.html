@@ -1,0 +1,35 @@
+{% extends 'barraMenu.html' %}
+{% load static %}
+{% block principal %}
+<div class="container d-flex justify-content-center">
+    <div class="card mt-5 p-3">
+        <div class="media"> 
+            <div class="media-body">
+                <img src="https://congreso.america-digital.com/anteriores/2017/wp-content/uploads/2017/06/LOGO-TBK-ING.png" class="card-img-top img-fluid" alt="...">
+                <h2 class="text-center mt-2 mb-0">Transacción realizada con éxito!!</h2> 
+                <br>
+                <div class="col-12">
+                    <div class="border border-secondary">
+                          <medium class="text-center ml-3">Totales: {{totales}} {{local}}</medium>
+                          <hr>
+                          <medium class="text-center ml-3">Descuentos: {{descuentos}} {{local}}</medium>
+                          <hr>
+                          <medium class="text-center ml-3">Subtotal: {{subtotal}} {{local}}</medium>
+                          <hr>
+                          <h4 class="text ml-3">Total:</h4>
+                          <hr>
+                          <div class="text-center"><a type="button" class="btn bg-success mt-2 mb-2 text-white" href="../../ventasDatos/">Aceptar</a></div>
+                      </div>
+                      <div>
+                        <img src="https://cosmoshop.cl/wp-content/uploads/2020/10/webpay-456x200-1.png">
+                      </div>
+                </div>                 
+            </div>
+        </div>
+    </div>
+</div>    
+{% endblock %}
+
+{% block scripts %}
+	
+{% endblock %}

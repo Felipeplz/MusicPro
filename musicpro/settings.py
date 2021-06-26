@@ -93,7 +93,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': 'MusicPro',
-        'HOST': 'RENO-PC\SQLEXPRESS',
+        'HOST': 'DESKTOP-T62UH2C',
         'USER': '',
         'PASSWORD': '',
         'OPTIONS': {
