@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from musicpro.views.seguimientoCliente import seguimientoCliente
+from os import name
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
@@ -26,12 +28,12 @@ router.register('producto', views.ProductoViewSet)
 router.register('usuario', views.UsuarioViewSet)
 
 urlpatterns = [
-    path('', views.viewCatalogo),
-    path('admin/', admin.site.urls),
-    path('producto/', views.viewProducto),
-    path('producto/<int:id>/', views.viewProducto),
-    path('producto/nuevo/', views.newProducto),
-    path('producto/<int:id>/editar/', views.editProducto),
+    path('', views.viewCatalogo, name='catalogo'),
+    path('admin/', admin.site.urls, name=('admin')),
+    path('producto/', views.viewProducto, name='producto'),
+    path('producto/<int:id>/', views.viewProducto, name='productoid'),
+    path('producto/nuevo/', views.newProducto, name='nuevoproducto'),
+    path('producto/<int:id>/editar/', views.editProducto, name='editarproducto'),
     path('reporteVentas', views.viewVentas),
     path('productosLista/', views.viewProductosLista),
     path('usuariosLista/', views.viewUsuariosLista),
@@ -43,6 +45,7 @@ urlpatterns = [
     path('catalogo/', views.viewCatalogo),
     path('catalogo/<str:tab>', views.viewCatalogo),
     path('seguimientoBodeguero/<str:tab>', views.seguimientoBodeguero),
+    path('seguimientoCliente/<int:id>', views.seguimientoCliente),
     # path('mispedidos/', views.seguimientoBodeguero2),
     path('promociones/', views.promociones),
     path('carrito/', views.productosCarrito),
