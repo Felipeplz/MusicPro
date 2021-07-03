@@ -1,39 +1,106 @@
 {% extends 'barraMenu.html' %}
 {% load static %}
 {% block principal %}
-	<div class="container">
-		<h1>Ventas</h1>
-		<div class="table-wrapper-scroll-y my-custom-scrollbar">
-			<table class="table table-bordered table-striped mb-0">
-				<thead>
-					<tr>
-						<th scope="col">Pedido</th>
-						<th scope="col">Cantidad</th>
-						<th scope="col">Fecha</th>
-						<th scope="col">Hora</th>
-						<th scope="col">Tipo</th>
-						<th scope="col">Estado</th>
-						<th scope="col">Encargado</th>
-						<th scope="col">Acciones</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for xxx in xxx %}
-					<tr>
-						<th scope="row">1</th>
-						<td>Pedido_1</td>
-						<td>Cantidad_1</td>
-						<td>Fecha_1</td>
-						<td>Hora_1</td>
-						<td>Retiro_1</td>
-						<td>Usuario_1</td>
-						<td>
-							<a href="#" class="btn btn-xs btn-success"><i class="fas fa-edit"></i> Editar</a>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>		
+<div class="container">
+	<h1>Seguimiento contador</h1>
+	<div class="table-wrapper-scroll-y my-custom-scrollbar">
+		<table class="table table-bordered table-striped mb-0">
+			<thead>
+				<tr>
+					<th scope="col">Pedido</th>
+					<th scope="col">Cantidad</th>
+					<th scope="col">Fecha</th>
+					<th scope="col">Hora</th>
+					<th scope="col">Tipo</th>
+					<th scope="col">Estado</th>
+					<th scope="col">Encargado</th>
+					<th scope="col">Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for xxx in xxx %}
+				<tr>
+					<th scope="row">1</th>
+					<td>Pedido_1</td>
+					<td>Cantidad_1</td>
+					<td>Fecha_1</td>
+					<td>Hora_1</td>
+					<td>Retiro_1</td>
+					<td>Usuario_1</td>
+					<td>
+						<button type="button" class="btn btn-xs btn-success" data-toggle="modal" data-target="#editar"><i class="fas fa-edit"></i> Editar</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
+	<div class="modal fade" id="editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				 <div class="modal-body">
+					   <form>
+						   <div class="row">
+						  <div class="form-group ml-3 col-6">
+							<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+							<label class="form-check-label" for="exampleRadios1">
+								Listo para despacho
+							</label>
+						  </div>
+						  <div class="form-group ml-3 col-12">
+							<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+							<label class="form-check-label" for="exampleRadios2">
+								Entregado
+							</label>
+						  </div>
+						  <div class="form-group col-2 mt-5 ml-5">
+							<i class="fas fa-truck fa-lg"></i>
+						  </div>
+						  <div class="form-group col-3">
+							<label for="direccion">Dirección:</label>
+							<input type="text" class="form-control" id="direccion">
+						  </div>
+						  <div class="form-group col-3">
+							<label for="region">Región:</label>
+							<input type="text" class="form-control" id="region">
+						  </div>
+						  <div class="form-group col-3">
+							<label for="comuna">Comuna:</label>
+							<input type="text" class="form-control" id="comuna">
+						  </div>
+						</div>
+					</form>
+					<div class="row justify-content-center aling-items-center text-center">
+						<div class="col-6">
+							<table class="table table-bordered table-striped mb-0">
+							<thead>
+								<tr>
+									<th scope="col">Producto</th>
+									<th scope="col">Codigo</th>
+							</thead>
+							<tbody>
+									<td>Bateria</td>
+									<td>asD123</td>
+								</tr>
+							</tbody>
+							</table>
+						</div>
+						<div class="col-6">
+							<button class="btn btn-primary mt-5" type="button"><i class="fas fa-file-upload mr-1"></i>Subir archivo</button>
+						</div>
+					</div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				  </div>
+			</div>
+		  </div>
+	</div>		
+</div>
 {% endblock %}
