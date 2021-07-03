@@ -1,4 +1,4 @@
 from .conn import *
 
-def Registro(request):
+def registroView(request):
     return render(request, 'registro.html',)

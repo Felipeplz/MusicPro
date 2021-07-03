@@ -1,5 +1,8 @@
 {% extends 'barraMenu.html' %}
 {% load static %}
+
+{% block usuarios %} active{% endblock %}
+
 {% block principal %}
 <h1 class="text-center">Usuarios</h1>
 	<div class="container mt-5">
@@ -9,7 +12,7 @@
 			</div>
 			<div class="input-group col-3 mb-2">
 				<form action="../usuariosLista" class="form-inline my-2 my-lg-0 float-right">
-					<input class="form-control mr-sm-2" type="text" placeholder="Buscar usuario" id="buscar" name="buscar" method="get">
+					<input class="form-control mr-sm-2" type="text" placeholder="Buscar usuario" id="buscar" name="buscar">
 					<button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
 				</form>
 			</div>
@@ -88,7 +91,7 @@
 								<option value="Vendedor">Vendedor</option>
 								<option value="Bodeguero">Bodeguero</option>
 								<option value="Contador">Contador</option>
-								<option value="Contador">Admin</option>
+								<option value="Admin">Admin</option>
 							</select>
 						</div>
 					</div>
@@ -143,13 +146,13 @@
 								<option value="Vendedor">Vendedor</option>
 								<option value="Bodeguero">Bodeguero</option>
 								<option value="Contador">Contador</option>
-								<option value="Contador">Admin</option>
+								<option value="Admin">Admin</option>
 							</select>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-						<button type="submit" class="btn btn-primary">Agregar</button>
+						<button type="submit" class="btn btn-primary">Guardar cambios</button>
 					</div>
 				</form>
 			</div>
@@ -159,4 +162,9 @@
 
 {% block scripts %}
 	<script src="{% static 'js/usuariosLista.js' %}"></script>
+	<script>
+		$(document).ready(function() {
+			$("#buscar").val("{{filtro}}")
+		});
+	</script>
 {% endblock %}

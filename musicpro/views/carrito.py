@@ -1,11 +1,9 @@
 from .conn import *
 from .moneda import getLocale, convertir
 
-#id_user = getCookie(request, "user")
-id_user = 5
-
 def productosCarrito(request):
     local = getLocale(request)
+    result = Venta.objects.all
     result = Conectar().execute("SELECT [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, "
                                 "ISNULL([dbo].[PRODUCTO].precio*[dbo].[ITEM_VENTA].cantidad, 0) AS total, "
                                 "ROUND([dbo].[VENTA].total * ISNULL(MAX([dbo].[PROMOCION].descuento), 0), 0) AS descuento, "
@@ -14,7 +12,7 @@ def productosCarrito(request):
                                 "FROM [dbo].[ESTADO_PEDIDO] "
                                 "JOIN [dbo].[VENTA] "
                                 "ON ([dbo].[VENTA].id_venta = [dbo].[ESTADO_PEDIDO].id_venta "
-                                f"AND [dbo].[VENTA].id_venta = (SELECT MAX([dbo].[VENTA].id_venta) FROM [dbo].[VENTA] WHERE [dbo].[VENTA].[id_cliente] = {id_user})) "
+                                f"AND [dbo].[VENTA].id_venta = (SELECT MAX([dbo].[VENTA].id_venta) FROM [dbo].[VENTA] WHERE [dbo].[VENTA].[id_cliente] = {request.user.id})) "
                                 "JOIN [dbo].[ITEM_VENTA] "
                                 "ON [dbo].[VENTA].id_venta = [dbo].[ITEM_VENTA].id_venta "
                                 "JOIN [dbo].[PRODUCTO] "
@@ -26,32 +24,9 @@ def productosCarrito(request):
                                 "AND [dbo].[ITEM_VENTA].cantidad >= [dbo].[PROMOCION].cantidad_min) "
                                 "OR ([dbo].[PROMOCION].id_producto IS NULL "
                                 "AND [dbo].[ITEM_VENTA].cantidad >= [dbo].[PROMOCION].cantidad_min)) "
-                                "WHERE [dbo].[ESTADO_PEDIDO].estado = 'Carrito' "
-                                f"AND [dbo].[USUARIO].id_usuario = {id_user} "
-                                "GROUP BY [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, [dbo].[VENTA].total, [dbo].[ITEM_VENTA].cantidad "
-                                "EXCEPT(SELECT [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, "
-                                "ISNULL([dbo].[PRODUCTO].precio*[dbo].[ITEM_VENTA].cantidad, 0) AS total, "
-                                "ROUND([dbo].[VENTA].total * ISNULL(MAX([dbo].[PROMOCION].descuento), 0), 0) AS descuento, "
-                                "[dbo].[ITEM_VENTA].cantidad AS cantidad, "
-                                "ROUND(ISNULL([dbo].[PRODUCTO].precio*[dbo].[ITEM_VENTA].cantidad, 0) * ISNULL(1-MAX([dbo].[PROMOCION].descuento), 0), 0) AS final "
-                                "FROM [dbo].[ESTADO_PEDIDO] "
-                                "JOIN [dbo].[VENTA] "
-                                "ON [dbo].[VENTA].id_venta = [dbo].[ESTADO_PEDIDO].id_venta "
-                                "JOIN [dbo].[ITEM_VENTA] "
-                                "ON ([dbo].[VENTA].id_venta = [dbo].[ITEM_VENTA].id_venta "
-                                f"AND [dbo].[VENTA].id_venta = (SELECT MAX([dbo].[VENTA].id_venta) FROM [dbo].[VENTA] WHERE [dbo].[VENTA].[id_cliente] = {id_user})) "
-                                "JOIN [dbo].[PRODUCTO] "
-                                "ON [dbo].[PRODUCTO].id_producto = [dbo].[ITEM_VENTA].id_producto "
-                                "JOIN [dbo].[USUARIO] "
-                                "ON [dbo].[USUARIO].id_usuario = [dbo].[VENTA].id_cliente "
-                                "LEFT JOIN [dbo].[PROMOCION] "
-                                "ON (([dbo].[PRODUCTO].id_producto = [dbo].[PROMOCION].id_producto "
-                                "AND [dbo].[ITEM_VENTA].cantidad >= [dbo].[PROMOCION].cantidad_min) "
-                                "OR ([dbo].[PROMOCION].id_producto IS NULL "
-                                "AND [dbo].[ITEM_VENTA].cantidad >= [dbo].[PROMOCION].cantidad_min)) "
-                                "WHERE [dbo].[ESTADO_PEDIDO].estado = 'Pagado' "
-                                f"AND [dbo].[USUARIO].id_usuario = {id_user} "
-                                "GROUP BY [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, [dbo].[VENTA].total, [dbo].[ITEM_VENTA].cantidad) ").fetchall()
+                                "WHERE [dbo].[VENTA].token IS NULL "
+                                f"AND [dbo].[USUARIO].id_usuario = {request.user.id} "
+                                "GROUP BY [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, [dbo].[VENTA].total, [dbo].[ITEM_VENTA].cantidad ").fetchall()
     if len(result) == 0:
         return redirect('/catalogo/')
     totales = 0
@@ -73,16 +48,8 @@ def productosCarrito(request):
 def comprobarVentaCarrito(id_cliente):
     result = Conectar().execute("SELECT [dbo].[VENTA].[id_venta] "
                                 "FROM [dbo].[VENTA] "
-                                "JOIN [dbo].[ESTADO_PEDIDO] "
-                                "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
                                 f"WHERE [dbo].[VENTA].[id_cliente] = {id_cliente} "
-                                "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Carrito' "
-                                "EXCEPT (SELECT [dbo].[VENTA].[id_venta] "
-                                "FROM [dbo].[VENTA] "
-                                "JOIN [dbo].[ESTADO_PEDIDO] "
-                                "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
-                                f"WHERE [dbo].[VENTA].[id_cliente] = {id_cliente} "
-                                "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Pagado')").fetchone()
+                                "AND [dbo].[VENTA].[token] IS NULL ").fetchone()
     return result
 
 def comprobarItemVentaCarrito(id_venta, id_producto):
@@ -94,24 +61,16 @@ def comprobarItemVentaCarrito(id_venta, id_producto):
 
 @csrf_exempt
 def anniadirCarrito(request):
-    id_venta = comprobarVentaCarrito(id_user)
+    id_venta = comprobarVentaCarrito(request.user.id)
     if not id_venta:
         insertarVenta = Conectar().execute("INSERT INTO [dbo].[VENTA] "
                                            "([fecha] "
                                            ",[id_cliente]) "
                                            "VALUES "
                                            "(GETDATE() "
-                                           f",{id_user})")
+                                           f",{request.user.id})")
         conn.commit()
-        id_venta = Conectar().execute("SELECT [dbo].[VENTA].[id_venta] "
-                                      "FROM [dbo].[VENTA] "
-                                      f"WHERE [dbo].[VENTA].[id_cliente] = {id_user} "
-                                      "EXCEPT (SELECT [dbo].[VENTA].[id_venta] "
-                                      "FROM [dbo].[VENTA] "
-                                      "JOIN [dbo].[ESTADO_PEDIDO] "
-                                      "ON [dbo].[VENTA].[id_venta] = [dbo].[ESTADO_PEDIDO].[id_venta] "
-                                      f"WHERE [dbo].[VENTA].[id_cliente] = {id_user} "
-                                      "AND [dbo].[ESTADO_PEDIDO].[estado] = 'Pagado')").fetchone()
+        id_venta = comprobarVentaCarrito(request.user.id)
         insertarEstado = Conectar().execute("INSERT INTO [dbo].[ESTADO_PEDIDO] "
                                             "([id_venta] "
                                             ",[fecha_estado] "
@@ -124,22 +83,39 @@ def anniadirCarrito(request):
     if request.method == 'POST':
         cantidad = 1
         if 'cantidad' in request.POST:
-            cantidad = request.POST['cantidad']
-        if not comprobarItemVentaCarrito(id_venta[0], request.POST['id']):
-            result = Conectar().execute("INSERT INTO [dbo].[ITEM_VENTA] "
-                                        "([id_venta] "
-                                        ",[id_producto] "
-                                        ",[cantidad]) "
-                                        "VALUES "
-                                        f"({id_venta[0]} "
-                                        f",{request.POST['id']} "
-                                        f",{cantidad})")
-            conn.commit()
+            cantidad = int(request.POST['cantidad'])
+            print(id_venta[0])
+            print(request.POST['id'])
+            print(cantidad)
+        result = Conectar().execute("BEGIN "
+                                        "IF NOT EXISTS (SELECT * "
+                                        "FROM [dbo].[ITEM_VENTA] "
+                                        f"WHERE [id_venta] = {id_venta[0]} "
+                                        f"AND [id_producto] = {request.POST['id']}) "
+                                        "BEGIN "
+                                            "INSERT INTO [dbo].[ITEM_VENTA] "
+                                            "([id_venta] "
+                                            ",[id_producto] "
+                                            ",[cantidad]) "
+                                            "VALUES "
+                                            f"({id_venta[0]} "
+                                            f",{request.POST['id']} "
+                                            f",{cantidad}) "
+                                        "END "
+                                        "ELSE "
+                                        "BEGIN "
+                                            "UPDATE [dbo].[ITEM_VENTA] "
+                                            f"SET [cantidad] = {cantidad} "
+                                            f"WHERE [id_venta] = {id_venta[0]} "
+                                            f"AND [id_producto] = {request.POST['id']} "
+                                        "END "
+                                    "END ")
+        conn.commit()
     return HttpResponse("ok")
 
 @csrf_exempt
 def quitarCarrito(request):
-    id_venta = comprobarVentaCarrito(id_user)
+    id_venta = comprobarVentaCarrito(request.user.id)
     if id_venta[0]:
         if request.method == 'POST':
             result = Conectar().execute("DELETE FROM [dbo].[ITEM_VENTA] "
@@ -150,7 +126,7 @@ def quitarCarrito(request):
 
 @csrf_exempt
 def cambiarCarrito(request):
-    id_venta = comprobarVentaCarrito(id_user)
+    id_venta = comprobarVentaCarrito(request.user.id)
     if id_venta[0]:
         if request.method == 'POST':
             result = Conectar().execute("UPDATE [dbo].[ITEM_VENTA] "
