@@ -5,7 +5,7 @@ attrs==21.2.0
 certifi==2021.5.30
 chardet==4.0.0
 country-currencies==0.2
-Django==3.0.14
+Django==3.2.4
 django-mssql-backend==2.8.1
 djangorestframework==3.12.4
 geoip2==4.2.0
@@ -15,7 +15,6 @@ maxminddb==2.0.3
 multidict==5.1.0
 openexchangerates==0.1.1
 Pillow==8.2.0
-pyodbc==4.0.30
 pytz==2021.1
 requests==2.25.1
 sqlparse==0.4.1

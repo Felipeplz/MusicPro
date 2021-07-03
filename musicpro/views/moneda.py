@@ -1,4 +1,3 @@
-from .conn import *
 import geoip2.database
 from country_currencies import get_by_country
 from urllib.request import urlopen

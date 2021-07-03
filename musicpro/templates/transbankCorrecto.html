@@ -8,17 +8,17 @@
                 <img src="https://congreso.america-digital.com/anteriores/2017/wp-content/uploads/2017/06/LOGO-TBK-ING.png" class="card-img-top img-fluid" alt="...">
                 <h2 class="text-center mt-2 mb-0">Transacción realizada con éxito!!</h2> 
                 <br>
-                <div class="col-12">
+                <div class="col-12 text-center">
                     <div class="border border-secondary">
-                          <medium class="text-center ml-3">Totales: {{totales}} {{local}}</medium>
-                          <hr>
-                          <medium class="text-center ml-3">Descuentos: {{descuentos}} {{local}}</medium>
-                          <hr>
-                          <medium class="text-center ml-3">Subtotal: {{subtotal}} {{local}}</medium>
-                          <hr>
-                          <h4 class="text ml-3">Total:</h4>
-                          <hr>
-                          <div class="text-center"><a type="button" class="btn bg-success mt-2 mb-2 text-white" href="../../ventasDatos/">Aceptar</a></div>
+                        <medium class="text-center ml-3">Orden de compra: {{respuesta.buy_order}}</medium>
+                        <hr>
+                        <medium class="text-center ml-3">Tarjeta: XXXX XXXX XXXX {{respuesta.card_detail.card_number}}</medium>
+                        <hr>
+                        <medium class="text-center ml-3">Código autorización: {{respuesta.authorization_code}}</medium>
+                        <hr>
+                        <h4 class="text ml-3">Total: {{respuesta.amount}} {{local}}</h4>
+                        <hr>
+                        <div class="text-center"><a type="button" class="btn bg-success mt-2 mb-2 text-white" href="../../catalogo/">Aceptar</a></div>
                       </div>
                       <div>
                         <img src="https://cosmoshop.cl/wp-content/uploads/2020/10/webpay-456x200-1.png">

@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/sweetalert2.css' %}" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6f82a0622c.js" crossorigin="anonymous"></script>
@@ -14,56 +15,68 @@
 <body>
     <!-- BARRA DE MENÚ -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light border">
-        <img src="{% static 'logo1.jpeg' %}" class="img-logo">
-        <a class="nav-link disabled" href="#" id="navbarDropdown" role="button" 
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            MusicPro
-        </a>
+        <a class="navbar-brand" href="../../catalogo/"><img src="{% static 'img/logo.png' %}" class="img-logo"> MusicPro</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-item{% block catalogo %}{% endblock %}">
                 <a class="nav-link" href="../../catalogo/">Catálogo</a>
               </li>
-
-              <li class="nav-item active">
+              {% if user.is_authenticated and not user.username|slice:"0:4" == "anon" %}
+              <li class="nav-item{% block productos %}{% endblock %}">
                 <a class="nav-link" href="../../productosLista/">Productos</a>
               </li>
               
-              <li class="nav-item">
-                <a class="nav-link disabled" href="../../seguimientoBodeguero/">Ventas</a>
+              <li class="nav-item{% block ventas %}{% endblock %}">
+                <a class="nav-link" href="../../seguimientoBodeguero/">Ventas</a>
               </li>
               
-              <li class="nav-item active">
-                <a class="nav-link" href="../../usuariosLista/">Usuario</a>
+              <li class="nav-item{% block usuarios %}{% endblock %}">
+                <a class="nav-link" href="../../usuariosLista/">Usuarios</a>
               </li>
               
-              <li class="nav-item">
-                <a class="nav-link disabled" href="../../reporteriaVentas/">Reporte</a>
+              <li class="nav-item{% block reportes %}{% endblock %}">
+                <a class="nav-link" href="../../reporteriaInformes/">Reportes</a>
               </li>
+              {% endif %}
             </ul>
-            
-            <ul class="nav navbar-nav navbar-right col-3">
+            <ul class="nav navbar-nav navbar-right">
+              <div class="row justify-content-center">
                 <a href="../../carrito" class="btn btn-xs btn-warning mr-2"><i class="fas fa-shopping-cart"></i></a>
-                <a href="../../registro" class="btn btn-xs btn-primary"><i class="fas fa-sign-in-alt"></i> Registrarse</a>
-                  <li class="nav-item dropdown">
+                {% if user.is_authenticated and not user.username|slice:"0:4" == "anon" %}
+                <a class="nav-link dropdown-toggle mx-2" id="usuario_dropdown" data-toggle="dropdown" href="#"><i class="fas fa-user"></i></span></a>
+                <li class="nav-item dropdown mx-2">
                   <div class="dropdown-menu dropdown-menu-right text-right">
-                      <h6 class="dropdown-header text-center" style="min-width: 20vw;">Inicia Sesión</h6>
-                      <form class="px-4 py-3 text-center" id="ingresar" action="../../login/" method="POST">
-                        <div class="form-group">
-                          <label>Usuario</label>
-                          <input class="form-control" type="text" id="usuario" name="usuario">
-                        </div>
-                        <div class="form-group">
-                          <label>Contraseña</label>
-                          <input class="form-control" type="password" name="contraseña" id="contraseña">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Ingresar</button>
-                      </form>
+                    <h6 class="dropdown-header text-center">Usuario: {{user}}</h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="../../logout">Cerrar sesión</a>
                   </div>
-                  <a class="nav-link dropdown-toggle" id="usuario_dropdown" data-toggle="dropdown" href="#"><i class="fas fa-user"></i></span></a>
                 </li>
-                </a>
+              {% else %}
+                <a href="../../registro" class="btn btn-xs btn-primary"><i class="fas fa-sign-in-alt"></i> Registrarse</a>
+                <a class="nav-link dropdown-toggle mx-2" id="usuario_dropdown" data-toggle="dropdown" href="#"><i class="fas fa-user"></i></span></a>
+                <li class="nav-item dropdown">
+                  <div class="dropdown-menu dropdown-menu-right text-right">
+                    <h6 class="dropdown-header text-center" style="min-width: 20vw;">Inicia Sesión</h6>
+                    <form class="px-4 py-3 text-center" id="ingresar" action="../../login/" method="POST">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label>Usuario</label>
+                        <input class="form-control" type="text" id="usuario" name="usuario">
+                      </div>
+                      <div class="form-group">
+                        <label>Contraseña</label>
+                        <input class="form-control" type="password" name="contraseña" id="contraseña">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Ingresar</button>
+                    </form>
+                  </div>
+                </li>
+                {% endif %}
+              </div>
              </ul>
       </div>
     </nav>
@@ -71,6 +84,7 @@
     {% block principal %}
     {% endblock %}
 
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     {% block scripts %}
     {% endblock %}
 </body>

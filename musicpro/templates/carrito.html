@@ -16,7 +16,7 @@
 			          	<span class="small">{{producto.descripcion}}</span>
 		          	</div>
 			        <div class="pl-5 pr-5">
-				  		<button type="button" class="btn rounded-circle bg-warning"><i class="far fa-trash-alt" onclick="quitar({{producto.id_producto}})"></i></button>
+				  		<button type="button" class="btn rounded-circle bg-warning" onclick="quitar({{producto.id_producto}})"><i class="far fa-trash-alt"></i></button>
 						{% if producto.descuento != 0 %}
 						<h5 class="text-success">{{producto.final}} {{local}}</h5>
 						<h6 class="text-danger"><del>{{producto.total}} {{local}}</del></h6>

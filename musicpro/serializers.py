@@ -1,16 +1,16 @@
-from .models import SQLProductos, SQLUsuarios
+from .models import Producto, Usuario
 from rest_framework import serializers
 
 class ProductoSerializer(serializers.ModelSerializer):
-    id_producto = serializers.ReadOnlyField()
+    id = serializers.ReadOnlyField()
 
     class Meta:
-        model = SQLProductos
+        model = Producto
         fields = '__all__'
         
 class UsuarioSerializer(serializers.ModelSerializer):
-    id_usuario = serializers.ReadOnlyField()
+    id = serializers.ReadOnlyField()
 
     class Meta:
-        model = SQLUsuarios
+        model = Usuario
         exclude = ['contrasennia']
