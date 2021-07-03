@@ -4,11 +4,11 @@ from rest_framework import viewsets
 from musicpro.serializers import ProductoSerializer
 
 class ProductoViewSet(viewsets.ModelViewSet):
-    queryset = SQLProductos.objects.all()
+    queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
 
     def get_queryset(self):
-        productos = SQLProductos.objects.all()
+        productos = Producto.objects.all()
 
         id_producto = self.request.GET.get('id_producto')
         codigo_producto = self.request.GET.get('codigo_producto')
@@ -39,5 +39,5 @@ class ProductoViewSet(viewsets.ModelViewSet):
         return productos
 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = SQLUsuarios.objects.all()
+    queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer

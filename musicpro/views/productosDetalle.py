@@ -1,21 +1,11 @@
 from .conn import *
+from .moneda import getLocale
 
 @csrf_exempt
 def viewProducto(request, **kwargs):
     id = kwargs.get('id')
-    result = Conectar().execute("SELECT [id_producto] "
-                                ",[codigo_producto] "
-                                ",[nombre] "
-                                ",[foto] "
-                                ",[marca] "
-                                ",[precio] "
-                                ",[tipo] "
-                                ",[subtipo] "
-                                ",[categoria] "
-                                ",[stock] "
-                                ",[descripcion] "
-                                "FROM [dbo].[PRODUCTO] "
-                                f"WHERE [id_producto] = {id} ").fetchone()
+    local = getLocale(request)
+    result = Producto.objects.all().get(id=id)
     if request.method == 'POST':
-        return JsonResponse(list(result), safe=False)
-    return render(request, 'productosDetalle.html', {'SQLProducto':result})
+        return JsonResponse(list(result.values()), safe=False)
+    return render(request, 'productosDetalle.html', {'productos':result, 'local':local})

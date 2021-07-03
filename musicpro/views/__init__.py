@@ -14,6 +14,8 @@ from .seguimientoBodeguero import *
 from .seguimientoCliente import *
 from .seguimientoContador import *
 from .seguimientoVendedor import *
+from .transbankCorrecto import *
+from .transbankFallo import *
 from .usuariosLista import *
 from .ventasConfirmar import *
 from .ventasDatos import *

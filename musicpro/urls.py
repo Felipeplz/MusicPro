@@ -13,8 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from musicpro.views.seguimientoCliente import seguimientoCliente
-from os import name
+
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
@@ -28,12 +27,13 @@ router.register('producto', views.ProductoViewSet)
 router.register('usuario', views.UsuarioViewSet)
 
 urlpatterns = [
-    path('', views.viewCatalogo, name='catalogo'),
-    path('admin/', admin.site.urls, name=('admin')),
-    path('producto/', views.viewProducto, name='producto'),
-    path('producto/<int:id>/', views.viewProducto, name='productoid'),
-    path('producto/nuevo/', views.newProducto, name='nuevoproducto'),
-    path('producto/<int:id>/editar/', views.editProducto, name='editarproducto'),
+    path('', views.viewCatalogo),
+    path('admin/', admin.site.urls),
+    path('login/', views.login),
+    path('logout/', views.logout),
+    path('producto/<int:id>/', views.viewProducto),
+    path('producto/nuevo/', views.newProducto),
+    path('producto/<int:id>/editar/', views.editProducto),
     path('reporteVentas', views.viewVentas),
     path('productosLista/', views.viewProductosLista),
     path('usuariosLista/', views.viewUsuariosLista),
@@ -41,20 +41,25 @@ urlpatterns = [
     path('usuario/<int:id>/', views.viewUsuario),
     path('usuario/<int:id>/editar/', views.editUsuario),
     path('reporteriaVentas', views.viewVentas),
-    path('registro/', views.Registro),
+    path('registro/', views.registroView),
+    path('registrar/', views.registrarse),
+    path('registrar/mas/', views.registrarse),
     path('catalogo/', views.viewCatalogo),
-    path('catalogo/<str:tab>', views.viewCatalogo),
+    path('catalogo/<int:pag>', views.viewCatalogo),
+    path('catalogo/<str:tab>/', views.viewCatalogo),
+    path('catalogo/<str:tab>/<int:pag>', views.viewCatalogo),
     path('seguimientoBodeguero/<str:tab>', views.seguimientoBodeguero),
     path('seguimientoCliente/<int:id>', views.seguimientoCliente),
-    # path('mispedidos/', views.seguimientoBodeguero2),
     path('promociones/', views.promociones),
     path('carrito/', views.productosCarrito),
     path('carrito/add/', views.anniadirCarrito),
     path('carrito/remove/', views.quitarCarrito),
     path('carrito/edit/', views.cambiarCarrito),
     path('ventasDatos/', views.ventasDatos),
-    #path('pagar/<str:total>/', views.validarPago),
+    path('transbankCorrecto/', views.transbankCorrectoView),
+    path('transbankFallo/', views.transbankFalloView),
     path('api/', include(router.urls)),
+    
     
 ]
 

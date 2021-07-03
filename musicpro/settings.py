@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'musicpro.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
     #  'default': {
     #     'NAME': 'MusicPro',
     #     'ENGINE': 'sqlserver_ado',
@@ -90,17 +90,17 @@ DATABASES = {
     #     'USER': 'djang-user',
     #     'PASSWORD': '%.ZSix:)R:NN5RT',
     #  }
-    'default': {
-        'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'MusicPro',
-        'HOST': 'RENO-PC\SQLEXPRESS',
-        'USER': '',
-        'PASSWORD': '',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'Trusted_Connection' : 'yes'
-        },
-    }
+    # 'default': {
+    #     'ENGINE': 'sql_server.pyodbc',
+    #     'NAME': 'MusicPro',
+    #     'HOST': 'FELIPE-LEGION\FELIPE',
+    #     'USER': '',
+    #     'PASSWORD': '',
+    #     'OPTIONS': {
+    #         'driver': 'ODBC Driver 17 for SQL Server',
+    #         'Trusted_Connection' : 'yes'
+    #     },
+    # }
 }
 
 

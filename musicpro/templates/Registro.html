@@ -2,71 +2,39 @@
 {% load static %}
 {% block principal %}
     <div class="container">
-    <img src="{% static 'logo1.jpeg' %}" class="rounded mx-auto d-block">
-    <form>
+      <div class="text-center">
+        <img src="{% static 'img/logo.png' %}" class="rounded mx-auto mw-100 my-3">
+      </div>
+      <form>
         <div class="row">
-        <div class="col-6">
+          <div class="col-12 col-md-6">
             <div class="form-group">
-                <label for="exampleInputEmail1">Correo Electrónico</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingrese correo">
-                
+                <label for="email">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" autocomplete="email" placeholder="Ingrese su correo">
               </div>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <div class="form-group">
-                <label for="exampleInputPassword1">Contraseña</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+                <label for="pass">Contraseña</label>
+                <input type="password" class="form-control" id="pass" autocomplete="new-password" placeholder="Ingrese su contraseña">
               </div>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Registrar
-              </button>
           </div>
-        </div>
-        
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="checkPromociones" checked>
+            <label class="form-check-label" for="checkPromociones">
+              Suscribirme al boletín informativo para obtener noticias de descuentos, el mundo de la música y sobre la tienda y comenzar a obtener descuentos por compras sobre 4 artículos.
+            </label>
+          </div>
+          <div class="col-6 offset-3 col-md-4 offset-md-4">
+            <button type="button" id="btnRegistro" class="btn btn-block btn-primary">
+              Continuar
+            </button>
+          </div>
       </form>
     </div>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title" id="exampleModalLabel">Regístrarse</h3>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row justify-content-center aling-items-center">
-            <form> 
-            <div class="form-group col-12"> 
-              <label class="registrarse" for="nombre">Nombre</label> 
-              <input id="nombre" class="form-control">
-            </div>
-            <div class="form-group col-12">
-              <label class="registrarse" for="direccion">Dirección</label> 
-              <input id="direccion" class="form-control">
-            </div>
-            <div class="form-group col-12">
-              <label class="registrarse" for="rut">Rut</label> 
-              <input id="rut" class="form-control">
-            </div>
-            <div class="form-group col-12">
-              <label class="telefono" for="telefono">Teléfono</label> 
-              <input id="telefono" class="form-control" placeholder="xxx-xx-xx-xx"> 
-            </div>
-            <div class="form-group col-12">
-              <label class="contacto" for="email">Correo Electrónico</label> 
-              <input id="email" class="form-control" placeholder="ejemplo@correo.com">
-            </div>   
-            <form>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Guardar cambios</button>
-        </div>
-      </div>
-    </div>
-  </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/registro.js'%}"></script>
 {% endblock %}
