@@ -14,11 +14,12 @@ class Usuario(models.Model):
     )
 
     mail = models.CharField(max_length=200, unique=True)
-    rut = models.CharField(max_length=9)
+    rut = models.CharField(max_length=15)
     nombre = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=12, null=True)
-    direccion = models.CharField(max_length=250, null=True)
+    telefono = models.CharField(max_length=12, null=True, blank=True)
+    direccion = models.CharField(max_length=250, null=True, blank=True)
     rol = models.CharField(max_length=9, choices=ROLES)
+    suscrito = models.BooleanField(default=False)
 
 class Sucursal(models.Model):
     nombre = models.CharField(max_length=50)
@@ -75,7 +76,7 @@ class Pago(models.Model):
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=150)
-    foto = models.CharField(max_length=250)
+    foto = models.FileField()
     marca = models.CharField(max_length=50)
     precio = models.IntegerField()
     tipo = models.CharField(max_length=50)

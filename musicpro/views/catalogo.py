@@ -6,11 +6,13 @@ from django.core.paginator import Paginator
 
 def viewCatalogo(request, **kwargs):
     if not request.user.is_authenticated:
-        user = User.objects.get_or_create(username="anon" + getIP(request), password=")42&&6?-5'{T52^4sW=`72mASt}j?p8d6>!uyS's8FtcasvVAuM#cw(*5FpRw_8?")
-        usuario = Usuario.objects.create(mail="a@a.cl",
-                                         rut="1",
-                                         nombre="anon" + getIP(request),
-                                         rol="Cliente")
+        user = authenticate(request, username="anon" + getIP(request), password=")42&&6?-5'{T52^4sW=`72mASt}j?p8d6>!uyS's8FtcasvVAuM#cw(*5FpRw_8?")
+        if user is None:
+            user = User.objects.create_user("anon" + getIP(request), "anon" + getIP(request), ")42&&6?-5'{T52^4sW=`72mASt}j?p8d6>!uyS's8FtcasvVAuM#cw(*5FpRw_8?")
+        usuario = Usuario.objects.get_or_create(mail=user.username,
+                                                rut="1",
+                                                nombre=user.username,
+                                                rol="Cliente")
         auth_login(request, user)
     local = getLocale(request)
     if not request.path.startswith("/catalogo/"):

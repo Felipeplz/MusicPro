@@ -43,6 +43,8 @@ urlpatterns = [
     path('usuario/<int:id>/editar/', views.editUsuario),
     path('reporteriaVentas', views.viewVentas),
     path('registro/', views.registroView),
+    path('registrar/', views.registrarse),
+    path('registrar/mas/', views.registrarse),
     path('catalogo/', views.viewCatalogo),
     path('catalogo/<int:pag>', views.viewCatalogo),
     path('catalogo/<str:tab>/', views.viewCatalogo),
