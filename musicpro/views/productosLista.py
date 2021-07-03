@@ -5,30 +5,6 @@ import json
 
 def viewProductosLista(request):
     local = getLocale(request)
-    # query = ""
-    # if 'buscar' in request.GET:
-    #     if request.GET['buscar'] == '':
-    #         return redirect('/productosLista/')
-    #     query = f"WHERE [nombre] LIKE '%{request.GET['buscar']}%' "
-    # result = Conectar().execute("SELECT [dbo].[PRODUCTO].id_producto, "
-    #                             "[dbo].[PRODUCTO].foto, "
-    #                             "[dbo].[PRODUCTO].nombre, "
-    #                             "[dbo].[PRODUCTO].descripcion, "
-    #                             "[dbo].[PRODUCTO].precio, "
-    #                             "[dbo].[PRODUCTO].stock, "
-    #                             "[dbo].[PROMOCION].cantidad_min, "
-    #                             "ROUND([dbo].[PRODUCTO].precio * ISNULL(1-MAX([dbo].[PROMOCION].descuento), 1), 0) AS final "
-    #                             "FROM [dbo].[PRODUCTO] "
-    #                             "LEFT JOIN [dbo].[PROMOCION] "
-    #                             "ON [dbo].[PROMOCION].[id_producto] = [dbo].[PRODUCTO].[id_producto] "
-    #                             + query +
-    #                             "GROUP BY [dbo].[PRODUCTO].id_producto, [dbo].[PRODUCTO].foto, [dbo].[PRODUCTO].nombre, [dbo].[PRODUCTO].descripcion, [dbo].[PRODUCTO].precio, [dbo].[PRODUCTO].stock, [dbo].[PROMOCION].cantidad_min, [dbo].[PRODUCTO].precio "
-    #                             "ORDER BY [dbo].[PRODUCTO].[id_producto] ASC ").fetchall()
-    # for producto in result:
-    #     producto.precio = convertir(local,producto.precio)
-    #     producto.final = convertir(local,producto.final)
-
-    ws = urlopen('http://127.0.0.1:8000/api/producto?format=json')
     if 'buscar' in request.GET:
         ws = urlopen('http://127.0.0.1:8000/api/producto?format=json&nombre=' + request.GET['buscar'])
     string = ws.read().decode('utf-8')
@@ -41,29 +17,15 @@ def newProducto(request):
         fs = FileSystemStorage()
         archivo = request.FILES["fil_foto"]
         narchivo = fs.save(archivo.name, archivo)
-        insertarVenta = Conectar().execute("INSERT INTO [dbo].[PRODUCTO] "
-                                            "([codigo_producto]"
-                                            ",[nombre] "
-                                            ",[foto] "
-                                            ",[marca] "
-                                            ",[precio] "
-                                            ",[tipo] "
-                                            ",[subtipo] "
-                                            ",[categoria] "
-                                            ",[stock] "
-                                            ",[descripcion]) "
-                                            "VALUES "
-                                            f"('{request.POST['txt_nombre']}' "
-                                            f",'{request.POST['txt_nombre']}' "
-                                            f",'{archivo.name}' "
-                                            f",'{request.POST['txt_marca']}' "
-                                            f",{request.POST['txt_precio']} "
-                                            f",'{request.POST['txt_tipo']}' "
-                                            f",'{request.POST['txt_subtipo']}' "
-                                            f",'{request.POST['cmb_categoria']}' "
-                                            f",{request.POST['txt_stock']} "
-                                            f",'{request.POST['txa_descripcion']}') ")
-        conn.commit()
+        producto = Producto.objects.create(nombre=request.POST.get("txt_nombre"),
+                                            foto=archivo.name,
+                                            marca=request.POST.get("txt_marca"),
+                                            precio=request.POST.get("txt_precio"),
+                                            tipo=request.POST.get("txt_tipo"),
+                                            subtipo=request.POST.get("txt_subtipo"),
+                                            categoria=request.POST.get("cmb_categoria"),
+                                            stock=request.POST.get("txt_stock"),
+                                            descripcion=request.POST.get("txa_descripcion"))
     return redirect('/productosLista/')
     
 @csrf_exempt

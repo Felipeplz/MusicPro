@@ -88,11 +88,7 @@ class Producto(models.Model):
     def __str__(self): 
       return self.nombre
 
-class Promocion(models.Model):
-    fechaDesde = models.DateField()
-    fechaHasta = models.DateField()
-    cantidadMin = models.IntegerField()
-    descuento = models.FloatField()
-    idProducto = models.ForeignKey('Producto', on_delete=models.CASCADE, null=True)
-
+    @property
+    def precioPromo(self):
+        return int(self.precio*0.9)
 

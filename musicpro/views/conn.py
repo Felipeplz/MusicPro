@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.core.files.storage import FileSystemStorage
-from musicpro.models import Despacho,Estado,ItemVenta,Pago,Producto,Promocion,Sucursal,Usuario,Venta
+from musicpro.models import Despacho,Estado,ItemVenta,Pago,Producto,Sucursal,Usuario,Venta
 from django.http.response import JsonResponse
 from .barraMenu import login
 import transbank
@@ -16,9 +16,9 @@ import transbank
 # def Conectar():
 #     return conn.cursor()
 
-def getRol(mail):
+def getUsuario(mail):
     user = Usuario.objects.get(mail=mail)
-    return user.rol
+    return user
 
 def setCookie(request, nombre, valor):
     request.set_cookie(nombre, valor)
