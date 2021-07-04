@@ -50,14 +50,13 @@ urlpatterns = [
     path('catalogo/<str:tab>/<int:pag>', views.viewCatalogo),
     path('seguimientoBodeguero/<str:tab>', views.seguimientoBodeguero),
     path('seguimientoCliente/<int:id>', views.seguimientoCliente),
-    path('promociones/', views.promociones),
     path('carrito/', views.productosCarrito),
     path('carrito/add/', views.anniadirCarrito),
     path('carrito/remove/', views.quitarCarrito),
+    path('carrito/limpiar/', views.limpiarCarrito),
     path('carrito/edit/', views.cambiarCarrito),
     path('ventasDatos/', views.ventasDatos),
-    path('transbankCorrecto/', views.transbankCorrectoView),
-    path('transbankFallo/', views.transbankFalloView),
+    path('transbank/', views.transbankView),
     path('api/', include(router.urls)),
     
     

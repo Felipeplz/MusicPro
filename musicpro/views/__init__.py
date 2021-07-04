@@ -4,7 +4,6 @@ from .catalogo import *
 from .conn import *
 from .productosDetalle import *
 from .productosLista import *
-from .promocionesLista import *
 from .registro import *
 from .reporteriaInformes import *
 from .reporteriaLog import *
@@ -13,9 +12,7 @@ from .rest import *
 from .seguimientoBodeguero import *
 from .seguimientoCliente import *
 from .seguimientoContador import *
-from .seguimientoVendedor import *
-from .transbankCorrecto import *
-from .transbankFallo import *
+from .transbank import *
 from .usuariosLista import *
 from .ventasConfirmar import *
 from .ventasDatos import *

@@ -1,38 +1,41 @@
 {% extends 'barraMenu.html' %}
 {% load static %}
 {% block principal %}
-    <div class="container">
-      <div class="text-center">
-        <img src="{% static 'img/logo.png' %}" class="rounded mx-auto mw-100 my-3">
+<div class="container">
+  <div class="text-center">
+    <img src="{% static 'img/logo.png' %}" class="rounded mx-auto mw-100 my-3">
+  </div>
+  <form>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label for="email">Correo Electrónico</label>
+          <input type="email" class="form-control" id="email" autocomplete="email" placeholder="Ingrese su correo"
+            required>
+        </div>
       </div>
-      <form>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" class="form-control" id="email" autocomplete="email" placeholder="Ingrese su correo">
-              </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="pass">Contraseña</label>
-                <input type="password" class="form-control" id="pass" autocomplete="new-password" placeholder="Ingrese su contraseña">
-              </div>
-          </div>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="checkPromociones" checked>
-            <label class="form-check-label" for="checkPromociones">
-              Suscribirme al boletín informativo para obtener noticias de descuentos, el mundo de la música y sobre la tienda y comenzar a obtener descuentos por compras sobre 4 artículos.
-            </label>
-          </div>
-          <div class="col-6 offset-3 col-md-4 offset-md-4">
-            <button type="button" id="btnRegistro" class="btn btn-block btn-primary">
-              Continuar
-            </button>
-          </div>
-      </form>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label for="pass">Contraseña</label>
+          <input type="password" class="form-control" id="pass" autocomplete="new-password"
+            placeholder="Ingrese su contraseña" required>
+        </div>
+      </div>
     </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="true" id="checkPromociones" checked>
+      <label class="form-check-label" for="checkPromociones">
+        Suscribirme al boletín informativo para obtener noticias de descuentos, el mundo de la música y sobre la
+        tienda y comenzar a obtener descuentos por compras sobre 4 artículos.
+      </label>
+    </div>
+    <div class="col-6 offset-3 col-md-4 offset-md-4">
+      <button type="button" id="btnRegistro" class="btn btn-block btn-primary">
+        Continuar
+      </button>
+    </div>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}

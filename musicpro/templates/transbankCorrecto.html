@@ -1,4 +1,5 @@
 {% extends 'barraMenu.html' %}
+{% load poll_extras %}
 {% load static %}
 {% block principal %}
 <div class="container d-flex justify-content-center">
@@ -6,7 +7,7 @@
         <div class="media"> 
             <div class="media-body">
                 <img src="https://congreso.america-digital.com/anteriores/2017/wp-content/uploads/2017/06/LOGO-TBK-ING.png" class="card-img-top img-fluid" alt="...">
-                <h2 class="text-center mt-2 mb-0">Transacción realizada con éxito!!</h2> 
+                <h2 class="text-center mt-2 mb-0">¡Transacción realizada con éxito!</h2> 
                 <br>
                 <div class="col-12 text-center">
                     <div class="border border-secondary">
@@ -16,7 +17,7 @@
                         <hr>
                         <medium class="text-center ml-3">Código autorización: {{respuesta.authorization_code}}</medium>
                         <hr>
-                        <h4 class="text ml-3">Total: {{respuesta.amount}} {{local}}</h4>
+                        <h4 class="text ml-3">Total: {{respuesta.amount|conversion:local}} {{local}} -> {{respuesta.amount}} CLP</h4>
                         <hr>
                         <div class="text-center"><a type="button" class="btn bg-success mt-2 mb-2 text-white" href="../../catalogo/">Aceptar</a></div>
                       </div>

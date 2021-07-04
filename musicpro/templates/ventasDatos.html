@@ -1,4 +1,5 @@
 {% extends 'barraMenu.html' %}
+{% load poll_extras %}
 {% load static %}
 {% block principal %}
 <div class="container">
@@ -74,16 +75,28 @@
             </div> 
             <div class="col-3">
                 <div class="border ml-4 mb-3 mt-3 text-center">
-                    <small>Totales: {{totales}} {{local}}</small>
-                    <hr>
-                    <small>Descuentos: {{descuentos}} {{local}}</small>
-                    <hr>
-                    <small>Subtotal: {{subtotal}} {{local}}</small>
-                    <hr>
-                    <h6>Total:</h6>
-                    <div class="border mb-3">
-                        <h6> {{total}}</h6>
-                    </div>
+                    <small class="text-center">Totales: {{total|conversion:local}} {{local}}</small>
+			  		<hr>
+					{% if usuario.suscrito %}
+					<small class="text-center">Descuento: {{total|minus:descuento|conversion:local}} {{local}}</small>
+					{% else %}
+					<small class="text-center">Descuento: 0,0 {{local}}</small>
+					{% endif %}
+					<hr>
+					{% if usuario.suscrito %}
+					<small class="text-center">Subtotal: {{descuento|conversion:local}} {{local}}</small>
+					{% else %}
+					<small class="text-center">Subtotal: {{total|conversion:local}} {{local}}</small>
+					{% endif %}
+			  		<hr>
+			  		<h6 class="text-center">Total:</h6>
+			  		<div class="border bg-light">
+						{% if usuario.suscrito %}
+						<h6 class="text-center">{{descuento|conversion:local}} {{local}} -> {{descuento}} CLP</h6>
+						{% else %}
+						<h6 class="text-center">{{total|conversion:local}} {{local}} -> {{total}} CLP</h6>
+						{% endif %}
+		  			</div>
                     <form action="{{ response.url }}" method="POST">
                         <input type="hidden" name="token_ws" value="{{ response.token }}">
                         <button type="submit" class="btn btn-primary m-2" name="submit">Pagar</button>

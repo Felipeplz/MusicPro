@@ -1,64 +1,87 @@
 {% extends 'barraMenu.html' %}
+{% load poll_extras %}
 {% load static %}
 {% block principal %}
-	<div class="container mt-3">
-		<div class="row border">
-			<div class="col-9 my-3">
-		      <h6 class="text-muted">Carrito de compras</h6> 
-		      <ul class="list-group">
-				{% for producto in SQLCarrito %}
-		        <li class="list-group-item d-flex justify-content-between align-items-center text-break">
-		          	<div class="image-parent">
-		              	<img src="/media/{{producto.foto}}" class="img-fluid img-carrito">
-		          	</div class="text-break">
-		          	<div>
-						<a href="../producto/{{producto.id_producto}}/"><h3>{{producto.nombre}}</h3></a>
-			          	<span class="small">{{producto.descripcion}}</span>
-		          	</div>
-			        <div class="pl-5 pr-5">
-				  		<button type="button" class="btn rounded-circle bg-warning" onclick="quitar({{producto.id_producto}})"><i class="far fa-trash-alt"></i></button>
-						{% if producto.descuento != 0 %}
-						<h5 class="text-success">{{producto.final}} {{local}}</h5>
-						<h6 class="text-danger"><del>{{producto.total}} {{local}}</del></h6>
-						{% else %}
-					  	<h6 class="text-center">{{producto.final}} {{local}}</h6>
-						{% endif %}
-					  	<h6 class="small">{{producto.precio}} {{local}} c/u</h6>
-				  		<select class="custom-select" id="producto{{producto.id_producto}}" onchange="cambiarStock({{producto.id_producto}})">
-							{% with ''|center:producto.stock as range %}
-							{% for numero in range %}
-							<option value="{{ forloop.counter }}"{% if producto.cantidad == forloop.counter %} selected{% endif %}>{{ forloop.counter }}</option>
-							{% endfor %}
-							{% endwith %}
-							{% if producto.stock == 0 %}
-								<option selected disabled>...</option>
-							{% endif %}
-						</select> 
-			        </div>
-		        </li>
-				{% endfor %}
-		      </ul>
-		    </div>
-	
-			<div class="col-3 my-5 mx-0">
-				<div class="border text-center">
-			  		<small class="text-center">Totales: {{totales}} {{local}}</small>
-			  		<hr>
-			  		<small class="text-center">Descuentos: {{descuentos}} {{local}}</small>
-			  		<hr>
-			  		<small class="text-center">Subtotal: {{subtotal}} {{local}}</small>
-			  		<hr>
-			  		<h6 class="text-center">Total:</h6>
-			  		<div class="border bg-light">
-			  			<h6 class="text-center"> {{subtotal}} {{local}}</h6>
-		  			</div>
-		  			<a type="button" class="btn bg-primary mt-2 mb-2 text-white" href="../../ventasDatos/">Confirmar compra</a>
-		  		</div>
-			</div>
-		</div>
-	</div>
+<div class="container mt-3">
+  <div class="row border">
+    <div class="col-9 my-3">
+      <button class="btn btn-primary float-right" onclick="limpiar({{venta.id}})">Limpiar todo</button>
+      <h6 class="text-muted">Carrito de compras</h6>
+      <br>
+      <ul class="list-group">
+        {% for itemventa in venta.itemventa_set.all %}
+        <li class="list-group-item d-flex justify-content-between align-items-center text-break">
+          <div class="image-parent">
+            <img src="/media/{{itemventa.producto.foto}}" class="img-fluid img-carrito">
+          </div class="text-break">
+          <div>
+            <a href="../producto/{{itemventa.producto.id}}/">
+              <h3>{{itemventa.producto.nombre}}</h3>
+            </a>
+            <span class="small">{{itemventa.producto.descripcion}}</span>
+          </div>
+          <div class="pl-5 pr-5">
+            <button type="button" class="btn rounded-circle bg-warning" onclick="quitar({{itemventa.producto.id}})"><i
+                class="far fa-trash-alt"></i></button>
+            {% if usuario.suscrito and itemventa.cantidad >= 4 %}
+            <h5 class="text-success">{{itemventa.producto.precioPromo|multiply:itemventa.cantidad|conversion:local}}
+              {{local}}</h5>
+            <h6 class="text-danger"><del>{{itemventa.producto.precio|multiply:itemventa.cantidad|conversion:local}}
+                {{local}}</del></h6>
+            {% else %}
+            <h5>{{itemventa.producto.precio|multiply:itemventa.cantidad|conversion:local }} {{local}}</h5>
+            {% endif %}
+            <h6 class="small">{{itemventa.producto.precio|conversion:local}} {{local}} c/u</h6>
+            <select class="custom-select" id="producto{{itemventa.producto.id}}"
+              onchange="cambiarStock({{itemventa.producto.id}})">
+              {% with ''|center:itemventa.producto.stock as range %}
+              {% for numero in range %}
+              <option value="{{ forloop.counter }}" {% if itemventa.cantidad==forloop.counter %} selected{% endif %}>{{
+                forloop.counter }}</option>
+              {% endfor %}
+              {% endwith %}
+              {% if itemventa.producto.stock == 0 %}
+              <option selected disabled>...</option>
+              {% endif %}
+            </select>
+
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="col-3 my-5 mx-0">
+      <div class="border text-center">
+        <small class="text-center">Totales: {{total|conversion:local}} {{local}}</small>
+        <hr>
+        {% if usuario.suscrito %}
+        <small class="text-center">Descuento: {{total|minus:descuento|conversion:local}} {{local}}</small>
+        {% else %}
+        <small class="text-center">Descuento: 0,0 {{local}}</small>
+        {% endif %}
+        <hr>
+        {% if usuario.suscrito %}
+        <small class="text-center">Subtotal: {{descuento|conversion:local}} {{local}}</small>
+        {% else %}
+        <small class="text-center">Subtotal: {{total|conversion:local}} {{local}}</small>
+        {% endif %}
+        <hr>
+        <h6 class="text-center">Total:</h6>
+        <div class="border bg-light">
+          {% if usuario.suscrito %}
+          <h6 class="text-center">{{descuento|conversion:local}} {{local}}</h6>
+          {% else %}
+          <h6 class="text-center">{{total|conversion:local}} {{local}}</h6>
+          {% endif %}
+        </div>
+        <a type="button" class="btn bg-primary mt-2 mb-2 text-white" href="../../ventasDatos/">Confirmar compra</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-	<script src="{% static 'js/carrito.js' %}"></script>
+<script src="{% static 'js/carrito.js' %}"></script>
 {% endblock %}

@@ -3,72 +3,81 @@
 {% block catalogo %} active{% endblock %}
 
 {% block principal %}
-	<div class="container" id="productosLista">
-		<br>
-		<ul class="nav nav-tabs nav-fill">
-			<li class="nav-item">
-			  <a class="nav-link{% if tab == 'todos' %} active{% endif %}" href="../../../catalogo">Todos</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link{% if tab == 'cuerda' %} active{% endif %}" href="../../../catalogo/cuerda">Instrumentos de cuerda</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link{% if tab == 'percusion' %} active{% endif %}" href="../../../catalogo/percusion">Percusión</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link{% if tab == 'amplificadores' %} active{% endif %}" href="../../../catalogo/amplificadores">Amplificadores</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link{% if tab == 'accesorios' %} active{% endif %}" href="../../../catalogo/accesorios">Accesorios</a>
-			</li>
-		  </ul>
-		  <div class="my-3 row">
-			{% for producto in SQLProductos %}
-		  	<div class="card col-10 offset-1 col-md-4 offset-md-0 px-0 my-2">
-			    <img src="/media/{{producto.foto}}" class="card-img-top">
-			    <div class="card-body">
-				      <a href="../producto/{{producto.id_producto}}/"><h5 class="card-title">{{producto.nombre}}</h5></a>
-				      <p class="card-text">{{producto.descripcion}}</p>
-					  {{rol}}
-					  {% if usuario.suscrito %}
-				      <h5 class="text-success">{{producto.precioPromo}} {{local}} x 4 productos o más</h5>
-				      <h6 class="text-danger"><del>{{producto.precio}} {{local}}</del></h6>
-					  {% else %}
-				      <h5>{{producto.precio}} {{local}}</h5>
-					  {% endif %}
-			    </div>
-				<div class="card-footer text-right">
-					<button type="button" class="btn bg-primary text-white" onclick="anniadir({{producto.id_producto}})">Añadir a carrito</button>
-				</div>
-			</div>
-			{% empty %}
-				<div class="alert alert-warning w-100 text-center my-5" role="alert">
-					¡No hay productos para esta categoría!
-				</div>
-			{% endfor %}
-		</div>
-		<!-- <div class="mt-4">
-			<nav>
-				<ul class="pagination justify-content-center">
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Next"><label>Siguente</label>
-						<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
-				</ul>
-		 	</nav>
-		</div> -->
-	</div>
+<div class="container" id="productosLista">
+  <br>
+  <ul class="nav nav-tabs nav-fill">
+    <li class="nav-item">
+      <a class="nav-link{% if tab == 'todos' %} active{% endif %}" href="../../../catalogo">Todos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link{% if tab == 'cuerda' %} active{% endif %}" href="../../../catalogo/cuerda">Instrumentos de
+        cuerda</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link{% if tab == 'percusion' %} active{% endif %}" href="../../../catalogo/percusion">Percusión</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link{% if tab == 'amplificadores' %} active{% endif %}"
+        href="../../../catalogo/amplificadores">Amplificadores</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link{% if tab == 'accesorios' %} active{% endif %}"
+        href="../../../catalogo/accesorios">Accesorios</a>
+    </li>
+  </ul>
+  <div class="my-3 row">
+    {% for producto in catalogo %}
+    <div class="card col-10 offset-1 col-md-4 offset-md-0 px-0 my-2">
+      <img src="/media/{{producto.foto}}" class="card-img-top">
+      <div class="card-body">
+        <a href="../producto/{{producto.id}}/">
+          <h5 class="card-title">{{producto.nombre}}</h5>
+        </a>
+        <p class="card-text">{{producto.descripcion}}</p>
+        {% if usuario.suscrito %}
+        <h5 class="text-success">{{producto.precioPromo}} {{local}} x 4 productos o más</h5>
+        <h6 class="text-danger"><del>{{producto.precio}} {{local}}</del></h6>
+        {% else %}
+        <h5>{{producto.precio}} {{local}}</h5>
+        {% endif %}
+      </div>
+      <div class="card-footer text-right">
+        <button type="button" class="btn bg-primary text-white" onclick="anniadir({{producto.id}})">Añadir a
+          carrito</button>
+      </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-warning w-100 text-center my-5" role="alert">
+      ¡No hay productos para esta categoría!
+    </div>
+    {% endfor %}
+  </div>
+  <div class="mt-4">
+    <nav>
+      <ul class="pagination justify-content-center">
+        {% if catalogo.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="../../catalogo/{{catalogo.previous_page_number}}" aria-label="Previous">Anterior
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        {% endif %}
+        {% for pag in pags %}
+        <li class="page-item"><a class="page-link" href="../../catalogo/{{pag}}">{{pag}}</a></li>
+        {% endfor %}
+        {% if catalogo.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="../../catalogo/{{catalogo.next_page_number}}" aria-label="Next">Siguiente
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-	<script src="{% static 'js/catalogo.js' %}"></script>
+<script src="{% static 'js/catalogo.js' %}"></script>
 {% endblock %}

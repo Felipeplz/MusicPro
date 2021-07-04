@@ -15,3 +15,11 @@ function cambiarStock(id) {
           window.location.reload();
       });
 }
+
+function limpiar(id) {
+    $.post("../../carrito/limpiar/",{
+        id:id
+      },function(data){
+          window.location.reload();
+      });
+}

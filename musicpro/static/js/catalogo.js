@@ -1,7 +1,7 @@
 function anniadir(id) {
-  $.post("../../carrito/add/",{
-      id:id
-    },function(data){
-        window.location.replace("../../carrito");
-    });
+  $.post("../../carrito/add/", {
+    id: id
+  }, function (data) {
+    window.location.replace("../../carrito");
+  });
 }

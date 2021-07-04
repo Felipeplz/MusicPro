@@ -1,7 +1,9 @@
+from django.db.models.aggregates import Sum
 from django.db import models
 from django.db.models.base import Model
 from django.db.models.deletion import CASCADE, SET_DEFAULT, SET_NULL
 from django.db.models.fields import CharField, DateField, DateTimeCheckMixin, DateTimeField, IntegerField
+from django.db.models import Count, Q, Case, When, Exists
 
 # Create your models here.
 class Usuario(models.Model):
@@ -27,18 +29,19 @@ class Sucursal(models.Model):
     telefono = models.CharField(max_length=12)
 
 class Venta(models.Model):
-    fecha = models.DateTimeField()
-    total = models.IntegerField()
-    descuento = models.IntegerField()
-    idCliente = models.ForeignKey('Usuario', on_delete=models.CASCADE, null=False)
-    idSucursalRetiro = models.ForeignKey('Sucursal', on_delete=models.CASCADE, null=True)
-    mail = models.CharField(max_length=100)
+    fecha = models.DateTimeField(auto_now_add=True)
+    cliente = models.ForeignKey('Usuario', on_delete=models.CASCADE, null=False)
+    sucursalRetiro = models.ForeignKey('Sucursal', on_delete=models.CASCADE, null=True , blank=True)
+    token = models.CharField(max_length=100)
+    
+    def __str__(self): 
+      return self.cliente.nombre + self.fecha
 
 class Despacho(models.Model):
     idVenta = models.OneToOneField('Venta', on_delete=models.CASCADE)
     ordenDespacho = models.CharField(max_length=100)
     fechaEntrega = models.DateTimeField(auto_now_add=True)
-    idReceptor = models.ForeignKey('Usuario', on_delete=models.CASCADE, null=False)
+    receptor = models.ForeignKey('Usuario', on_delete=models.CASCADE, null=False)
 
 class Estado(models.Model):
     ESTADOS = (
@@ -49,23 +52,22 @@ class Estado(models.Model):
         ('Entregado','Entregado'),
     )
 
-    idVenta = models.ForeignKey('Venta', on_delete=models.CASCADE, null=False)
+    venta = models.ForeignKey('Venta', on_delete=models.CASCADE, null=False)
     fechaEstado = models.DateTimeField(auto_now=True)
     estado = models.CharField(max_length=30, choices=ESTADOS)
-    comentario = models.CharField(max_length=250, null=True)
-    documento = models.CharField(max_length=250, null=True)
+    comentario = models.CharField(max_length=250, null=True, blank=True)
+    documento = models.CharField(max_length=250, null=True, blank=True)
 
     class Meta:
-        unique_together = (("idVenta", "fechaEstado"))
+        unique_together = (("venta", "fechaEstado"))
 
 class ItemVenta(models.Model):
-    idVenta = models.ForeignKey('Venta', on_delete=models.CASCADE, null=False)
-    idProducto = models.ForeignKey('Producto', on_delete=models.CASCADE, null=False)
+    venta = models.ForeignKey('Venta', on_delete=models.CASCADE, null=False)
+    producto = models.ForeignKey('Producto', on_delete=models.CASCADE, null=False)
     cantidad = models.IntegerField()
-    descuento = models.IntegerField(null=True)
 
     class Meta:
-        unique_together = (("idVenta", "idProducto"))
+        unique_together = (("venta", "producto"))
 
 class Pago(models.Model):
     tipoPago = models.CharField(max_length=30)
@@ -75,13 +77,20 @@ class Pago(models.Model):
     idVenta = models.ForeignKey('Venta', on_delete=models.CASCADE, null=False)
 
 class Producto(models.Model):
+    CATEGORIAS = {
+      ('Instrumentos de Cuerdas','Instrumentos de Cuerdas'),
+      ('Percusión','Percusión'),
+      ('Amplificadores','Amplificadores'),
+      ('Accesorios varios','Accesorios varios'),
+    }
+
     nombre = models.CharField(max_length=150)
     foto = models.FileField()
     marca = models.CharField(max_length=50)
     precio = models.IntegerField()
     tipo = models.CharField(max_length=50)
     subtipo = models.CharField(max_length=50)
-    categoria = models.CharField(max_length=50)
+    categoria = models.CharField(max_length=50, choices=CATEGORIAS)
     stock = models.IntegerField()
     descripcion = models.CharField(max_length=500, null=True)
 

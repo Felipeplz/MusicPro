@@ -18,7 +18,7 @@ def getIP(request):
 def getLocale(request):
     ip = getIP(request)
     if ip == "127.0.0.1":
-        return "CLP"
+        return "USD"
 
     reader = geoip2.database.Reader(BASE_DIR / 'GeoLite2-City.mmdb')
     response = reader.city(ip)
