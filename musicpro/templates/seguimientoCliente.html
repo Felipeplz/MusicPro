@@ -1,92 +1,73 @@
 {% extends 'barraMenu.html' %}
+{% load poll_extras %}
 {% load static %}
+{% block ventas %} active{% endblock %}
+
 {% block principal %}
 <div class="container">
-	<h1>Seguimiento cliente</h1>
-	<div class="table-wrapper-scroll-y my-custom-scrollbar">
-		<table class="table table-bordered table-striped mb-0">
-			<thead>
-				<tr>
-					<th scope="col">Codigo</th>
-					<th scope="col">Cliente</th>
-					<th scope="col">Monto</th>
-					<th scope="col">Rut</th>
-					<th scope="col">DV_rut</th>
-					<th scope="col">Telefono</th>
-					<th scope="col">Mail</th>
-					<th scope="col">Estado</th>
-					<th scope="col">Opciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for xxx in xxx %}
-				<tr>
-					<th scope="row">1</th>
-					<td>Nombre</td>
-					<td>Precio</td>
-					<td>19023654</td>
-					<td>5</td>
-					<td>945215475</td>
-					<td>Potosucio@gmail.com</td>
-					<td>Pendiente</td>
-					<td>
-						<button class="btn btn-xs btn-info text-white" type="button" data-toggle="modal" data-target="#visualizar">
-							<i class="far fa-eye"></i> Ver
-						</button>
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-	<div class="modal fade" id="visualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title" id="exampleModalLabel">Visualización</h5>
-			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			  </button>
-			</div>
-			<div class="modal-body">
-				<div>
-					<table class="table table-bordered table-striped mb-0">
-					<thead>
-						<tr>
-							<th scope="col">Codigo</th>
-							<th scope="col">Cliente</th>
-							<th scope="col">Monto</th>
-							<th scope="col">Rut</th>
-							<th scope="col">DV_rut</th>
-							<th scope="col">Telefono</th>
-							<th scope="col">Mail</th>
-							<th scope="col">Estado</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Nombre</td>
-							<td>Precio</td>
-							<td>19023654</td>
-							<td>5</td>
-							<td>945215475</td>
-							<td>Potosucio@gmail.com</td>
-							<td>Pendiente</td>
-						</tr>
-					</tbody>
-				</div>
-				<h6>Orden de compra:</h6>
-				<button class="btn btn-primary" type="button"><i class="fas fa-file-download mr-1 mb-4"></i>Descargar orden de compra</button>
-				<h6>Boleta:</h6>
-				<button class="btn btn-primary" type="button"><i class="fas fa-file-download mr-1"></i>Descargar boleta/factura</button>
-			</div>
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-			  <button type="button" class="btn btn-primary">Aceptar</button>
-			</div>
-		  </div>
-		</div>
-	</div>
+  <h1 class="my-3">Mis Compras</h1>
+  <table class="table table-bordered table-striped mb-0">
+    <thead>
+      <tr>
+        <th scope="col">Monto</th>
+        <th scope="col">Rut</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for venta in ventas %}
+      <tr>
+        <td>{{venta.total|conversion:local}} {{local}}</td>
+        <td>{{venta.cliente.rut}}</td>
+        <td>{{venta.cliente.telefono}}</td>
+        <td>{{venta.estado_set.last.estado}}</td>
+        <td>{{venta.fecha}}</td>
+        <td>
+          <button class="btn btn-xs btn-info text-white" type="button" data-toggle="modal" onclick="cargar({{venta.id}})">
+            <i class="far fa-eye"></i> Ver
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
+<div class="modal fade" id="visualizar" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Venta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <table class="table table-bordered table-striped mb-0">
+            <thead>
+              <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody id="itemsventa">
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/seguimientoCliente.js' %}"></script>
 {% endblock %}

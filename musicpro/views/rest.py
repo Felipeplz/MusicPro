@@ -37,8 +37,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         productos = Producto.objects.all()
 
-        id_producto = self.request.GET.get('id_producto')
-        codigo_producto = self.request.GET.get('codigo_producto')
+        id_producto = self.request.GET.get('id')
         nombre = self.request.GET.get('nombre')
         marca = self.request.GET.get('marca')
         tipo = self.request.GET.get('tipo')
@@ -47,9 +46,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
         descripcion = self.request.GET.get('descripcion')
         
         if id_producto:
-            productos = productos.filter(id_producto=id_producto)
-        if codigo_producto:
-            productos = productos.filter(codigo_producto__contains=codigo_producto)
+            productos = productos.filter(id=id_producto)
         if nombre:
             productos = productos.filter(nombre__contains=nombre.encode().decode('utf-8'))
         if marca:

@@ -22,10 +22,16 @@ class Usuario(models.Model):
     rol = models.CharField(max_length=9, choices=ROLES)
     suscrito = models.BooleanField(default=False)
 
+    def __str__(self): 
+      return self.rol + " " + self.mail
+
 class Sucursal(models.Model):
     nombre = models.CharField(max_length=50)
     direccion = models.CharField(max_length=250)
     telefono = models.CharField(max_length=12)
+
+    def __str__(self): 
+      return self.nombre
 
 class Venta(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
@@ -34,9 +40,10 @@ class Venta(models.Model):
     direccion = models.CharField(max_length=250, null=True , blank=True)
     comuna = models.CharField(max_length=100, null=True , blank=True)
     token = models.CharField(max_length=100)
+    total = models.IntegerField(null=True, blank=True)
     
     def __str__(self): 
-      return self.cliente.mail + str(self.fecha)
+      return self.cliente.mail + " " + str(self.fecha)
 
 class Despacho(models.Model):
     idVenta = models.OneToOneField('Venta', on_delete=models.CASCADE)
@@ -59,6 +66,10 @@ class Estado(models.Model):
     estado = models.CharField(max_length=30, choices=ESTADOS)
     comentario = models.CharField(max_length=250, null=True, blank=True)
     documento = models.CharField(max_length=250, null=True, blank=True)
+    encargado = models.ForeignKey('Usuario', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self): 
+      return self.estado + " " + str(self.venta)
 
     class Meta:
         unique_together = (("venta", "fechaEstado"))

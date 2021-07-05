@@ -14,8 +14,7 @@
     </div>
     <div class="input-group col-3 mb-2">
       <form action="../productosLista" class="form-inline my-2 my-lg-0 float-right">
-        <input class="form-control mr-sm-2" type="text" placeholder="Buscar producto" id="buscar" name="buscar"
-          method="get">
+        <input class="form-control mr-sm-2" type="text" placeholder="Buscar producto" id="buscar" name="buscar" method="get">
         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
       </form>
     </div>
@@ -94,9 +93,12 @@
           <div class="form-group">
             <label for="txt_precio">Foto:</label>
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="fil_foto" name="fil_foto">
+              <input type="file" class="custom-file-input" id="fil_foto" name="fil_foto" accept="image/gif, image/jpeg, image/png">
               <label class="custom-file-label" for="fil_foto" data-browse="Buscar archivo...">Elegir foto</label>
             </div>
+            <div class="image-parent">
+              <img src="" class="img-fluid img-carrito" id="img_producto" name="img_producto">
+            </div class="text-break">
           </div>
           <div class="form-group">
             <label for="txa_descripcion">Descripción:</label>
@@ -159,7 +161,7 @@
           <div class="form-group">
             <label for="txt_precio">Foto:</label>
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="fil_foto" name="fil_foto">
+              <input type="file" class="custom-file-input" id="fil_foto" name="fil_foto" accept="image/gif, image/jpeg, image/png">
               <label class="custom-file-label" for="fil_foto" data-browse="Buscar archivo...">Elegir foto</label>
             </div>
             <div class="image-parent">

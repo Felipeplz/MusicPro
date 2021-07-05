@@ -13,30 +13,10 @@ $("#formVenta").submit(function (e) {
     sucursal = $("#sucursal").val(),
     domicilio = $("#despachoDomicilio").is(':checked')
     tipoPago = $("#pago .form-check-input:checked").val();
-  if (domicilio) {
-    if(comuna == null || domicilio.trim().lenght == 0) {
-      e.preventDefault();
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: "Favor ingrese todos los campos solicitados."
-      });
-      return false;
-    }
-  } else {
-    if(sucursal == null) {
-      e.preventDefault();
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: "Favor ingrese todos los campos solicitados."
-      });
-      return false;
-    }
-  }
   if (tipoPago != "webpay") {
     e.preventDefault();
     $("#modalTransferencia").modal('show');
+    return false;
   } else {
     $.post("../../datosVenta/", {
       direccion,
@@ -46,6 +26,27 @@ $("#formVenta").submit(function (e) {
     }, function (data) {
       window.location.reload();
     });
+  }
+  if (domicilio) {
+    if (comuna == null || domicilio.trim().lenght == 0) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "Favor ingrese todos los campos solicitados."
+      });
+      return false;
+    }
+  } else {
+    if (sucursal == null) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "Favor ingrese todos los campos solicitados."
+      });
+      return false;
+    }
   }
 });
 

@@ -14,6 +14,7 @@ def transbankView(request):
       try:
         venta = Venta.objects.filter(cliente=usuario, estado__estado__in=['En Carrito']).exclude(estado__estado__in=['Pagado']).get()
         venta.token = token
+        venta.total = response.amount
         venta.save()
         for item in venta.itemventa_set.all():
           item.producto.stock -= item.cantidad

@@ -1,27 +1,19 @@
 from .conn import *
-from .moneda import getLocale, convertir
-from urllib.request import urlopen
-from urllib.parse import quote
-import json
+from .moneda import getLocale
 
 
 def viewProductosLista(request):
     local = getLocale(request)
     productos = Producto.objects.all()
     if "buscar" in request.GET:
-      productos = productos.filter(nombre__icontains=request.GET.get("buscar"),
-                                  descripcion__icontains=request.GET.get("buscar"))
+        productos = productos.filter(
+            nombre__icontains=request.GET.get("buscar"),
+            descripcion__icontains=request.GET.get("buscar"),
+        )
     return render(
         request, "productosLista.html", {"productos": productos, "local": local}
     )
 
-def safe_str(obj):
-    try: return str(obj)
-    except UnicodeEncodeError:
-        return obj.encode('ascii', 'ignore').decode('ascii')
-    return ""
-
-safe_str(u'\u2013')
 
 @csrf_exempt
 def newProducto(request):
@@ -53,15 +45,14 @@ def editProducto(request, **kwargs):
             fs = FileSystemStorage()
             archivo = request.FILES["fil_foto"]
             narchivo = fs.save(archivo.name, archivo)
-            query = f",[foto] = '{archivo.name}' "
             producto.foto = archivo.name
-        producto.nombre = request.POST['txt_nombre']
-        producto.marca = request.POST['txt_marca']
-        producto.precio = request.POST['txt_precio']
-        producto.tipo = request.POST['txt_tipo']
-        producto.subtipo = request.POST['txt_subtipo']
-        producto.categoria = request.POST['cmb_categoria']
-        producto.stock = request.POST['txt_stock']
-        producto.descripcion = request.POST['txa_descripcion']
+        producto.nombre = request.POST["txt_nombre"]
+        producto.marca = request.POST["txt_marca"]
+        producto.precio = request.POST["txt_precio"]
+        producto.tipo = request.POST["txt_tipo"]
+        producto.subtipo = request.POST["txt_subtipo"]
+        producto.categoria = request.POST["cmb_categoria"]
+        producto.stock = request.POST["txt_stock"]
+        producto.descripcion = request.POST["txa_descripcion"]
         producto.save()
     return redirect("/productosLista/")

@@ -8,14 +8,6 @@ from django.http.response import JsonResponse
 from .barraMenu import login
 import transbank
 
-# conn = pyodbc.connect('Driver={ODBC Driver 17 for Sql Server};'
-#                       'Server=FELIPE-LEGION\FELIPE;'
-#                       'Database=MusicPro;'
-#                       'Trusted_Connection=yes')
-
-# def Conectar():
-#     return conn.cursor()
-
 def getUsuario(mail):
     user = Usuario.objects.get(mail=mail)
     return user

@@ -1,7 +1,5 @@
 from .conn import *
-from .moneda import getLocale, convertir
-from django.db.models.expressions import OuterRef, Value
-from django.db.models import Count, Q, Case, When, Exists
+from .moneda import getLocale
 
 def productosCarrito(request):
     local = getLocale(request)
