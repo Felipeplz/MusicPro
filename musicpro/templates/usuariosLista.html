@@ -5,166 +5,146 @@
 
 {% block principal %}
 <h1 class="text-center">Usuarios</h1>
-	<div class="container mt-5">
-		<div class="row">
-			<div class="col-6 offset-3 text-center">
-				<button class="btn bg-primary rounded-circle" onclick="modalNuevo()" type="button"><i class="fas fa-plus text-white"></i></button><h6>Añadir</h6>
-			</div>
-			<div class="input-group col-3 mb-2">
-				<form action="../usuariosLista" class="form-inline my-2 my-lg-0 float-right">
-					<input class="form-control mr-sm-2" type="text" placeholder="Buscar usuario" id="buscar" name="buscar">
-					<button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-				</form>
-			</div>
-		</div>
-		<table class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Mail</th>
-					<th>Nombre</th>
-					<th>Rut</th>
-					<th>DV_rut</th>
-					<th>Direccion</th>
-					<th>Rol</th>
-					<th>Opciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for usuario in SQLUsuarios %}
-				<tr>
-					<td>{{usuario.id_usuario}}</td>
-					<td>{{usuario.mail}}</td>
-					<td>{{usuario.nombre}}</td>
-					<td>{{usuario.rut}}</td>
-					<td>{{usuario.dv_rut}}</td>
-					<td>{{usuario.direccion}}</td>
-					<td>{{usuario.rol}}</td>
-					<td>
-						<button class="btn btn-xs btn-success" onclick="cargar({{usuario.id_usuario}})"><i class="fas fa-edit"></i></button>
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-6 offset-3 text-center">
+      <button class="btn bg-primary rounded-circle" onclick="modalNuevo()" type="button"><i
+          class="fas fa-plus text-white"></i></button>
+      <h6>Añadir</h6>
+    </div>
+    <div class="input-group col-3 mb-2">
+      <form action="../usuariosLista" class="form-inline my-2 my-lg-0 float-right">
+        <input class="form-control mr-sm-2" type="text" placeholder="Buscar usuario" id="buscar" name="buscar">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Mail</th>
+        <th>Rut</th>
+        <th>Direccion</th>
+        <th>Rol</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for usuario in usuarios %}
+      <tr>
+        <td>{{usuario.mail}}</td>
+        <td>{{usuario.rut}}</td>
+        <td>{{usuario.direccion}}</td>
+        <td>{{usuario.rol}}</td>
+        <td>
+          <button class="btn btn-xs btn-success" onclick="cargar({{usuario.id}})"><i class="fas fa-edit"></i></button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
-	<div class="modal fade" id="modalNuevo" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="../../usuario/nuevo/" method="post" id="formNuevo" enctype="multipart/form-data">
-					<div class="modal-header">
-						<h5 class="modal-title">Nuevo Usuario</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="nombre">Nombre: </label>
-							<input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
-						</div>
-						<div class="form-group">
-							<label for="txt_mail">Mail:</label>
-							<input type="text" class="form-control" id="txt_mail" name="txt_mail">
-						</div>
-						<div class="form-group">
-							<label for="txt_rut">Rut:</label>
-							<input type="text" class="form-control" id="txt_rut" name="txt_rut">
-						</div>
-						<div class="form-group">
-							<label for="txt_dv">Dígito Verificador:</label>
-							<input type="text" class="form-control" id="txt_dv" name="txt_dv">
-						</div>
-						<div class="form-group">
-							<label for="txt_fono">Teléfono:</label>
-							<input type="text" class="form-control" id="txt_fono" name="txt_fono">
-						</div>
-						<div class="form-group">
-							<label for="txt_direccion">Dirección:</label>
-							<input type="text" class="form-control" id="txt_direccion" name="txt_direccion">
-						</div>
-						<div class="form-group">
-							<label for="cmb_rol">Rol:</label>
-							<select class="form-control" id="cmb_rol" name="cmb_rol">
-								<option value="Cliente">Cliente</option>
-								<option value="Vendedor">Vendedor</option>
-								<option value="Bodeguero">Bodeguero</option>
-								<option value="Contador">Contador</option>
-								<option value="Admin">Admin</option>
-							</select>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-						<button type="submit" class="btn btn-primary">Agregar</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	
-	<div class="modal fade" id="modalModificar" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="../../usuario/" method="post" id="formModificar" enctype="multipart/form-data">
-					<div class="modal-header">
-						<h5 class="modal-title">Modificar Usuario</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="nombre">Nombre: </label>
-							<input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
-						</div>
-						<div class="form-group">
-							<label for="txt_mail">Mail:</label>
-							<input type="text" class="form-control" id="txt_mail" name="txt_mail">
-						</div>
-						<div class="form-group">
-							<label for="txt_rut">Rut:</label>
-							<input type="text" class="form-control" id="txt_rut" name="txt_rut">
-						</div>
-						<div class="form-group">
-							<label for="txt_dv">Dígito Verificador:</label>
-							<input type="text" class="form-control" id="txt_dv" name="txt_dv">
-						</div>
-						<div class="form-group">
-							<label for="txt_fono">Teléfono:</label>
-							<input type="text" class="form-control" id="txt_fono" name="txt_fono">
-						</div>
-						<div class="form-group">
-							<label for="txt_direccion">Dirección:</label>
-							<input type="text" class="form-control" id="txt_direccion" name="txt_direccion">
-						</div>
-						<div class="form-group">
-							<label for="cmb_rol">Rol:</label>
-							<select class="form-control" id="cmb_rol" name="cmb_rol">
-								<option value="Cliente">Cliente</option>
-								<option value="Vendedor">Vendedor</option>
-								<option value="Bodeguero">Bodeguero</option>
-								<option value="Contador">Contador</option>
-								<option value="Admin">Admin</option>
-							</select>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-						<button type="submit" class="btn btn-primary">Guardar cambios</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="modalNuevo" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="../../usuario/nuevo/" method="post" id="formNuevo" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="txt_mail">Mail:</label>
+            <input type="text" class="form-control" id="txt_mail" name="txt_mail">
+          </div>
+          <div class="form-group">
+            <label for="txt_rut">Rut:</label>
+            <input type="text" class="form-control" id="txt_rut" name="txt_rut">
+          </div>
+          <div class="form-group">
+            <label for="txt_fono">Teléfono:</label>
+            <input type="text" class="form-control" id="txt_fono" name="txt_fono">
+          </div>
+          <div class="form-group">
+            <label for="txt_direccion">Dirección:</label>
+            <input type="text" class="form-control" id="txt_direccion" name="txt_direccion">
+          </div>
+          <div class="form-group">
+            <label for="cmb_rol">Rol:</label>
+            <select class="form-control" id="cmb_rol" name="cmb_rol">
+              <option value="Cliente">Cliente</option>
+              <option value="Vendedor">Vendedor</option>
+              <option value="Bodeguero">Bodeguero</option>
+              <option value="Contador">Contador</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Agregar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalModificar" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="../../usuario/" method="post" id="formModificar" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title">Modificar Usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="txt_mail">Mail:</label>
+            <input type="text" class="form-control" id="txt_mail" name="txt_mail">
+          </div>
+          <div class="form-group">
+            <label for="txt_rut">Rut:</label>
+            <input type="text" class="form-control" id="txt_rut" name="txt_rut">
+          </div>
+          <div class="form-group">
+            <label for="txt_fono">Teléfono:</label>
+            <input type="text" class="form-control" id="txt_fono" name="txt_fono">
+          </div>
+          <div class="form-group">
+            <label for="txt_direccion">Dirección:</label>
+            <input type="text" class="form-control" id="txt_direccion" name="txt_direccion">
+          </div>
+          <div class="form-group">
+            <label for="cmb_rol">Rol:</label>
+            <select class="form-control" id="cmb_rol" name="cmb_rol">
+              <option value="Cliente">Cliente</option>
+              <option value="Vendedor">Vendedor</option>
+              <option value="Bodeguero">Bodeguero</option>
+              <option value="Contador">Contador</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-	<script src="{% static 'js/usuariosLista.js' %}"></script>
-	<script>
-		$(document).ready(function() {
-			$("#buscar").val("{{filtro}}")
-		});
-	</script>
+<script src="{% static 'js/usuariosLista.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    $("#buscar").val("{{filtro}}")
+  });
+</script>
 {% endblock %}

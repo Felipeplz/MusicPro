@@ -35,10 +35,9 @@
             <select class="custom-select" id="producto{{itemventa.producto.id}}"
               onchange="cambiarStock({{itemventa.producto.id}})">
               {% with ''|center:itemventa.producto.stock as range %}
-              {% for numero in range %}
-              <option value="{{ forloop.counter }}" {% if itemventa.cantidad==forloop.counter %} selected{% endif %}>{{
-                forloop.counter }}</option>
-              {% endfor %}
+                {% for numero in range %}
+                <option value="{{forloop.counter}}" {% if itemventa.cantidad == forloop.counter %} selected{% endif %}>{{forloop.counter}}</option>
+                {% endfor %}
               {% endwith %}
               {% if itemventa.producto.stock == 0 %}
               <option selected disabled>...</option>

@@ -2,110 +2,155 @@
 {% load poll_extras %}
 {% load static %}
 {% block principal %}
-<div class="container">
-    <h1>Ventas datos</h1>
-    <hr>
-    <fieldset>
-        <legend>MusicPro</legend>
-        <div class="container border">
-          <div class="row">
-            <div class="col-9">
-                <div class="container table-bordered mt-3">
-                    <div class="row">
-                        <div class="radio col-5">
-                            <p class="dropdown-divider"></p>
-                            <input type="radio" name="tipo_entrega" id="despacho_domicilio">
-                            <label for="despacho_domicilio">Despacho a domicilio</label>
-                            <br>
-                            <input type="radio" name="tipo_entrega" id="retiro_tienda">
-                            <label for="retiro_tienda">Retiro en tienda</label>
-                        </div>
-                        <div class="container col-5 float-right">
-                            <p class="dropdown-divider"></p>
-                            <label for="direccion">Direccion:</label>
-                            <input placeholder="{{SQLVentDat}}" id="direccion" type="text" name="direccion">
-                            <br>
-                            <label for="sucursal">Sucursal:</label>
-                            <select name="sucursal">
-                                <option>sucursal_1</option>
-                                <option>sucursal_2</option>
-                                <option>sucursal_3</option>
-                                <option>sucursal_4</option>
-                                <option value="" selected="selected">Selecciona sucursal</option>
-                            </select>
-                            <br>
-                            <label for="comuna">Comuna:</label>
-                            <select name="comuna">
-                                <option>Comuna_1</option>
-                                <option>Comuna_2</option>
-                                <option>Comuna_3</option>
-                                <option>Comuna_4</option>
-                                <option>Comuna_5</option>
-                                <option>Comuna_6</option>
-                                <option>Comuna_7</option>
-                                <option>Comuna_8</option>
-                                <option>Comuna_9</option>
-                                <option>Comuna_10</option>
-                                <option>Comuna_11</option>
-                                <option>Comuna_12</option>
-                                <option>Comuna_13</option>
-                                <option>Comuna_14</option>
-                                <option>Comuna_15</option>
-                                <option>Comuna_16</option>
-                                <option value="" selected="selected">Selecciona comuna</option>
-                            </select>
-                        </div><br>
-                    </div>
-                </div><br>
-                <div class="container table-bordered text-center">
-                    <div>
-                        <td>
-                            <p class="dropdown-divider"></p>
-                            <a href="#" class="ml-5 btn btn-success"><i class="fas fa-credit-card"></i></a>
-                            <a href="#" class="ml-5 btn btn-success"><i class="far fa-money-bill-alt"></i></a>
-                        </td>
-                    </div>
-                    <div class="ml-3 radio">
-                        <input class="ml-4" type="radio" name="tipo_pago" id="webpay">
-                        <label for="webpay">WebPay</label>
-                        <input class="ml-3" type="radio" name="tipo_pago" id="tranferencia">
-                        <label for="tranferencia">Tranferencia</label>
-                    </div>
-                </div><br>
-            </div> 
-            <div class="col-3">
-                <div class="border ml-4 mb-3 mt-3 text-center">
-                    <small class="text-center">Totales: {{total|conversion:local}} {{local}}</small>
-			  		<hr>
-					{% if usuario.suscrito %}
-					<small class="text-center">Descuento: {{total|minus:descuento|conversion:local}} {{local}}</small>
-					{% else %}
-					<small class="text-center">Descuento: 0,0 {{local}}</small>
-					{% endif %}
-					<hr>
-					{% if usuario.suscrito %}
-					<small class="text-center">Subtotal: {{descuento|conversion:local}} {{local}}</small>
-					{% else %}
-					<small class="text-center">Subtotal: {{total|conversion:local}} {{local}}</small>
-					{% endif %}
-			  		<hr>
-			  		<h6 class="text-center">Total:</h6>
-			  		<div class="border bg-light">
-						{% if usuario.suscrito %}
-						<h6 class="text-center">{{descuento|conversion:local}} {{local}} -> {{descuento}} CLP</h6>
-						{% else %}
-						<h6 class="text-center">{{total|conversion:local}} {{local}} -> {{total}} CLP</h6>
-						{% endif %}
-		  			</div>
-                    <form action="{{ response.url }}" method="POST">
-                        <input type="hidden" name="token_ws" value="{{ response.token }}">
-                        <button type="submit" class="btn btn-primary m-2" name="submit">Pagar</button>
-                        <p class="dropdown-divider"></p>
-                    </form>
-                </div>
+<div class="container mt-3">
+  <div class="row border">
+    <div class="col-9 my-3">
+      <h6 class="text-muted">Datos de retiro</h6>
+      <div class="container border rounded mt-3 py-3">
+        <div class="container accordion" id="accordionRetiro">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="despachoDomicilio" value="true"
+              checked data-toggle="collapse" data-target="#collapseDomicilio">
+            <label class="form-check-label" for="despachoDomicilio">Despacho a domicilio</label>
+          </div>
+          <div class="collapse show" id="collapseDomicilio" data-parent="#accordionRetiro">
+            <p class="dropdown-divider"></p>
+            <div class="form-group">
+              <label for="direccion">Direccion:</label>
+              <input class="form-control" id="direccion" type="text" name="direccion"
+                value="{{usuario.direccion|default_if_none:''}}">
+            </div>
+            <div class="form-group">
+              <label for="comuna">Comuna:</label>
+              <select class="form-control" name="comuna" id=comuna>
+                <option selected disabled>Selecciona comuna...</option>
+                <option value="Cerrillos">Cerrillos</option>
+                <option value="Cerro Navia">Cerro Navia</option>
+                <option value="Conchalí">Conchalí</option>
+                <option value="El Bosque">El Bosque</option>
+                <option value="Estación Central">Estación Central</option>
+                <option value="Huechuraba">Huechuraba</option>
+                <option value="Independencia">Independencia</option>
+                <option value="La Cisterna">La Cisterna</option>
+                <option value="La Florida">La Florida</option>
+                <option value="La Granja">La Granja</option>
+                <option value="La Pintana">La Pintana</option>
+                <option value="La Reina">La Reina</option>
+                <option value="Las Condes">Las Condes</option>
+                <option value="Lo Barnechea">Lo Barnechea</option>
+                <option value="Lo Espejo">Lo Espejo</option>
+                <option value="Lo Prado">Lo Prado</option>
+                <option value="Macul">Macul</option>
+                <option value="Maipú">Maipú</option>
+                <option value="Ñuñoa">Ñuñoa</option>
+                <option value="Pedro Aguirre Cerda">Pedro Aguirre Cerda</option>
+                <option value="Peñalolén">Peñalolén</option>
+                <option value="Providencia">Providencia</option>
+                <option value="Pudahuel">Pudahuel</option>
+                <option value="Quilicura">Quilicura</option>
+                <option value="Quinta Normal">Quinta Normal</option>
+                <option value="Recoleta">Recoleta</option>
+                <option value="Renca">Renca</option>
+                <option value="San Joaquín">San Joaquín</option>
+                <option value="San Miguel">San Miguel</option>
+                <option value="San Ramón">San Ramón</option>
+                <option value="Santiago">Santiago</option>
+                <option value="Vitacura">Vitacura</option>
+              </select>
             </div>
           </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="retiroTienda" value="false"
+              data-toggle="collapse" data-target="#collapseTienda">
+            <label class="form-check-label" for="retiroTienda">Retiro en tienda</label>
+          </div>
+          <div class="collapse" id="collapseTienda" data-parent="#accordionRetiro">
+            <p class="dropdown-divider"></p>
+            <div class="form-group">
+              <label for="sucursal">Sucursal:</label>
+              <select class="form-control" name="sucursal" id="sucursal">
+                <option selected disabled>Selecciona sucursal...</option>
+                {% for sucursal in sucursales %}
+                <option value="{{sucursal.nombre}}">{{sucursal.nombre}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+
         </div>
-    </fieldset>
+      </div>
+      <div class="container border rounded mt-3 py-3" id="pago">
+        <div class="text-center">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipoPago" id="tipoPago" value="webpay" checked>
+            <label class="form-check-label ml-2" for="webpay"><i class="fas fa-credit-card fa-2x"></i> WebPay</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipoPago" id="tipoPago" value="transferencia">
+            <label class="form-check-label ml-2" for="transferencia"><i class="fas fa-money-bill-alt fa-2x"></i>
+              Tranferencia</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3 my-5 mx-0">
+      <div class="border text-center">
+        <small class="text-center">Totales: {{total|conversion:local}} {{local}}</small>
+        <hr>
+        {% if usuario.suscrito %}
+        <small class="text-center">Descuento: {{total|minus:descuento|conversion:local}} {{local}}</small>
+        {% else %}
+        <small class="text-center">Descuento: 0,0 {{local}}</small>
+        {% endif %}
+        <hr>
+        {% if usuario.suscrito %}
+        <small class="text-center">Subtotal: {{descuento|conversion:local}} {{local}}</small>
+        {% else %}
+        <small class="text-center">Subtotal: {{total|conversion:local}} {{local}}</small>
+        {% endif %}
+        <hr>
+        <h6 class="text-center">Total:</h6>
+        <div class="border bg-light">
+          {% if usuario.suscrito %}
+          <h6 class="text-center">{{descuento|conversion:local}} {{local}} -> {{descuento}} CLP</h6>
+          {% else %}
+          <h6 class="text-center">{{total|conversion:local}} {{local}} -> {{total}} CLP</h6>
+          {% endif %}
+        </div>
+        <form action="{{ response.url }}" method="POST" id="formVenta">
+          <input type="hidden" name="token_ws" value="{{ response.token }}">
+          <button type="submit" class="btn btn-primary m-2" name="submit">Pagar</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+<div class="modal" tabindex="-1" id="modalTransferencia">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Datos para transferencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Cuenta: 2265156554.</p>
+        <p>Banco: Banco de Créditos e Inversiones.</p>
+        <p>Rut: 15.651.547-7.</p>
+        <p>Correo: transferencias@musicpro.cl.</p>
+        <p>Tenga en cuenta que la transferencia debe ser validada, por lo cual la 
+          confirmación de la compra podrá demorar <b>hasta 48 horas hábiles</b>.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/ventaDatos.js' %}"></script>
 {% endblock %}

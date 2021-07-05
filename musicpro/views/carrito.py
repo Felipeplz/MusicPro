@@ -7,7 +7,7 @@ def productosCarrito(request):
     local = getLocale(request)
     usuario = getUsuario(request.user.username)
     try:
-        venta = Venta.objects.filter(cliente=usuario, estado__estado__in=['En Carrito']).exclude(estado__estado__in=['Pagado']).get()
+        venta = Venta.objects.filter(cliente=usuario, estado__estado__in=['En Carrito']).exclude(estado__estado__in=['Pagado',"Pago Pendiente"]).get()
     except:
         return redirect('../../catalogo/')
     total = 0
@@ -25,7 +25,7 @@ def productosCarrito(request):
     return render(request, 'carrito.html', {'venta':venta, 'local':local, 'total':total, 'subtotal':subtotal, 'descuento':descuento, 'usuario':usuario})
 
 def comprobarVentaCarrito(id_cliente):
-    result = Venta.objects.filter(cliente=id_cliente, estado__estado__in=['En Carrito']).exclude(estado__estado__in=['Pagado']).first()
+    result = Venta.objects.filter(cliente=id_cliente, estado__estado__in=['En Carrito']).exclude(estado__estado__in=['Pagado',"Pago Pendiente"]).first()
     return result
 
 def comprobarItemVentaCarrito(venta, producto):

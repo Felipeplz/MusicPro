@@ -20,7 +20,7 @@ def registrarse(request):
         username=username, email=username, password=password
     )
     usuario, created = Usuario.objects.get_or_create(
-        mail=user.username, rut="1", nombre=user.username, rol="Cliente"
+        mail=user.username, rut="1", rol="Cliente"
     )
     if not request.POST.get("suscrito") == None:
         usuario.suscrito = True

@@ -1,178 +1,186 @@
 {% extends 'barraMenu.html' %}
+{% load poll_extras %}
 {% load static %}
+{% block productos %} active{% endblock %}
+
 {% block principal %}
-	<h1 class="text-center">Productos</h1>
-	<div class="container mt-5">
-		<div class="row">
-			<div class="col-6 offset-3 text-center">
-				<button class="btn bg-primary rounded-circle" onclick="modalNuevo()" type="button"><i class="fas fa-plus text-white"></i></button><h6>Añadir</h6>
-			</div>
-			<div class="input-group col-3 mb-2">
-			  	<form action="../productosLista" class="form-inline my-2 my-lg-0 float-right">
-				      <input class="form-control mr-sm-2" type="text" placeholder="Buscar producto" id="buscar" name="buscar" method="get">
-				      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-			    </form>
-			</div>
-		</div>
-		{% for producto in SQLProductos %}
-		<div class="row border border-dark">
-		  	<div class="col-3 mt-4">
-				<div class="image-parent">
-					<img src="/media/{{producto.foto}}" class="img-fluid img-carrito">
-				</div class="text-break">
-		  	</div>
-		  	<div class="col-5 mt-5 descprod">
-		  		<a href="../producto/{{producto.id_producto}}/"><h4>{{producto.nombre}}</h4></a>
-		  		<p>{{producto.descripcion}}</p>
-		  	</div>
-		  	<div class="col-4 mt-3 text-right">
-		  		<button type="button" class="btn bg-primary text-white mb-2" onclick="cargar({{producto.id_producto}})">Modificar</button>
-				  {% if producto.final < producto.precio %}
-				  <h5 class="text-success">{{producto.final}} {{local}} x {{producto.cantidad_min}} productos o más</h5>
-				  <h6 class="text-danger"><del>{{producto.precio}} {{local}}</del></h6>
-				  {% else %}
-				  <h5>{{producto.precio}} {{local}}</h5>
-				  {% endif %}
-		  		<label>Stock: {{producto.stock}}</label>
-		  	</div>
-		</div>
-		{% endfor %}
-	</div>
+<h1 class="text-center">Productos</h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-6 offset-3 text-center">
+      <button class="btn bg-primary rounded-circle" onclick="modalNuevo()" type="button"><i
+          class="fas fa-plus text-white"></i></button>
+      <h6>Añadir</h6>
+    </div>
+    <div class="input-group col-3 mb-2">
+      <form action="../productosLista" class="form-inline my-2 my-lg-0 float-right">
+        <input class="form-control mr-sm-2" type="text" placeholder="Buscar producto" id="buscar" name="buscar"
+          method="get">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+  {% for producto in productos %}
+  <div class="row border border-dark">
+    <div class="col-3 mt-4">
+      <div class="image-parent">
+        <img src="{{producto.foto.url}}" class="img-fluid img-carrito">
+      </div class="text-break">
+    </div>
+    <div class="col-5 mt-5 descprod">
+      <a href="../../producto/{{producto.id}}/">
+        <h4>{{producto.nombre}}</h4>
+      </a>
+      <p>{{producto.descripcion}}</p>
+    </div>
+    <div class="col-4 mt-3 text-right">
+      <button type="button" class="btn bg-primary text-white mb-2" onclick="cargar({{producto.id}})">Modificar</button>
+      {% if producto.final < producto.precio %} <h5 class="text-success">{{producto.final|conversion:local}} {{local}} x
+        {{producto.cantidad_min}} productos o más</h5>
+        <h6 class="text-danger"><del>{{producto.precio|conversion:local}} {{local}}</del></h6>
+        {% else %}
+        <h5>{{producto.precio|conversion:local}} {{local}}</h5>
+        {% endif %}
+        <label>Stock: {{producto.stock}}</label>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
-	<div class="modal fade" id="modalNuevo" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="../../producto/nuevo/" method="post" id="formNuevo" enctype="multipart/form-data">
-					<div class="modal-header">
-						<h5 class="modal-title">Nuevo Producto</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="nombre">Nombre: </label>
-							<input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
-						</div>
-						<div class="form-group">
-							<label for="cmb_categoria">Categoría:</label>
-							<select class="form-control" id="cmb_categoria" name="cmb_categoria">
-								<option value="Instrumentos de Cuerdas">Instrumentos de Cuerdas</option>
-								<option value="Percusión">Percusión</option>
-								<option value="Amplificadores">Amplificadores</option>
-								<option value="Accesorios varios">Accesorios varios</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="txt_tipo">Tipo:</label>
-							<input type="text" class="form-control" id="txt_tipo" name="txt_tipo">
-						</div>
-						<div class="form-group">
-							<label for="txt_subtipo">Subtipo:</label>
-							<input type="text" class="form-control" id="txt_subtipo" name="txt_subtipo">
-						</div>
-						<div class="form-group">
-							<label for="txt_marca">Marca:</label>
-							<input type="text" class="form-control" id="txt_marca" name="txt_marca">
-						</div>
-						<div class="form-group">
-							<label for="txt_precio">Precio:</label>
-							<input type="number" class="form-control" id="txt_precio" name="txt_precio">
-						</div>
-						<div class="form-group">
-							<label for="txt_stock">Stock:</label>
-							<input type="number" class="form-control" id="txt_stock" name="txt_stock">
-						</div>
-						<div class="form-group">
-							<label for="txt_precio">Foto:</label>
-							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="fil_foto" name="fil_foto">
-								<label class="custom-file-label" for="fil_foto" data-browse="Buscar archivo...">Elegir foto</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="txa_descripcion">Descripción:</label>
-							<textarea class="form-control" id="txa_descripcion" name="txa_descripcion" rows="3"></textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-						<button type="submit" class="btn btn-primary">Agregar</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="modalNuevo" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="../../producto/nuevo/" method="post" id="formNuevo" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Producto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nombre">Nombre: </label>
+            <input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
+          </div>
+          <div class="form-group">
+            <label for="cmb_categoria">Categoría:</label>
+            <select class="form-control" id="cmb_categoria" name="cmb_categoria">
+              <option value="Instrumentos de Cuerdas">Instrumentos de Cuerdas</option>
+              <option value="Percusión">Percusión</option>
+              <option value="Amplificadores">Amplificadores</option>
+              <option value="Accesorios varios">Accesorios varios</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="txt_tipo">Tipo:</label>
+            <input type="text" class="form-control" id="txt_tipo" name="txt_tipo">
+          </div>
+          <div class="form-group">
+            <label for="txt_subtipo">Subtipo:</label>
+            <input type="text" class="form-control" id="txt_subtipo" name="txt_subtipo">
+          </div>
+          <div class="form-group">
+            <label for="txt_marca">Marca:</label>
+            <input type="text" class="form-control" id="txt_marca" name="txt_marca">
+          </div>
+          <div class="form-group">
+            <label for="txt_precio">Precio:</label>
+            <input type="number" class="form-control" id="txt_precio" name="txt_precio">
+          </div>
+          <div class="form-group">
+            <label for="txt_stock">Stock:</label>
+            <input type="number" class="form-control" id="txt_stock" name="txt_stock">
+          </div>
+          <div class="form-group">
+            <label for="txt_precio">Foto:</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="fil_foto" name="fil_foto">
+              <label class="custom-file-label" for="fil_foto" data-browse="Buscar archivo...">Elegir foto</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txa_descripcion">Descripción:</label>
+            <textarea class="form-control" id="txa_descripcion" name="txa_descripcion" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Agregar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-	<div class="modal fade" id="modalModificar" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="../../producto/" method="post" id="formModificar" enctype="multipart/form-data">
-					<div class="modal-header">
-						<h5 class="modal-title">Modificar Producto</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="nombre">Nombre: </label>
-							<input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
-						</div>
-						<div class="form-group">
-							<label for="cmb_categoria">Categoría:</label>
-							<select class="form-control" id="cmb_categoria" name="cmb_categoria">
-								<option value="Instrumentos de Cuerdas">Instrumentos de Cuerdas</option>
-								<option value="Percusión">Percusión</option>
-								<option value="Amplificadores">Amplificadores</option>
-								<option value="Accesorios varios">Accesorios varios</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="txt_tipo">Tipo:</label>
-							<input type="text" class="form-control" id="txt_tipo" name="txt_tipo">
-						</div>
-						<div class="form-group">
-							<label for="txt_subtipo">Subtipo:</label>
-							<input type="text" class="form-control" id="txt_subtipo" name="txt_subtipo">
-						</div>
-						<div class="form-group">
-							<label for="txt_marca">Marca:</label>
-							<input type="text" class="form-control" id="txt_marca" name="txt_marca">
-						</div>
-						<div class="form-group">
-							<label for="txt_precio">Precio:</label>
-							<input type="number" class="form-control" id="txt_precio" name="txt_precio">
-						</div>
-						<div class="form-group">
-							<label for="txt_stock">Stock:</label>
-							<input type="number" class="form-control" id="txt_stock" name="txt_stock">
-						</div>
-						<div class="form-group">
-							<label for="txt_precio">Foto:</label>
-							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="fil_foto" name="fil_foto">
-								<label class="custom-file-label" for="fil_foto" data-browse="Buscar archivo...">Elegir foto</label>
-							</div>
-							<div class="image-parent">
-								<img src="" class="img-fluid img-carrito" id="img_producto" name="img_producto">
-							</div class="text-break">
-						</div>
-						<div class="form-group">
-							<label for="txa_descripcion">Descripción:</label>
-							<textarea class="form-control" id="txa_descripcion" name="txa_descripcion" rows="3"></textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-						<button type="submit" class="btn btn-primary">Guardar cambios</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="modalModificar" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="../../producto/" method="post" id="formModificar" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title">Modificar Producto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nombre">Nombre: </label>
+            <input type="text" class="form-control" id="txt_nombre" name="txt_nombre">
+          </div>
+          <div class="form-group">
+            <label for="cmb_categoria">Categoría:</label>
+            <select class="form-control" id="cmb_categoria" name="cmb_categoria">
+              <option value="Instrumentos de Cuerdas">Instrumentos de Cuerdas</option>
+              <option value="Percusión">Percusión</option>
+              <option value="Amplificadores">Amplificadores</option>
+              <option value="Accesorios varios">Accesorios varios</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="txt_tipo">Tipo:</label>
+            <input type="text" class="form-control" id="txt_tipo" name="txt_tipo">
+          </div>
+          <div class="form-group">
+            <label for="txt_subtipo">Subtipo:</label>
+            <input type="text" class="form-control" id="txt_subtipo" name="txt_subtipo">
+          </div>
+          <div class="form-group">
+            <label for="txt_marca">Marca:</label>
+            <input type="text" class="form-control" id="txt_marca" name="txt_marca">
+          </div>
+          <div class="form-group">
+            <label for="txt_precio">Precio:</label>
+            <input type="number" class="form-control" id="txt_precio" name="txt_precio">
+          </div>
+          <div class="form-group">
+            <label for="txt_stock">Stock:</label>
+            <input type="number" class="form-control" id="txt_stock" name="txt_stock">
+          </div>
+          <div class="form-group">
+            <label for="txt_precio">Foto:</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="fil_foto" name="fil_foto">
+              <label class="custom-file-label" for="fil_foto" data-browse="Buscar archivo...">Elegir foto</label>
+            </div>
+            <div class="image-parent">
+              <img src="" class="img-fluid img-carrito" id="img_producto" name="img_producto">
+            </div class="text-break">
+          </div>
+          <div class="form-group">
+            <label for="txa_descripcion">Descripción:</label>
+            <textarea class="form-control" id="txa_descripcion" name="txa_descripcion" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-	<script src="{% static 'js/productosLista.js' %}"></script>
+<script src="{% static 'js/productosLista.js' %}"></script>
 {% endblock %}

@@ -30,6 +30,7 @@ urlpatterns = [
     path('', views.viewCatalogo),
     path('admin/', admin.site.urls),
     path('login/', views.login),
+    path('trylogin/', views.tryPass),
     path('logout/', views.logout),
     path('producto/<int:id>/', views.viewProducto),
     path('producto/nuevo/', views.newProducto),
@@ -56,8 +57,11 @@ urlpatterns = [
     path('carrito/limpiar/', views.limpiarCarrito),
     path('carrito/edit/', views.cambiarCarrito),
     path('ventasDatos/', views.ventasDatos),
+    path('transferencia/', views.transferencia),
+    path('datosVenta/', views.registrarDatos),
     path('transbank/', views.transbankView),
     path('api/', include(router.urls)),
+    path('api/login/', views.loginRest),
     
     
 ]

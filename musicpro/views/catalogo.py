@@ -19,7 +19,7 @@ def viewCatalogo(request, **kwargs):
                 ")42&&6?-5'{T52^4sW=`72mASt}j?p8d6>!uyS's8FtcasvVAuM#cw(*5FpRw_8?",
             )
         usuario = Usuario.objects.get_or_create(
-            mail=user.username, rut="1", nombre=user.username, rol="Cliente"
+            mail=user.username, rut="1", rol="Cliente"
         )
         auth_login(request, user)
     local = getLocale(request)
